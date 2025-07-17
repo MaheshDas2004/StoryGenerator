@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StorySpout - Welcome</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&family=Fredoka+One:wght@400&display=swap');
+        body {
+            overflow-x: hidden;
+        }
+        .storyspout-logo {
+            font-family: 'Fredoka One', cursive;
+        }
+        
+        .comic-font {
+            font-family: 'Comic Neue', cursive;
+        }
+        
+        /* Light mode styles */
+        .light-mode {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 25%, #f8b500 50%, #3742fa 75%, #70a1ff 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            color: #fff;
+        }
+        
+        /* Dark mode styles */
+        .dark-mode {
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 25%, #6c5ce7 50%, #a29bfe 75%, #fd79a8 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            color: #222;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .wizard-container {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+        }
+        
+        .wizard {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: wizardFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes wizardFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-15px); }
+        }
+        
+        .magic-sparkle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: sparkle 2s infinite;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1) rotate(180deg); }
+        }
+        
+        .magic-wand {
+            animation: wandWave 2.5s ease-in-out infinite;
+            transform-origin: bottom;
+        }
+        
+        @keyframes wandWave {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(20deg); }
+        }
+        
+        .start-btn {
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .start-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 35px rgba(255, 107, 157, 0.4);
+        }
+        
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50px;
+            animation: cloudFloat 25s infinite linear;
+        }
+        
+        @keyframes cloudFloat {
+            0% { transform: translateX(-150px); }
+            100% { transform: translateX(calc(100vw + 150px)); }
+        }
+        
+        .star {
+            position: absolute;
+            animation: starTwinkle 3s infinite;
+        }
+        
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+        }
+        
+        .bouncing-text {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .floating-emoji {
+            position: absolute;
+            font-size: 3rem;
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        
+        .rainbow {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 120px;
+            height: 60px;
+            background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            border-radius: 120px 120px 0 0;
+            opacity: 0.8;
+            animation: rainbowShimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes rainbowShimmer {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        .toggle-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .magical-border {
+            border: 3px solid;
+            border-image: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500, #3742fa, #70a1ff) 1;
+            animation: borderShift 4s infinite;
+        }
+        
+        @keyframes borderShift {
+            0% { border-image-source: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500, #3742fa, #70a1ff); }
+            50% { border-image-source: linear-gradient(45deg, #70a1ff, #3742fa, #f8b500, #c44569, #ff6b9d); }
+            100% { border-image-source: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500, #3742fa, #70a1ff); }
+        }
+        
+        .text-gradient {
+            background: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500, #3742fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textShimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes textShimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .dark-mode .comic-font,
+        .dark-mode .storyspout-logo,
+        .dark-mode h1,
+        .dark-mode h2,
+        .dark-mode p {
+            color: #fff !important;
+        }
+        .dark-mode .bg-white\/95 {
+            background-color: #222 !important;
+            color: #fff !important;
+        }
+        .dark-mode .start-btn {
+            background: linear-gradient(45deg, #636e72, #6c5ce7);
+            color: #fff;
+        }
+    </style>
+</head>
+<body class="light-mode min-h-screen transition-all duration-500" id="body">
+    <!-- Dark/Light Mode Toggle -->
+    <div class="absolute top-6 right-6 z-50">
+        <button id="themeToggle" class="toggle-btn bg-white/20 backdrop-blur-sm rounded-full p-3 shadow-lg">
+            <span id="toggleIcon" class="text-2xl">🌙</span>
+        </button>
+    </div>
+    
+    <!-- Background Clouds -->
+    <div class="cloud" style="top: 15%; width: 100px; height: 50px; animation-delay: 0s;"></div>
+    <div class="cloud" style="top: 30%; width: 80px; height: 40px; animation-delay: 8s;"></div>
+    <div class="cloud" style="top: 60%; width: 120px; height: 60px; animation-delay: 16s;"></div>
+    
+    <!-- Floating Stars -->
+    <div class="star text-3xl" style="top: 20%; left: 15%; animation-delay: 0s;">⭐</div>
+    <div class="star text-2xl" style="top: 35%; left: 85%; animation-delay: 1s;">✨</div>
+    <div class="star text-xl" style="top: 70%; left: 10%; animation-delay: 2s;">🌟</div>
+    <div class="star text-2xl" style="top: 80%; left: 90%; animation-delay: 1.5s;">💫</div>
+    
+    <!-- Main Container -->
+    <div class="min-h-screen flex items-center justify-center p-8">
+        <div class="w-full max-w-7xl">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
+                        <span class="text-white text-3xl">📚</span>
+                    </div>
+                    <h1 class="storyspout-logo text-6xl font-bold text-white drop-shadow-lg">StorySpout</h1>
+                </div>
+            </div>
+            
+            <!-- Main Content Grid -->
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Side - Welcome Content -->
+                <div class="text-center lg:text-left space-y-8">
+                    <div class="bouncing-text">
+                        <h2 class="text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-lg comic-font">
+                            Unleash your 
+                            <span class="text-gradient">imagination!</span>
+                        </h2>
+                    </div>
+                    
+                    <p class="text-xl lg:text-2xl text-white/90 leading-relaxed comic-font max-w-2xl">
+                        Create magical stories by choosing characters, settings, and themes. 
+                        Let AI bring your wildest dreams to life with personalized adventures!
+                    </p>
+                    
+                    <div class="flex justify-center lg:justify-start">
+                        <a href="{% url "home" %}" class="start-btn px-12 py-5 rounded-full text-white font-bold text-xl shadow-2xl comic-font">
+                            🚀 START CREATING
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Right Side - Magical Animation Box -->
+                <div class="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl shadow-2xl magical-border relative overflow-hidden">
+                    <!-- Rainbow -->
+                    <div class="rainbow"></div>
+                    
+                    <!-- Magic Sparkles -->
+                    <div class="magic-sparkle" style="top: 15%; left: 20%; animation-delay: 0s;"></div>
+                    <div class="magic-sparkle" style="top: 25%; left: 80%; animation-delay: 0.5s;"></div>
+                    <div class="magic-sparkle" style="top: 45%; left: 15%; animation-delay: 1s;"></div>
+                    <div class="magic-sparkle" style="top: 65%; left: 85%; animation-delay: 1.5s;"></div>
+                    <div class="magic-sparkle" style="top: 80%; left: 30%; animation-delay: 2s;"></div>
+                    <div class="magic-sparkle" style="top: 35%; left: 60%; animation-delay: 2.5s;"></div>
+                    
+                    <!-- Floating Story Elements -->
+                    <div class="floating-emoji" style="top: 10%; left: 10%; animation-delay: 0s;">🐉</div>
+                    <div class="floating-emoji" style="top: 20%; right: 10%; animation-delay: 1s;">🏰</div>
+                    <div class="floating-emoji" style="top: 60%; left: 15%; animation-delay: 2s;">🧚‍♀️</div>
+                    <div class="floating-emoji" style="top: 70%; right: 20%; animation-delay: 3s;">🦄</div>
+                    
+                    <!-- Wizard Container -->
+                    <div class="wizard-container flex items-center justify-center">
+                        <div class="wizard text-center">
+                            <!-- Wizard Hat -->
+                            <div class="relative mb-6">
+                                <div class="w-20 h-24 bg-gradient-to-b from-purple-600 to-purple-800 rounded-full relative mx-auto shadow-xl">
+                                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 h-20 bg-gradient-to-b from-purple-500 to-purple-700 rounded-full"></div>
+                                    <div class="absolute top-3 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-yellow-400 rounded-full shadow-md"></div>
+                                    <div class="absolute top-6 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-yellow-300 rounded-full"></div>
+                                    <div class="absolute top-8 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yellow-200 rounded-full"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Wizard Face -->
+                            <div class="w-24 h-24 bg-gradient-to-b from-pink-200 to-pink-300 rounded-full mx-auto mb-6 relative shadow-xl">
+                                <!-- Eyes -->
+                                <div class="absolute top-7 left-5 w-4 h-4 bg-black rounded-full">
+                                    <div class="absolute top-1 left-1 w-2 h-2 bg-white rounded-full"></div>
+                                </div>
+                                <div class="absolute top-7 right-5 w-4 h-4 bg-black rounded-full">
+                                    <div class="absolute top-1 right-1 w-2 h-2 bg-white rounded-full"></div>
+                                </div>
+                                <!-- Nose -->
+                                <div class="absolute top-11 left-1/2 transform -translate-x-1/2 w-2 h-3 bg-pink-400 rounded-full"></div>
+                                <!-- Mouth -->
+                                <div class="absolute top-14 left-1/2 transform -translate-x-1/2 w-8 h-4 bg-red-400 rounded-full"></div>
+                                <!-- Beard -->
+                                <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-10 bg-gray-200 rounded-full shadow-md"></div>
+                            </div>
+                            
+                            <!-- Wizard Body -->
+                            <div class="w-28 h-36 bg-gradient-to-b from-blue-500 to-blue-700 rounded-2xl mx-auto mb-6 relative shadow-xl">
+                                <!-- Stars on robe -->
+                                <div class="absolute top-6 left-4 text-yellow-300 text-lg">⭐</div>
+                                <div class="absolute top-16 right-4 text-yellow-300 text-lg">✨</div>
+                                <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-yellow-300 text-lg">🌟</div>
+                                
+                                <!-- Arms -->
+                                <div class="absolute top-10 -left-6 w-8 h-20 bg-gradient-to-b from-blue-400 to-blue-600 rounded-full transform rotate-12 shadow-lg"></div>
+                                <div class="absolute top-10 -right-6 w-8 h-20 bg-gradient-to-b from-blue-400 to-blue-600 rounded-full transform -rotate-12 shadow-lg">
+                                    <!-- Magic Wand -->
+                                    <div class="magic-wand absolute -top-3 -right-3 w-2 h-16 bg-gradient-to-b from-yellow-600 to-yellow-800 rounded-full shadow-md">
+                                        <div class="absolute -top-2 -left-2 w-6 h-6 bg-yellow-400 rounded-full shadow-lg"></div>
+                                        <div class="absolute -top-3 -left-3 w-8 h-8 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full opacity-60"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Magic Book -->
+                            <div class="w-20 h-14 bg-gradient-to-br from-red-600 to-red-800 rounded-xl mx-auto relative shadow-xl">
+                                <div class="absolute top-2 left-2 right-2 h-3 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-sm"></div>
+                                <div class="absolute top-6 left-3 right-3 h-1 bg-white rounded-sm opacity-80"></div>
+                                <div class="absolute top-8 left-3 right-3 h-1 bg-white rounded-sm opacity-60"></div>
+                                <div class="absolute top-10 left-3 right-3 h-1 bg-white rounded-sm opacity-40"></div>
+                            </div>
+                            
+                            <!-- Speech Bubble -->
+                            <div class="absolute top-6 right-6 bg-white p-4 rounded-2xl shadow-xl max-w-48">
+                                <p class="text-sm font-bold text-purple-600 comic-font">Let's create magical stories together! ✨</p>
+                                <div class="absolute bottom-0 left-6 w-0 h-0 border-l-4 border-r-4 border-t-8 border-transparent border-t-white"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+  const themeToggle = document.getElementById('themeToggle');
+  const toggleIcon = document.getElementById('toggleIcon');
+  let isDarkMode = false;
+
+  themeToggle.addEventListener('click', () => {
+    isDarkMode = !isDarkMode;
+    if (isDarkMode) {
+      document.body.classList.remove('light-mode');
+      document.body.classList.add('dark-mode');
+      toggleIcon.textContent = '☀️';
+    } else {
+      document.body.classList.remove('dark-mode');
+      document.body.classList.add('light-mode');
+      toggleIcon.textContent = '🌙';
+    }
+  });
+</script>
+</body>
+</html>

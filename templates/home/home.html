@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StorySpark – Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&family=Fredoka+One:wght@400&display=swap');
+    body{
+        overflow-x: hidden;
+    }
+    .storyspark-logo {
+      font-family: 'Fredoka One', cursive;
+    }
+    
+    .comic-font {
+      font-family: 'Comic Neue', cursive;
+    }
+    
+    /* Light mode styles */
+    .light-mode {
+      background: linear-gradient(135deg, #ff6b9d 0%, #c44569 25%, #f8b500 50%, #3742fa 75%, #70a1ff 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 8s ease infinite;
+    }
+    
+    /* Dark mode styles */
+    .dark-mode {
+      background: linear-gradient(135deg, #2d3436 0%, #636e72 25%, #6c5ce7 50%, #a29bfe 75%, #fd79a8 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 8s ease infinite;
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes slideInLeft {
+      from {
+        transform: translateX(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(5deg); }
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1) rotate(180deg); }
+    }
+    
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+    }
+    
+    @keyframes cloudFloat {
+      0% { transform: translateX(-150px); }
+      100% { transform: translateX(calc(100vw + 150px)); }
+    }
+    
+    @keyframes rainbowShimmer {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    
+    @keyframes textShimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    
+    @keyframes borderShift {
+      0% { border-image-source: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500, #3742fa, #70a1ff); }
+      50% { border-image-source: linear-gradient(45deg, #70a1ff, #3742fa, #f8b500, #c44569, #ff6b9d); }
+      100% { border-image-source: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500, #3742fa, #70a1ff); }
+    }
+    
+    .slide-in-left {
+      animation: slideInLeft 1s ease-out forwards;
+    }
+    
+    .float {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .bouncing-text {
+      animation: bounce 2s infinite;
+    }
+    
+    .magic-sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #ffd700;
+      border-radius: 50%;
+      animation: sparkle 2s infinite;
+    }
+    
+    .star {
+      position: absolute;
+      animation: starTwinkle 3s infinite;
+    }
+    
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      animation: cloudFloat 30s infinite linear;
+    }
+    
+    .floating-emoji {
+      position: absolute;
+      font-size: 2rem;
+      animation: float 4s ease-in-out infinite;
+    }
+    
+    .toggle-btn {
+      transition: all 0.3s ease;
+    }
+    
+    .toggle-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .magical-border {
+      border: 2px solid;
+      border-image: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500, #3742fa, #70a1ff) 1;
+      animation: borderShift 4s infinite;
+    }
+    
+    .text-gradient {
+      background: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500, #3742fa);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: textShimmer 3s ease-in-out infinite;
+    }
+    
+    .glow-button {
+      background: linear-gradient(45deg, #ff6b9d, #c44569);
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+    
+    .glow-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 15px 35px rgba(255, 107, 157, 0.4);
+    }
+    
+    .category-card {
+      transition: all 0.3s ease;
+    }
+    
+    .category-card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(255, 107, 157, 0.3);
+    }
+    
+    .rainbow {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 60px;
+      height: 30px;
+      background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+      border-radius: 60px 60px 0 0;
+      opacity: 0.8;
+      animation: rainbowShimmer 3s ease-in-out infinite;
+    }
+    
+    .navbar-glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .hero-placeholder {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+  </style>
+</head>
+<body class="light-mode min-h-screen transition-all duration-500 comic-font" id="body">
+
+  <!-- Dark/Light Mode Toggle -->
+  <div class="absolute top-6 right-6 z-50">
+    <button id="themeToggle" class="toggle-btn bg-white/20 backdrop-blur-sm rounded-full p-3 shadow-lg">
+      <span id="toggleIcon" class="text-2xl">🌙</span>
+    </button>
+  </div>
+
+  <!-- Background Clouds -->
+  <div class="cloud" style="top: 15%; width: 80px; height: 40px; animation-delay: 0s;"></div>
+  <div class="cloud" style="top: 30%; width: 60px; height: 30px; animation-delay: 10s;"></div>
+  <div class="cloud" style="top: 60%; width: 100px; height: 50px; animation-delay: 20s;"></div>
+  
+  <!-- Floating Stars -->
+  <div class="star text-2xl" style="top: 20%; left: 10%; animation-delay: 0s;">⭐</div>
+  <div class="star text-xl" style="top: 35%; left: 90%; animation-delay: 1s;">✨</div>
+  <div class="star text-lg" style="top: 70%; left: 5%; animation-delay: 2s;">🌟</div>
+  <div class="star text-xl" style="top: 80%; left: 95%; animation-delay: 1.5s;">💫</div>
+
+  <!-- Floating Story Elements -->
+  <div class="floating-emoji" style="top: 15%; left: 5%; animation-delay: 0s;">📚</div>
+  <div class="floating-emoji" style="top: 25%; right: 5%; animation-delay: 1s;">🎭</div>
+  <div class="floating-emoji" style="top: 65%; left: 8%; animation-delay: 2s;">🏰</div>
+  <div class="floating-emoji" style="top: 75%; right: 8%; animation-delay: 3s;">🦄</div>
+
+  <!-- Navbar -->
+  <header class="navbar-glass shadow-xl fixed w-full z-10">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center slide-in-left">
+        <div class="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-600 rounded-xl flex items-center justify-center mr-3 shadow-lg">
+          <span class="text-white text-2xl">📖</span>
+        </div>
+        <h1 class="text-2xl font-bold text-white storyspark-logo drop-shadow-lg">StorySpark</h1>
+      </div>
+      <nav class="space-x-6 font-medium hidden md:block slide-in-left">
+        <a href="#" class="text-white hover:text-yellow-300 transition-all duration-300 hover:scale-105">Home</a>
+        <a href="#" class="text-white hover:text-yellow-300 transition-all duration-300 hover:scale-105">Story Selection</a>
+        <a href="#" class="text-white hover:text-yellow-300 transition-all duration-300 hover:scale-105">Story Creation</a>
+        <a href="#" class="text-white hover:text-yellow-300 transition-all duration-300 hover:scale-105">Story Review</a>
+        <a href="#" class="text-white hover:text-yellow-300 transition-all duration-300 hover:scale-105">Parental Controls</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Spacer -->
+  <div class="h-20"></div>
+
+  <!-- Hero -->
+  <section class="text-center py-16 px-6 relative">
+    <!-- Magic Sparkles -->
+    <div class="magic-sparkle" style="top: 20%; left: 15%; animation-delay: 0s;"></div>
+    <div class="magic-sparkle" style="top: 30%; left: 85%; animation-delay: 0.5s;"></div>
+    <div class="magic-sparkle" style="top: 60%; left: 10%; animation-delay: 1s;"></div>
+    <div class="magic-sparkle" style="top: 70%; left: 90%; animation-delay: 1.5s;"></div>
+    
+    <div class="max-w-4xl mx-auto slide-in-left">
+      <div class="w-full h-64 rounded-3xl shadow-2xl float relative overflow-hidden magical-border">
+        <div class="rainbow"></div>
+        <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+             alt="Magical storybook with glowing pages" 
+             class="w-full h-full object-cover rounded-3xl">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-3xl"></div>
+        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bouncing-text">
+          <span class="text-3xl text-white font-bold drop-shadow-lg">✨ Magical Story Adventures Await! ✨</span>
+        </div>
+      </div>
+      <button class="glow-button mt-8 px-8 py-4 text-white font-bold text-xl rounded-full shadow-2xl">
+        🚀 Start Generating a Story
+      </button>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="text-center max-w-3xl mx-auto px-4 mb-10 slide-in-left">
+    <div class="glass-card rounded-3xl p-8 shadow-2xl">
+      <p class="text-lg text-white leading-relaxed">
+        Welcome to <span class="text-gradient font-bold text-xl">StorySpark</span>, your AI-powered storytelling assistant. Create thrilling adventures, magical fantasies, and warm family tales with just a few clicks.
+      </p>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4 mb-16">
+    <div class="glass-card magical-border rounded-3xl p-6 shadow-2xl category-card slide-in-left relative overflow-hidden">
+      <div class="rainbow"></div>
+      <div class="magic-sparkle" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
+      <div class="magic-sparkle" style="top: 80%; right: 20%; animation-delay: 1s;"></div>
+      <div class="h-40 bg-gradient-to-br from-blue-400/30 to-blue-600/30 rounded-2xl flex items-center justify-center mb-6 shadow-xl relative overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+             alt="Mountain adventure landscape" 
+             class="w-full h-full object-cover rounded-2xl">
+        <div class="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-transparent rounded-2xl"></div>
+        <div class="absolute bottom-2 right-2 text-white font-bold text-3xl drop-shadow-lg">
+          🌍
+        </div>
+      </div>
+      <h3 class="font-bold text-xl mb-3 text-white drop-shadow-lg">Adventure Awaits</h3>
+      <p class="text-white/90 leading-relaxed">Dive into thrilling tales of exploration and discovery.</p>
+    </div>
+    
+    <div class="glass-card magical-border rounded-3xl p-6 shadow-2xl category-card slide-in-left relative overflow-hidden">
+      <div class="rainbow"></div>
+      <div class="magic-sparkle" style="top: 15%; left: 15%; animation-delay: 0.5s;"></div>
+      <div class="magic-sparkle" style="top: 75%; right: 15%; animation-delay: 1.5s;"></div>
+      <div class="h-40 bg-gradient-to-br from-pink-400/30 to-pink-600/30 rounded-2xl flex items-center justify-center mb-6 shadow-xl relative overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+             alt="Happy family reading together" 
+             class="w-full h-full object-cover rounded-2xl">
+        <div class="absolute inset-0 bg-gradient-to-t from-pink-900/60 to-transparent rounded-2xl"></div>
+        <div class="absolute bottom-2 right-2 text-white font-bold text-3xl drop-shadow-lg">
+          👨‍👩‍👧‍👦
+        </div>
+      </div>
+      <h3 class="font-bold text-xl mb-3 text-white drop-shadow-lg">Family Tales</h3>
+      <p class="text-white/90 leading-relaxed">Share heartwarming stories filled with love and laughter.</p>
+    </div>
+    
+    <div class="glass-card magical-border rounded-3xl p-6 shadow-2xl category-card slide-in-left relative overflow-hidden">
+      <div class="rainbow"></div>
+      <div class="magic-sparkle" style="top: 20%; left: 25%; animation-delay: 1s;"></div>
+      <div class="magic-sparkle" style="top: 70%; right: 25%; animation-delay: 2s;"></div>
+      <div class="h-40 bg-gradient-to-br from-purple-400/30 to-purple-600/30 rounded-2xl flex items-center justify-center mb-6 shadow-xl relative overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+             alt="Fantasy castle in mystical forest" 
+             class="w-full h-full object-cover rounded-2xl">
+        <div class="absolute inset-0 bg-gradient-to-t from-purple-900/60 to-transparent rounded-2xl"></div>
+        <div class="absolute bottom-2 right-2 text-white font-bold text-3xl drop-shadow-lg">
+          🧙‍♂️
+        </div>
+      </div>
+      <h3 class="font-bold text-xl mb-3 text-white drop-shadow-lg">Fantasy World</h3>
+      <p class="text-white/90 leading-relaxed">Step into realms of magic with wizards and mythical creatures.</p>
+    </div>
+  </section>
+
+  <!-- Parental Info -->
+  <section class="text-center mb-8 slide-in-left">
+    <div class="glass-card rounded-full py-4 px-8 max-w-2xl mx-auto shadow-xl">
+      <p class="text-white font-medium">
+        🔒 <span class="text-gradient font-bold">Parental Info:</span> StorySpark is built with safety and family-friendly content at its core.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="navbar-glass py-8 border-t border-white/20 shadow-2xl">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center px-6 space-y-4 md:space-y-0">
+      <div class="space-x-6">
+        <a href="#" class="text-white hover:text-yellow-300 transition-all duration-300 hover:scale-105">Privacy Policy</a>
+        <a href="#" class="text-white hover:text-yellow-300 transition-all duration-300 hover:scale-105">Terms of Use</a>
+        <a href="#" class="text-white hover:text-yellow-300 transition-all duration-300 hover:scale-105">Contact Us</a>
+      </div>
+      <div class="flex space-x-4">
+        <a href="#" class="transform hover:scale-110 transition-all duration-300">
+          <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-white/30">
+            <span class="text-white text-lg">🐦</span>
+          </div>
+        </a>
+        <a href="#" class="transform hover:scale-110 transition-all duration-300">
+          <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-white/30">
+            <span class="text-white text-lg">📘</span>
+          </div>
+        </a>
+        <a href="#" class="transform hover:scale-110 transition-all duration-300">
+          <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-white/30">
+            <span class="text-white text-lg">📸</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    const toggleIcon = document.getElementById('toggleIcon');
+    const body = document.getElementById('body');
+    
+    let isDarkMode = false;
+    
+    themeToggle.addEventListener('click', () => {
+      isDarkMode = !isDarkMode;
+      
+      if (isDarkMode) {
+        body.classList.remove('light-mode');
+        body.classList.add('dark-mode');
+        toggleIcon.textContent = '☀️';
+      } else {
+        body.classList.remove('dark-mode');
+        body.classList.add('light-mode');
+        toggleIcon.textContent = '🌙';
+      }
+    });
+    
+    // Add some extra sparkle animation on button hover
+    const button = document.querySelector('.glow-button');
+    button.addEventListener('mouseenter', () => {
+      // Create temporary sparkles
+      for (let i = 0; i < 5; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'magic-sparkle';
+        sparkle.style.position = 'absolute';
+        sparkle.style.left = Math.random() * 100 + '%';
+        sparkle.style.top = Math.random() * 100 + '%';
+        sparkle.style.animationDelay = Math.random() * 2 + 's';
+        button.appendChild(sparkle);
+        
+        // Remove sparkle after animation
+        setTimeout(() => {
+          if (sparkle.parentNode) {
+            sparkle.parentNode.removeChild(sparkle);
+          }
+        }, 2000);
+      }
+    });
+  </script>
+</body>
+</html>
