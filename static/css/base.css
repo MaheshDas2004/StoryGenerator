@@ -1,0 +1,52 @@
+.gradient-text {
+            background: linear-gradient(45deg, #FF6B35, #EC4899, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .cassette-bg {
+            background: linear-gradient(135deg, #FF6B35 0%, #EC4899 50%, #8B5CF6 100%);
+        }
+        
+        .retro-shape {
+            position: absolute;
+            background: linear-gradient(45deg, #FF6B35, #00BFA6);
+            border-radius: 10px;
+        }
+        
+        .triangle {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            position: absolute;
+        }
+        
+        .triangle-white {
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 26px solid white;
+        }
+        
+        .triangle-orange {
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 17px solid #FF6B35;
+        }
+        
+        .triangle-teal {
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 14px solid #00BFA6;
+        }
+        
+        .story-card {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
