@@ -68,3 +68,27 @@
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(5deg); }
         }
+        /* Ensure gradients and imagery look smooth */
+.gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Image styling */
+img.rounded-full {
+  border: 4px solid rgba(255,255,255,0.2);
+}
+
+/* Form card container */
+.signup-card {
+  display: flex;
+  background-color: rgba(0,0,0,0.6);
+}
+
+/* Ensure responsive stacking */
+@media (max-width: 768px) {
+  .signup-card {
+    flex-direction: column;
+  }
+}
