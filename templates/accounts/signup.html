@@ -1,169 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - StorySpark</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'story-orange': '#FF6B35',
-                        'story-teal': '#00BFA6',
-                        'story-purple': '#8B5CF6',
-                        'story-pink': '#EC4899',
-                        'story-yellow': '#FCD34D',
-                        'story-dark': '#2D3748'
-                    },
-                    fontFamily: {
-                        'playful': ['Comic Sans MS', 'cursive', 'sans-serif'],
-                        'story': ['Georgia', 'serif']
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .gradient-text {
-            background: linear-gradient(45deg, #FF6B35, #EC4899, #8B5CF6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .cassette-bg {
-            background: linear-gradient(135deg, #FF6B35 0%, #EC4899 50%, #8B5CF6 100%);
-        }
-        
-        .triangle {
-            width: 0;
-            height: 0;
-            border-style: solid;
-            position: absolute;
-        }
-        
-        .triangle-white {
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-bottom: 26px solid white;
-        }
-        
-        .triangle-orange {
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 17px solid #FF6B35;
-        }
-        
-        .triangle-teal {
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-bottom: 14px solid #00BFA6;
-        }
-        
-        .signup-card {
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
-            border: 2px solid rgba(255, 107, 53, 0.3);
-            backdrop-filter: blur(20px);
-        }
-        
-        .form-input {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 107, 53, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .form-input:focus {
-            border-color: #FF6B35;
-            background: rgba(255, 107, 53, 0.1);
-            outline: none;
-        }
-        
-        .floating-element {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .floating-element:nth-child(2) {
-            animation-delay: -2s;
-        }
-        
-        .floating-element:nth-child(3) {
-            animation-delay: -4s;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-    </style>
-</head>
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static "css/signup.css" %}">
+{% endblock  %}
 <body class="bg-story-dark text-white min-h-screen">
     <!-- Background scattered elements -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <!-- Cassette tape elements -->
-        <div class="floating-element absolute top-16 left-20 w-20 h-12 cassette-bg rounded-lg transform rotate-12"></div>
-        <div class="floating-element absolute top-32 right-24 w-16 h-10 cassette-bg rounded-lg transform -rotate-12"></div>
-        <div class="floating-element absolute bottom-32 left-32 w-24 h-14 cassette-bg rounded-lg transform rotate-45"></div>
-        <div class="floating-element absolute bottom-16 right-16 w-18 h-11 cassette-bg rounded-lg transform -rotate-25"></div>
-        
-        <!-- Story books -->
-        <div class="floating-element absolute top-20 right-40 w-12 h-16 bg-story-teal rounded-lg transform rotate-12">
-            <div class="absolute top-1 left-1 w-10 h-2 bg-story-orange rounded"></div>
-            <div class="absolute top-4 left-1 w-8 h-1 bg-story-pink rounded"></div>
-            <div class="absolute top-6 left-1 w-6 h-1 bg-story-purple rounded"></div>
-        </div>
-        
-        <!-- Pencil -->
-        <div class="floating-element absolute bottom-40 left-16 w-3 h-20 bg-story-yellow rounded-full transform rotate-25">
-            <div class="absolute -top-2 left-0 w-3 h-4 bg-story-orange rounded-t-full"></div>
-            <div class="absolute -bottom-2 left-0 w-3 h-4 bg-story-dark rounded-b-full"></div>
-        </div>
-        
-        <!-- Triangular shapes -->
-        <div class="triangle triangle-white top-24 left-60"></div>
-        <div class="triangle triangle-orange top-40 right-60"></div>
-        <div class="triangle triangle-teal bottom-60 left-80"></div>
-        <div class="triangle triangle-white bottom-24 right-80"></div>
-        <div class="triangle triangle-orange top-60 left-40"></div>
-        <div class="triangle triangle-teal top-80 right-32"></div>
-        
-        <!-- Magic wand -->
-        <div class="floating-element absolute top-1/2 left-10 w-1 h-16 bg-story-orange rounded-full transform -rotate-45">
-            <div class="absolute -top-2 -left-1 w-3 h-3 bg-story-yellow rounded-full"></div>
-            <div class="absolute -top-1 -left-2 w-2 h-2 bg-story-pink rounded-full"></div>
-        </div>
-        
-        <!-- Stars -->
-        <div class="absolute top-1/4 right-1/4 text-story-yellow text-2xl">★</div>
-        <div class="absolute top-3/4 left-1/4 text-story-pink text-xl">★</div>
-        <div class="absolute top-1/3 right-1/3 text-story-teal text-lg">★</div>
-    </div>
 
-    <!-- Header -->
-    <header class="relative z-10 border-b border-gray-700">
-        <div class="max-w-7xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <!-- Logo -->
-                <div class="flex items-center">
-                    <div class="w-10 h-10 bg-gradient-to-br from-story-orange to-story-pink rounded-lg flex items-center justify-center mr-3">
-                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/>
-                        </svg>
-                    </div>
-                    <h1 class="text-xl font-playful text-story-orange font-bold">StorySpark</h1>
-                </div>
-
-                <!-- Back to Home -->
-                <nav class="flex items-center space-x-8">
-                    <a href="{% url "home" %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">← Back to Home</a>
-                    <a href="{% url "login" %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">Already have an account? Sign In</a>
-                </nav>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
+    {% block content %}
+    
     <main class="relative z-10 flex items-center justify-center min-h-screen py-12 px-6">
         <div class="w-full max-w-md">
             <!-- Signup Card -->
@@ -264,5 +108,6 @@
             </div>
         </div>
     </main>
+    {% endblock  %}
+    <!-- Main Content -->
 </body>
-</html>
