@@ -37,9 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "Home",
-    "accounts",
-    "stories",
+    "Home.apps.HomeConfig",
+    "accounts.apps.AccountsConfig",
+    "stories.apps.StoriesConfig",
 ]
 
 MIDDLEWARE = [
