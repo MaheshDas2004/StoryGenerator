@@ -31,7 +31,7 @@
 </head>
 <body class="bg-story-dark text-white">
     <!-- Background scattered elements -->
-     {% if '/' in request.path %}
+     {% if request.resolver_match.url_name == "home" %}
 
      <div class="absolute inset-0 overflow-hidden pointer-events-none">
          <!-- Cassette tape elements -->
