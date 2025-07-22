@@ -41,7 +41,7 @@ def login_user(request):
         password=request.POST.get("password")
         context={}
         try:
-            user_exist=User.objects.get(username=email)
+            User.objects.get(username=email)
         except User.DoesNotExist:
             context["error_email"]="Email does not exist create one"
             return render(request,"accounts/login.html",context)
