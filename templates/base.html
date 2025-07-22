@@ -27,11 +27,11 @@
         }
     </script>
     <link rel="stylesheet" href="{% static 'css/signup.css' %}">
-    {% block head %}{% endblock  %}
+    <link rel="stylesheet" href="{% static 'css/createstory.css' %}">
 </head>
 <body class="bg-story-dark text-white">
     <!-- Background scattered elements -->
-     {% if request.resolver_match.url_name == "home" %}
+     {% if request.resolver_match.url_name == "home" or request.resolver_match.url_name == "create_story"  %}
 
      <div class="absolute inset-0 overflow-hidden pointer-events-none">
          <!-- Cassette tape elements -->

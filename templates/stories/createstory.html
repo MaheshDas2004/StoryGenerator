@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+{% block content %}
+<body class="bg-story-dark text-white">
+    <!-- Main Content -->
+    <main class="relative z-10 max-w-7xl mx-auto px-6 py-12">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-playful text-story-orange font-bold mb-4">Create Your Magical Story</h2>
+            <p class="text-xl text-gray-300 font-playful">Tell us what kind of adventure you want, and we'll create a personalized story just for you!</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Story Creation Form -->
+            <div class="form-section rounded-2xl p-8">
+                <form id="storyForm" method="POST" class="space-y-8">
+                    {% csrf_token %}
+                    <!-- Character Details -->
+                    <div>
+                        <h3 class="text-2xl font-playful text-story-teal mb-4 flex items-center">
+                            <span class="text-2xl mr-2">🎭</span>
+                            Character Details
+                        </h3>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-story-yellow font-playful mb-2">Main Character Name:</label>
+                                <input type="text" id="characterName" name="characterName" class="w-full px-4 py-3 rounded-lg bg-story-dark border-2 border-story-orange text-white font-playful focus:outline-none focus:border-story-teal transition-colors" placeholder="Enter character name...">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-story-yellow font-playful mb-2">Character Age:</label>
+                                <div class="flex space-x-4">
+                                    <label class="flex items-center space-x-2 text-white font-playful">
+                                        <input type="radio" name="age" value="5-7" class="radio-custom">
+                                        <span>5-7 years</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2 text-white font-playful">
+                                        <input type="radio" name="age" value="8-10" class="radio-custom">
+                                        <span>8-10 years</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2 text-white font-playful">
+                                        <input type="radio" name="age" value="11-13" class="radio-custom">
+                                        <span>11-13 years</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Story Genre -->
+                    <div>
+                        <h3 class="text-2xl font-playful text-story-pink mb-4 flex items-center">
+                            <span class="text-2xl mr-2">📚</span>
+                            Story Genre
+                        </h3>
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="checkbox" name="genre" value="adventure" class="checkbox-custom">
+                                <span>🗺️ Adventure</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="checkbox" name="genre" value="fantasy" class="checkbox-custom">
+                                <span>🧙‍♀️ Fantasy</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="checkbox" name="genre" value="mystery" class="checkbox-custom">
+                                <span>🔍 Mystery</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="checkbox" name="genre" value="thriller" class="checkbox-custom">
+                                <span>⚡ Thriller</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="checkbox" name="genre" value="horror" class="checkbox-custom">
+                                <span>👻 Mild Horror</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="checkbox" name="genre" value="comedy" class="checkbox-custom">
+                                <span>😄 Comedy</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="checkbox" name="genre" value="friendship" class="checkbox-custom">
+                                <span>👫 Friendship</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="checkbox" name="genre" value="scifi" class="checkbox-custom">
+                                <span>🚀 Sci-Fi</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Story Setting -->
+                    <div>
+                        <h3 class="text-2xl font-playful text-story-purple mb-4 flex items-center">
+                            <span class="text-2xl mr-2">🏰</span>
+                            Story Setting
+                        </h3>
+                        
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="radio" name="setting" value="magical-forest" class="radio-custom">
+                                <span>🌲 Magical Forest</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="radio" name="setting" value="enchanted-castle" class="radio-custom">
+                                <span>🏰 Enchanted Castle</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="radio" name="setting" value="underwater-kingdom" class="radio-custom">
+                                <span>🌊 Underwater Kingdom</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="radio" name="setting" value="space-station" class="radio-custom">
+                                <span>🛸 Space Station</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="radio" name="setting" value="haunted-mansion" class="radio-custom">
+                                <span>🏚️ Haunted Mansion</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="radio" name="setting" value="pirate-ship" class="radio-custom">
+                                <span>⛵ Pirate Ship</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Story Length -->
+                    <div>
+                        <h3 class="text-2xl font-playful text-story-yellow mb-4 flex items-center">
+                            <span class="text-2xl mr-2">📏</span>
+                            Story Length
+                        </h3>
+                        
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="radio" name="length" value="short" class="radio-custom">
+                                <span>Short (5-10 minutes read)</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="radio" name="length" value="medium" class="radio-custom">
+                                <span>Medium (10-15 minutes read)</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="radio" name="length" value="long" class="radio-custom">
+                                <span>Long (15-20 minutes read)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Special Elements -->
+                    <div>
+                        <h3 class="text-2xl font-playful text-story-teal mb-4 flex items-center">
+                            <span class="text-2xl mr-2">✨</span>
+                            Special Elements
+                        </h3>
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="checkbox" name="elements" value="talking-animals" class="checkbox-custom">
+                                <span>🐾 Talking Animals</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="checkbox" name="elements" value="magic-powers" class="checkbox-custom">
+                                <span>⚡ Magic Powers</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="checkbox" name="elements" value="treasure-hunt" class="checkbox-custom">
+                                <span>💎 Treasure Hunt</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="checkbox" name="elements" value="time-travel" class="checkbox-custom">
+                                <span>⏰ Time Travel</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="checkbox" name="elements" value="dragons" class="checkbox-custom">
+                                <span>🐉 Dragons</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-white font-playful">
+                                <input type="checkbox" name="elements" value="robots" class="checkbox-custom">
+                                <span>🤖 Robots</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Additional Notes -->
+                    <div>
+                        <label class="block text-story-pink font-playful mb-2 text-xl">
+                            <span class="text-2xl mr-2">💭</span>
+                            Additional Story Ideas:
+                        </label>
+                        <textarea id="additionalNotes" rows="4" class="w-full px-4 py-3 rounded-lg bg-story-dark border-2 border-story-purple text-white font-playful focus:outline-none focus:border-story-teal transition-colors resize-none" placeholder="Tell us any special ideas or themes you'd like in your story..."></textarea>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button type="submit" class="w-full bg-gradient-to-r from-story-orange via-story-pink to-story-purple px-8 py-4 rounded-xl text-white font-bold font-playful text-xl shadow-lg hover:scale-105 transition-all duration-300">
+                        ✨ Generate My Story ✨
+                    </button>
+                </form>
+            </div>
+
+            <!-- Story Output -->
+            <div class="story-output rounded-2xl p-8">
+                <h3 class="text-3xl font-playful text-story-orange font-bold mb-6 text-center">
+                    <span class="text-3xl mr-2">📖</span>
+                    Your Magical Story
+                </h3>
+                
+                <div id="storyOutput" class="min-h-96 bg-gray-900 rounded-xl p-6 border border-gray-600">
+                    {% if story %}
+                        <div class="text-white font-playful space-y-4">
+                            {% for paragraph in story.splitlines %}
+                                {% if paragraph.strip %}
+                                    <p>{{ paragraph }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+
+                    <div class="flex items-center justify-center h-full text-gray-400 font-playful">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">📚</div>
+                            <p class="text-xl">Fill out the form to create your personalized story!</p>
+                            <p class="text-lg mt-2">Your magical adventure awaits...</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="mt-6 flex space-x-4">
+                    <button id="saveStory" class="flex-1 bg-story-teal hover:bg-opacity-80 px-4 py-3 rounded-lg text-white font-bold font-playful transition-all duration-200 opacity-50 cursor-not-allowed" disabled>
+                        💾 Save Story
+                    </button>
+                    <button id="shareStory" class="flex-1 bg-story-purple hover:bg-opacity-80 px-4 py-3 rounded-lg text-white font-bold font-playful transition-all duration-200 opacity-50 cursor-not-allowed" disabled>
+                        📤 Share Story
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+{% endblock  %}
