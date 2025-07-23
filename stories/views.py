@@ -23,8 +23,9 @@ def createstory(request):
                 Incorporate the following special elements: {', '.join(sp_ele)}.
                 Make it age-appropriate and engaging.
                 """
-        client = genai.Client(api_key=api_key)
-        response = client.models.generate_content(model="gemini-2.0-flash",contents=prompt)
+        client = genai.Client()
+        response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
+        print(response)
   
-        return render(request,"stories/createstory.html",{"story":response.text})
+        return render(request,"stories/createstory.html")
     return render(request,"stories/createstory.html")
