@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 from google import genai
 load_dotenv()
 api_key = os.getenv("GOOGLE_API_KEY")
-
 @login_required
 def createstory(request):
     if request.method=="POST":
@@ -23,8 +22,7 @@ def createstory(request):
                 Incorporate the following special elements: {', '.join(sp_ele)}.
                 Make it age-appropriate and engaging.
                 """
-        client = genai.Client(api_key=api_key)
-        response = client.models.generate_content(model="gemini-2.0-flash",contents=prompt)
-  
+        client = genai.Client()
+        response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
         return render(request,"stories/createstory.html",{"story":response.text})
     return render(request,"stories/createstory.html")
