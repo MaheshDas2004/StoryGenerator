@@ -1,21 +1,30 @@
-{% extends "base.html" %}
-{% load static %}
-{% block head %}
-  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% extends "base.html" %} {% load static %} {% block head %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}" />
 {% endblock %}
 
 <body class="bg-story-dark text-white min-h-screen">
   {% block content %}
   <main class="flex items-center justify-center min-h-screen px-6 py-12">
-    <div class="flex flex-wrap bg-white/5 rounded-2xl shadow-2xl overflow-hidden max-w-4xl w-full">
-
+    <div
+      class="flex flex-wrap bg-white/5 rounded-2xl shadow-2xl overflow-hidden max-w-4xl w-full"
+    >
       <!-- Left: Image + Overlay Text -->
       <div class="relative w-full md:w-1/2 h-64 md:h-auto">
-        <video preload="auto" autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover" poster="{% static 'images/image8.png' %}">
-          <source src="{% static 'images/video2.mp4' %}" type="video/mp4">
+        <video
+          preload="auto"
+          autoplay
+          loop
+          muted
+          playsinline
+          class="absolute inset-0 w-full h-full object-cover"
+          poster="{% static 'images/image8.png' %}"
+        >
+          <source src="{% static 'images/video2.mp4' %}" type="video/mp4" />
         </video>
         <div class="absolute inset-0 bg-black/50"></div>
-        <div class="absolute inset-0 flex flex-col justify-center items-start p-6">
+        <div
+          class="absolute inset-0 flex flex-col justify-center items-start p-6"
+        >
           <h2 class="text-3xl md:text-4xl font-playful font-bold text-white">
             Welcome Back!
           </h2>
@@ -26,64 +35,272 @@
       </div>
 
       <!-- Right: Login Form -->
-      <div class="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center space-y-6">
+      <div
+        class="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center space-y-6"
+      >
         <div class="text-center mb-6">
-          <div class="w-20 h-20 bg-gradient-to-br from-story-orange via-story-pink to-story-purple rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 4C14.21 4 16 5.79 16 8C16 10.21 14.21 12 12 12C9.79 12 8 10.21 8 8C8 5.79 9.79 4 12 4ZM12 14C16.42 14 20 15.79 20 18V20H4V18C4 15.79 7.58 14 12 14Z"/>
+          <div
+            class="w-20 h-20 bg-gradient-to-br from-story-orange via-story-pink to-story-purple rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <svg
+              class="w-10 h-10 text-white"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 4C14.21 4 16 5.79 16 8C16 10.21 14.21 12 12 12C9.79 12 8 10.21 8 8C8 5.79 9.79 4 12 4ZM12 14C16.42 14 20 15.79 20 18V20H4V18C4 15.79 7.58 14 12 14Z"
+              />
             </svg>
           </div>
-          <h2 class="text-3xl font-bold gradient-text font-playful mb-2">Sign In</h2>
+          <h2 class="text-3xl font-bold gradient-text font-playful mb-2">
+            Sign In
+          </h2>
           <p class="text-gray-300 font-story">Log into your account</p>
         </div>
-        
+
         <form class="space-y-6" method="POST">
           {% csrf_token %}
           <div>
-            <label class="block text-sm font-playful text-gray-300 mb-2">Email Address</label>
-            <input type="email" placeholder="Enter your email" name="email" required
-                   class="w-full px-4 py-3 rounded-lg bg-transparent border border-gray-600 text-white placeholder-gray-400 font-story" />
+            <label class="block text-sm font-playful text-gray-300 mb-2"
+              >Email Address</label
+            >
+            <input
+              type="email"
+              placeholder="Enter your email"
+              name="email"
+              required
+              class="w-full px-4 py-3 rounded-lg bg-transparent border border-gray-600 text-white placeholder-gray-400 font-story"
+            />
             {% if error_email %}
-              <p class="text-sm text-red-400 mt-1 font-story">{{ error_email }}</p>
+            <p class="text-sm text-red-400 mt-1 font-story">
+              {{ error_email }}
+            </p>
             {% endif %}
           </div>
 
           <div>
-            <label class="block text-sm font-playful text-gray-300 mb-2">Password</label>
-            <input type="password" name="password" placeholder="Enter your password" required
-                   class="w-full px-4 py-3 rounded-lg bg-transparent border border-gray-600 text-white placeholder-gray-400 font-story" />
+            <label class="block text-sm font-playful text-gray-300 mb-2"
+              >Password</label
+            >
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              required
+              class="w-full px-4 py-3 rounded-lg bg-transparent border border-gray-600 text-white placeholder-gray-400 font-story"
+            />
             {% if error_password %}
-              <p class="text-sm text-red-400 mt-1 font-story">{{ error_password }}</p>
+            <p class="text-sm text-red-400 mt-1 font-story">
+              {{ error_password }}
+            </p>
             {% endif %}
           </div>
 
           <div class="flex items-center justify-end">
-            {% comment %} <label class="inline-flex items-center">
-              <input type="checkbox" class="w-4 h-4 text-story-orange border-gray-300 rounded focus:ring-story-orange">
-              <span class="ml-2 text-sm text-gray-300 font-story">Remember me</span>
-            </label> {% endcomment %}
-            <a href="#" class="text-sm text-story-orange hover:text-story-pink transition-colors font-story">
+            {% comment %}
+            <label class="inline-flex items-center">
+              <input
+                type="checkbox"
+                class="w-4 h-4 text-story-orange border-gray-300 rounded focus:ring-story-orange"
+              />
+              <span class="ml-2 text-sm text-gray-300 font-story"
+                >Remember me</span
+              >
+            </label>
+            {% endcomment %}
+            <p
+              class="text-sm text-story-orange hover:text-story-pink transition-colors font-story cursor-pointer"
+              onclick="openModal()"
+            >
               Forgot your password?
-            </a>
+            </p>
           </div>
 
-          <button type="submit"
-                  class="w-full bg-gradient-to-r from-story-orange to-story-pink py-3 rounded-lg text-white font-bold text-lg uppercase tracking-wide hover:scale-105 transform transition duration-300">
+          <button
+            type="submit"
+            class="w-full bg-gradient-to-r from-story-orange to-story-pink py-3 rounded-lg text-white font-bold text-lg uppercase tracking-wide hover:scale-105 transform transition duration-300"
+          >
             Sign In
           </button>
         </form>
 
         <div class="mt-6 text-center space-y-2">
           <p class="text-gray-400 text-sm font-story">
-            Having trouble signing in? <a href="#" class="text-story-orange hover:text-story-pink transition-colors">Get help</a>
+            Having trouble signing in?
+            <a
+              href="#"
+              class="text-story-orange hover:text-story-pink transition-colors"
+              >Get help</a
+            >
           </p>
           <p class="text-gray-400 text-xs font-story">
             Protected by advanced security for children's safety
           </p>
         </div>
       </div>
-
     </div>
   </main>
+
+  <!-- Forgot Password Modal -->
+  <div
+    id="forgotPasswordModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm hidden"
+  >
+    <div
+      class="modal-inner bg-[#111111] text-white rounded-2xl shadow-2xl p-8 w-full max-w-md relative border border-gray-700 transition-all transform scale-95 opacity-0 duration-300 ease-out"
+    >
+      <h2 class="text-2xl font-bold mb-6 text-center text-white tracking-wide">
+        Forgot Your Password?
+      </h2>
+
+      <!-- Step 1: Verify Identity -->
+      <form
+        id="verifyForm"
+        method="POST"
+        action="{% url 'verify_user' %}"
+        class="space-y-4"
+      >
+        {% csrf_token %}
+        <input
+          type="email"
+          name="email"
+          placeholder="Enter your registered email"
+          required
+          class="w-full p-3 rounded-xl bg-gray-800 text-white placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        />
+        <button
+          type="submit"
+          class="w-full bg-gradient-to-r from-orange-500 via-pink-500 to-red-500 text-white font-semibold py-2 rounded-xl hover:opacity-90 transition"
+        >
+          Verify
+        </button>
+      </form>
+
+      <!-- Step 2: Reset Password -->
+      <form
+        id="resetForm"
+        method="POST"
+        action="{% url 'reset_password' %}"
+        class="space-y-4 hidden mt-6"
+      >
+        {% csrf_token %}
+        <input type="hidden" name="email" id="resetEmail" />
+
+        <input
+          type="password"
+          name="new_password"
+          placeholder="New Password"
+          required
+          class="w-full p-3 rounded-xl bg-gray-800 text-white placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        />
+        <input
+          type="password"
+          name="confirm_password"
+          placeholder="Confirm New Password"
+          required
+          class="w-full p-3 rounded-xl bg-gray-800 text-white placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        />
+        <button
+          type="submit"
+          class="w-full bg-gradient-to-r from-green-400 to-teal-500 text-white font-semibold py-2 rounded-xl hover:opacity-90 transition"
+        >
+          Reset Password
+        </button>
+      </form>
+
+      <!-- Close Button -->
+      <button
+        onclick="closeModal()"
+        class="absolute top-3 right-3 text-gray-400 hover:text-white"
+        aria-label="Close"
+      >
+        ✕
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      const modal = document.getElementById("forgotPasswordModal");
+      const innerBox = modal.querySelector(".modal-inner");
+
+      modal.classList.remove("hidden");
+
+      // Ensure reflow before adding animation classes
+      setTimeout(() => {
+        innerBox.classList.remove("scale-95", "opacity-0");
+        innerBox.classList.add("scale-100", "opacity-100");
+      }, 10);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById("forgotPasswordModal");
+      const innerBox = modal.querySelector(".modal-inner");
+
+      innerBox.classList.remove("scale-100", "opacity-100");
+      innerBox.classList.add("scale-95", "opacity-0");
+
+      // Wait for transition to finish (e.g., 300ms), then hide
+      setTimeout(() => {
+        modal.classList.add("hidden");
+      }, 300);
+    }
+
+    // Show reset form after successful verification
+    function showResetForm(email) {
+      document.getElementById("verifyForm").classList.add("hidden");
+      document.getElementById("resetForm").classList.remove("hidden");
+      document.getElementById("resetEmail").value = email;
+    }
+    document
+      .getElementById("verifyForm")
+      .addEventListener("submit", function (e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+
+        fetch("{% url 'verify_user' %}", {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": formData.get("csrfmiddlewaretoken"),
+          },
+          body: formData,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === "success") {
+              showResetForm(data.email);
+            } else {
+              alert(data.message);
+            }
+          });
+      });
+
+    document
+      .getElementById("resetForm")
+      .addEventListener("submit", function (e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+
+        fetch("{% url 'reset_password' %}", {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": formData.get("csrfmiddlewaretoken"),
+          },
+          body: formData,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === "success") {
+              alert("Password has been reset!");
+              closeModal();
+            } else {
+              alert(data.message);
+            }
+          });
+      });
+  </script>
+
   {% endblock %}
 </body>
