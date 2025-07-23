@@ -1,9 +1,11 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 import os
 from dotenv import load_dotenv
 from google import genai
 load_dotenv()
 api_key = os.getenv("GOOGLE_API_KEY")
+@login_required
 def createstory(request):
     if request.method=="POST":
         mc=request.POST.get("characterName")
