@@ -24,7 +24,5 @@ def createstory(request):
                 """
         client = genai.Client()
         response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
-        print(response)
-  
-        return render(request,"stories/createstory.html")
+        return render(request,"stories/createstory.html",{"story":response.text})
     return render(request,"stories/createstory.html")
