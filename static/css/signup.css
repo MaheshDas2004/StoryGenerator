@@ -92,3 +92,72 @@ img.rounded-full {
     flex-direction: column;
   }
 }
+ .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(-12deg); }
+            50% { transform: translateY(-20px) rotate(-8deg); }
+        }
+
+        /* Triangle shapes */
+        .triangle {
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+
+        .triangle-white {
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 26px solid white;
+        }
+
+        .triangle-orange {
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 26px solid #ff6b35;
+        }
+
+        .triangle-teal {
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 26px solid #26a69a;
+        }
+
+        /* Cassette background */
+        .cassette-bg {
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            border: 2px solid #ff6b35;
+        }
+
+        /* Profile dropdown - CSS only hover */
+        .profile-dropdown {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease-in-out;
+            pointer-events: none;
+        }
+
+        .profile-container:hover .profile-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Keep dropdown visible when hovering over it */
+        .profile-dropdown:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Auth state toggle */
+        .authenticated .guest-only { display: none; }
+        .authenticated .auth-only { display: block; }
+        .guest-only { display: block; }
+        .auth-only { display: none; }
