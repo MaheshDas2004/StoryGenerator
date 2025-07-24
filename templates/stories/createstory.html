@@ -1,471 +1,342 @@
-{% extends "base.html" %} {% block content %}
-<body class="bg-[#0b0e16] text-white min-h-screen font-playful">
-  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-12">
-    <div class="text-center mb-12">
-      <h2 class="text-4xl sm:text-5xl font-bold mb-4">
-        <span class="text-white">Create</span>
-        <span class="text-[#f97316]"> Amazing </span>
-        <span class="text-white">Stories </span>
-        <span class="text-[#14b8a6]">with AI</span>
-      </h2>
-      <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
-        Enter your dream adventure details below, and let AI weave magic!
-      </p>
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static "css/create.css" %}">
+{% endblock %}
+
+{% block content %}
+<body class=" relative bg-black text-white min-h-screen font-inter w-full">
+    <!-- Animated Background -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute top-1/3 -left-20 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-0 right-1/3 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
     </div>
 
-    <div class="grid grid-cols-1 xl:grid-cols-5 gap-8">
-      <!-- Left Form -->
-      <div class="xl:col-span-2">
-        <div
-          class="bg-[#1a1f2b] rounded-3xl p-6 shadow-lg border border-gray-700/50 backdrop-blur-md"
-        >
-          <form id="storyForm" method="POST" class="space-y-6">
-            {% csrf_token %}
-
-            <!-- Character Name -->
-            <div>
-              <label class="block text-sm text-orange-400 mb-1.5"
-                >Main Character Name</label
-              >
-              <input
-                type="text"
-                name="characterName"
-                placeholder="Eg: Aria or Leo"
-                class="w-full px-4 py-2.5 bg-[#0e121c] border border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#B84443]"
-              />
+    <div class="relative z-10">
+        <!-- Hero Header -->
+        <header class="text-center py-12 px-4">
+            <div class="float-animation">
+                <h1 class="text-4xl md:text-6xl font-black mb-4 bg-gradient-to-r from-white via-orange-400 to-teal-400 bg-clip-text text-transparent">
+                    AI Story Creator
+                </h1>
             </div>
+            <p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
+                Transform your wildest ideas into captivating stories ✨
+            </p>
+        </header>
 
-            <!-- Age Range -->
-            <div>
-              <h3 class="text-sm text-pink-400 mb-2">Character Age</h3>
-              <div class="flex gap-3">
-                <label
-                  class="flex-1 text-center border border-gray-700 rounded-lg py-2 bg-[#151b29] hover:bg-[#1f273b] cursor-pointer transition"
-                >
-                  <input type="radio" name="age" value="5-7" class="sr-only" />
-                  <span class="text-sm block text-white">5-7</span>
-                </label>
-                <label
-                  class="flex-1 text-center border border-gray-700 rounded-lg py-2 bg-[#151b29] hover:bg-[#1f273b] cursor-pointer transition"
-                >
-                  <input type="radio" name="age" value="8-10" class="sr-only" />
-                  <span class="text-sm block text-white">8-10</span>
-                </label>
-                <label
-                  class="flex-1 text-center border border-gray-700 rounded-lg py-2 bg-[#151b29] hover:bg-[#1f273b] cursor-pointer transition"
-                >
-                  <input
-                    type="radio"
-                    name="age"
-                    value="11-13"
-                    class="sr-only"
-                  />
-                  <span class="text-sm block text-white">11-13</span>
-                </label>
-              </div>
+        <!-- Main Container -->
+        <div class="max-w-7xl mx-auto px-4 pb-12">
+            <div class="grid lg:grid-cols-2 gap-8">
+                
+                <!-- Story Creator Form -->
+                <div class="space-y-6">
+                    <div class="glass-card rounded-2xl p-6 shadow-2xl">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-teal-500 rounded-xl flex items-center justify-center glow-animation">
+                                <span class="text-xl">🎨</span>
+                            </div>
+                            <h2 class="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                                Story Creator
+                            </h2>
+                        </div>
+
+                        <form id="storyForm" method="POST" class="space-y-6">
+                            <!-- Character & Basic Info -->
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-orange-400 font-semibold mb-2 text-sm">
+                                        👤 Character Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="characterName"
+                                        placeholder="Enter name..."
+                                        class="modern-input w-full px-4 py-3 rounded-xl text-white placeholder-gray-400"
+                                    />
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-teal-400 font-semibold mb-2 text-sm">
+                                        🎂 Age Group
+                                    </label>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <div class="option-card glass-card rounded-lg p-3 text-center" data-type="radio" data-name="age" data-value="5-7">
+                                            <input type="radio" name="age" value="5-7" class="sr-only" />
+                                            <div class="text-lg">🧸</div>
+                                            <div class="text-xs font-semibold mt-1">5-7</div>
+                                        </div>
+                                        <div class="option-card glass-card rounded-lg p-3 text-center" data-type="radio" data-name="age" data-value="8-10">
+                                            <input type="radio" name="age" value="8-10" class="sr-only" />
+                                            <div class="text-lg">🌟</div>
+                                            <div class="text-xs font-semibold mt-1">8-10</div>
+                                        </div>
+                                        <div class="option-card glass-card rounded-lg p-3 text-center" data-type="radio" data-name="age" data-value="11-13">
+                                            <input type="radio" name="age" value="11-13" class="sr-only" />
+                                            <div class="text-lg">🚀</div>
+                                            <div class="text-xs font-semibold mt-1">11-13</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tabs for Categories -->
+                            <div class="glass-card rounded-xl p-4">
+                                <!-- Tab Navigation -->
+                                <div class="flex space-x-1 mb-4">
+                                    <button type="button" class="tab-button active flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-all" data-tab="genres">
+                                        🎭 Genres
+                                    </button>
+                                    <button type="button" class="tab-button flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-all bg-white/5" data-tab="setting">
+                                        🌍 Setting
+                                    </button>
+                                    <button type="button" class="tab-button flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-all bg-white/5" data-tab="extras">
+                                        ✨ Extras
+                                    </button>
+                                </div>
+
+                                <!-- Tab Contents -->
+                                <div class="tab-content active" id="genres">
+                                    <p class="text-xs text-gray-400 mb-3">Select multiple genres:</p>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div class="option-card glass-card border border-white/10 rounded-lg p-3" data-type="checkbox" data-name="genre" data-value="fantasy">
+                                            <input type="checkbox" name="genre" value="fantasy" class="sr-only" />
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-lg">🧚</span>
+                                                <span class="font-semibold">Fantasy</span>
+                                            </div>
+                                        </div>
+                                        <div class="option-card glass-card border border-white/10 rounded-lg p-3" data-type="checkbox" data-name="genre" data-value="adventure">
+                                            <input type="checkbox" name="genre" value="adventure" class="sr-only" />
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-lg">🏔️</span>
+                                                <span class="font-semibold">Adventure</span>
+                                            </div>
+                                        </div>
+                                        <div class="option-card glass-card border border-white/10 rounded-lg p-3" data-type="checkbox" data-name="genre" data-value="sci-fi">
+                                            <input type="checkbox" name="genre" value="sci-fi" class="sr-only" />
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-lg">🛸</span>
+                                                <span class="font-semibold">Sci-Fi</span>
+                                            </div>
+                                        </div>
+                                        <div class="option-card glass-card border border-white/10 rounded-lg p-3" data-type="checkbox" data-name="genre" data-value="mystery">
+                                            <input type="checkbox" name="genre" value="mystery" class="sr-only" />
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-lg">🔍</span>
+                                                <span class="font-semibold">Mystery</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-content" id="setting">
+                                    <p class="text-xs text-gray-400 mb-3">Choose your story setting:</p>
+                                    <div class="space-y-2">
+                                        <div class="option-card glass-card border border-white/10 rounded-lg p-3" data-type="radio" data-name="setting" data-value="magical-forest">
+                                            <input type="radio" name="setting" value="magical-forest" class="sr-only" />
+                                            <div class="flex items-center gap-3">
+                                                <span class="text-xl">🌲</span>
+                                                <div>
+                                                    <div class="font-semibold">Magical Forest</div>
+                                                    <div class="text-xs text-gray-400">Enchanted woodland adventure</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="option-card glass-card border border-white/10 rounded-lg p-3" data-type="radio" data-name="setting" data-value="enchanted-castle">
+                                            <input type="radio" name="setting" value="enchanted-castle" class="sr-only" />
+                                            <div class="flex items-center gap-3">
+                                                <span class="text-xl">🏰</span>
+                                                <div>
+                                                    <div class="font-semibold">Enchanted Castle</div>
+                                                    <div class="text-xs text-gray-400">Royal fortress mysteries</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="option-card glass-card border border-white/10 rounded-lg p-3" data-type="radio" data-name="setting" data-value="space-station">
+                                            <input type="radio" name="setting" value="space-station" class="sr-only" />
+                                            <div class="flex items-center gap-3">
+                                                <span class="text-xl">🛸</span>
+                                                <div>
+                                                    <div class="font-semibold">Space Station</div>
+                                                    <div class="text-xs text-gray-400">Cosmic adventures await</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-content" id="extras">
+                                    <div class="space-y-4">
+                                        <div>
+                                            <p class="text-xs text-gray-400 mb-3">Story length:</p>
+                                            <div class="grid grid-cols-3 gap-2">
+                                                <div class="option-card glass-card border border-white/10 rounded-lg p-3 text-center" data-type="radio" data-name="length" data-value="short">
+                                                    <input type="radio" name="length" value="short" class="sr-only" />
+                                                    <div class="text-lg">⚡</div>
+                                                    <div class="text-xs font-semibold mt-1">Short</div>
+                                                </div>
+                                                <div class="option-card glass-card border border-white/10 rounded-lg p-3 text-center" data-type="radio" data-name="length" data-value="medium">
+                                                    <input type="radio" name="length" value="medium" class="sr-only" />
+                                                    <div class="text-lg">📖</div>
+                                                    <div class="text-xs font-semibold mt-1">Medium</div>
+                                                </div>
+                                                <div class="option-card glass-card border border-white/10 rounded-lg p-3 text-center" data-type="radio" data-name="length" data-value="long">
+                                                    <input type="radio" name="length" value="long" class="sr-only" />
+                                                    <div class="text-lg">📚</div>
+                                                    <div class="text-xs font-semibold mt-1">Long</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div>
+                                            <p class="text-xs text-gray-400 mb-3">Special elements:</p>
+                                            <div class="grid grid-cols-2 gap-2">
+                                                <div class="option-card glass-card border border-white/10 rounded-lg p-2" data-type="checkbox" data-name="elements" data-value="talking-animals">
+                                                    <input type="checkbox" name="elements" value="talking-animals" class="sr-only" />
+                                                    <div class="flex items-center gap-2">
+                                                        <span>🦊</span>
+                                                        <span class="text-sm font-semibold">Animals</span>
+                                                    </div>
+                                                </div>
+                                                <div class="option-card glass-card border border-white/10 rounded-lg p-2" data-type="checkbox" data-name="elements" data-value="magic-powers">
+                                                    <input type="checkbox" name="elements" value="magic-powers" class="sr-only" />
+                                                    <div class="flex items-center gap-2">
+                                                        <span>⚡</span>
+                                                        <span class="text-sm font-semibold">Magic</span>
+                                                    </div>
+                                                </div>
+                                                <div class="option-card glass-card border border-white/10 rounded-lg p-2" data-type="checkbox" data-name="elements" data-value="treasure-hunt">
+                                                    <input type="checkbox" name="elements" value="treasure-hunt" class="sr-only" />
+                                                    <div class="flex items-center gap-2">
+                                                        <span>💎</span>
+                                                        <span class="text-sm font-semibold">Treasure</span>
+                                                    </div>
+                                                </div>
+                                                <div class="option-card glass-card border border-white/10 rounded-lg p-2" data-type="checkbox" data-name="elements" data-value="dragons">
+                                                    <input type="checkbox" name="elements" value="dragons" class="sr-only" />
+                                                    <div class="flex items-center gap-2">
+                                                        <span>🐉</span>
+                                                        <span class="text-sm font-semibold">Dragons</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Notes -->
+                            <div>
+                                <label class="block text-indigo-400 font-semibold mb-2 text-sm">
+                                    💭 Additional Ideas
+                                </label>
+                                <textarea
+                                    name="additionalNotes"
+                                    rows="3"
+                                    placeholder="Any special requests or creative ideas..."
+                                    class="modern-input w-full px-4 py-3 rounded-xl text-white placeholder-gray-400 resize-none"
+                                ></textarea>
+                            </div>
+
+                            <!-- Generate Button -->
+                            <button
+                                type="submit"
+                                class="w-full py-4 px-6 bg-gradient-to-r from-orange-500 via-pink-500 to-teal-500 hover:from-orange-600 hover:via-pink-600 hover:to-teal-600 rounded-xl font-bold text-lg shadow-2xl hover:shadow-orange-500/25 transition-all duration-300 glow-animation"
+                            >
+                                <span class="flex items-center justify-center gap-3">
+                                    <span>✨</span>
+                                    Create My Story
+                                    <span>🚀</span>
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Story Display Panel -->
+                <div class="lg:sticky lg:top-8">
+                    <div class="glass-card rounded-2xl shadow-2xl overflow-hidden h-fit">
+                        <div class="bg-gradient-to-r from-orange-500/20 via-pink-500/20 to-teal-500/20 p-6 border-b border-white/10">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-teal-500 rounded-xl flex items-center justify-center glow-animation">
+                                    <span class="text-xl">📚</span>
+                                </div>
+                                <h3 class="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                                    Your Magical Story
+                                </h3>
+                            </div>
+                        </div>
+
+                        <div class="p-6 min-h-[500px] max-h-[70vh] overflow-y-auto custom-scrollbar">
+                            <!-- Empty State -->
+                            <div class="text-center py-16">
+                                <div class="text-6xl mb-6 float-animation">📖</div>
+                                <h4 class="text-xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                                    Ready to Create Magic?
+                                </h4>
+                                <p class="text-gray-400 leading-relaxed max-w-sm mx-auto mb-6">
+                                    Fill out the form and let AI weave your perfect adventure tale
+                                </p>
+                                <div class="flex justify-center gap-2">
+                                    <div class="w-3 h-3 bg-orange-500 rounded-full animate-bounce"></div>
+                                    <div class="w-3 h-3 bg-pink-500 rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
+                                    <div class="w-3 h-3 bg-teal-500 rounded-full animate-bounce" style="animation-delay: 0.4s;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <!-- Genre -->
-            <div>
-              <h3 class="text-sm text-purple-400 mb-2">Story Genre</h3>
-              <div class="grid grid-cols-2 gap-3">
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    name="genre"
-                    value="fantasy"
-                    class="sr-only"
-                  />
-                  <span>🧚 Fantasy</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    name="genre"
-                    value="adventure"
-                    class="sr-only"
-                  />
-                  <span>🏞️ Adventure</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    name="genre"
-                    value="sci-fi"
-                    class="sr-only"
-                  />
-                  <span>👽 Sci-fi</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    name="genre"
-                    value="mystery"
-                    class="sr-only"
-                  />
-                  <span>🕵️ Mystery</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    name="genre"
-                    value="funny"
-                    class="sr-only"
-                  />
-                  <span>😂 Funny</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    name="genre"
-                    value="educational"
-                    class="sr-only"
-                  />
-                  <span>📘 Educational</span>
-                </label>
-              </div>
-            </div>
-
-            <!-- Setting -->
-            <div>
-              <h3 class="text-sm text-yellow-400 mb-2">Story Setting</h3>
-              <div class="grid grid-cols-2 gap-2">
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="radio"
-                    name="setting"
-                    value="magical-forest"
-                    class="sr-only"
-                  />
-                  <span>🌲 Magical forest</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="radio"
-                    name="setting"
-                    value="enchanted-castle"
-                    class="sr-only"
-                  />
-                  <span>🏰 Enchanted castle</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="radio"
-                    name="setting"
-                    value="underwater-kingdom"
-                    class="sr-only"
-                  />
-                  <span>🌊 Underwater kingdom</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="radio"
-                    name="setting"
-                    value="space-station"
-                    class="sr-only"
-                  />
-                  <span>🛸 Space station</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="radio"
-                    name="setting"
-                    value="haunted-mansion"
-                    class="sr-only"
-                  />
-                  <span>🏚️ Haunted mansion</span>
-                </label>
-              </div>
-            </div>
-
-            <!-- Length -->
-            <div>
-              <h3 class="text-sm text-teal-400 mb-2">Story Length</h3>
-              <div class="space-y-2">
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="radio"
-                    name="length"
-                    value="short"
-                    class="sr-only"
-                  />
-                  <span>Short (5-10 mins)</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="radio"
-                    name="length"
-                    value="medium"
-                    class="sr-only"
-                  />
-                  <span>Medium (10-15 mins)</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="radio"
-                    name="length"
-                    value="long"
-                    class="sr-only"
-                  />
-                  <span>Long (15-20 mins)</span>
-                </label>
-              </div>
-            </div>
-
-            <!-- Special Elements -->
-            <div>
-              <h3 class="text-sm text-pink-400 mb-2">Special Elements</h3>
-              <div class="grid grid-cols-2 gap-2">
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    name="elements"
-                    value="talking-animals"
-                    class="sr-only"
-                  />
-                  <span>🐾 Talking animals</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    name="elements"
-                    value="magic-powers"
-                    class="sr-only"
-                  />
-                  <span>⚡ Magic powers</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    name="elements"
-                    value="treasure-hunt"
-                    class="sr-only"
-                  />
-                  <span>💎 Treasure hunt</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    name="elements"
-                    value="time-travel"
-                    class="sr-only"
-                  />
-                  <span>⏰ Time travel</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    name="elements"
-                    value="dragons"
-                    class="sr-only"
-                  />
-                  <span>🐉 Dragons</span>
-                </label>
-                <label
-                  class="flex items-center space-x-2 border border-gray-700 rounded-xl p-2 bg-[#151b29] hover:bg-[#1f273b] transition cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    name="elements"
-                    value="robots"
-                    class="sr-only"
-                  />
-                  <span>🤖 Robots</span>
-                </label>
-              </div>
-            </div>
-
-            <!-- Notes -->
-            <div>
-              <label class="text-purple-300 block mb-1.5"
-                >Additional Notes</label
-              >
-              <textarea
-                rows="3"
-                name="additionalNotes"
-                placeholder="Tell us anything else..."
-                class="w-full px-4 py-2.5 bg-[#0e121c] border border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 resize-none"
-              ></textarea>
-            </div>
-
-            <!-- Generate Button -->
-            <button
-              type="submit"
-              class="w-full bg-gradient-to-r from-[#f97316] via-[#ec4899] to-[#8b5cf6] text-white font-bold py-3 rounded-xl text-lg shadow-md hover:scale-105 transition-all"
-            >
-              ✨ Generate My Story ✨
-            </button>
-          </form>
         </div>
-      </div>
-
-      <!-- Right Output -->
-      <div class="xl:col-span-3">
-        <div
-          class="bg-[#1a1f2b] border border-gray-700 rounded-3xl shadow-xl h-full flex flex-col"
-        >
-          <div class="p-6 border-b border-gray-700 text-center">
-            <h3 class="text-2xl font-bold text-orange-400">
-              📖 Your Magical Story
-            </h3>
-          </div>
-          <div class="flex-1 p-6 overflow-y-auto">
-            <div
-              class="bg-[#0e121c] p-6 rounded-xl border border-gray-700 h-full min-h-[400px]"
-            >
-              {% if story %}
-              <div class="space-y-4 text-white leading-relaxed">
-                {% for paragraph in story.splitlines %} {% if paragraph.strip %}
-                <p>{{ paragraph }}</p>
-                {% endif %} {% endfor %}
-              </div>
-              {% else %}
-              <div class="text-center text-gray-500">
-                <div class="text-5xl mb-4 animate-bounce">📚</div>
-                <p class="text-lg">No story yet. Fill the form to begin!</p>
-              </div>
-              {% endif %}
-            </div>
-          </div>
-          <div
-            class="p-6 border-t border-gray-700 flex flex-col sm:flex-row gap-4"
-          >
-            <button
-              id="saveStory"
-              {%
-              if
-              not
-              story
-              %}disabled{%
-              endif
-              %}
-              class="flex-1 bg-teal-600 hover:bg-teal-500 px-4 py-3 rounded-lg text-white font-bold transition disabled:bg-gray-600"
-            >
-              💾 Save
-            </button>
-            <button
-              id="shareStory"
-              {%
-              if
-              not
-              story
-              %}disabled{%
-              endif
-              %}
-              class="flex-1 bg-purple-600 hover:bg-purple-500 px-4 py-3 rounded-lg text-white font-bold transition disabled:bg-gray-600"
-            >
-              📤 Share
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
-  </main>
 
-  <script>
-    // Add interactive behavior for radio buttons and checkboxes
-    document.addEventListener("DOMContentLoaded", function () {
-      // Handle radio button selection styling
-      const radioLabels = document.querySelectorAll(
-        'input[type="radio"] + span'
-      );
-      const checkboxLabels = document.querySelectorAll(
-        'input[type="checkbox"] + span'
-      );
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
 
-      // Radio button functionality
-      document.querySelectorAll('input[type="radio"]').forEach((radio) => {
-        radio.addEventListener("change", function () {
-          // Remove active class from all radio buttons with same name
-          document
-            .querySelectorAll(`input[name="${this.name}"]`)
-            .forEach((r) => {
-              r.parentElement.classList.remove(
-                "bg-[#B84443]",
-                "border-[#B84443]"
-              );
-              r.parentElement.classList.add("bg-[#151b29]", "border-gray-700");
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetTab = this.dataset.tab;
+                    
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                });
             });
 
-          // Add active class to selected radio button
-          if (this.checked) {
-            this.parentElement.classList.remove(
-              "bg-[#151b29]",
-              "border-gray-700"
-            );
-            this.parentElement.classList.add(
-              "bg-[#B84443]",
-              "border-[#B84443]"
-            );
-          }
-        });
-      });
+            // Option card interactions
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const type = this.dataset.type;
+                    const name = this.dataset.name;
+                    const input = this.querySelector('input');
 
-      // Checkbox functionality
-      document
-        .querySelectorAll('input[type="checkbox"]')
-        .forEach((checkbox) => {
-          checkbox.addEventListener("change", function () {
-            if (this.checked) {
-              this.parentElement.classList.remove(
-                "bg-[#F0625F]",
-                "border-gray-700"
-              );
-              this.parentElement.classList.add(
-                "bg-[#B84443]",
-                "border-[#B84443]"
-              );
-            } else {
-              this.parentElement.classList.remove(
-                "bg-[#B84443]",
-                "border-[#B84443]"
-              );
-              this.parentElement.classList.add(
-                "bg-[#151b29]",
-                "border-gray-700"
-              );
-            }
-          });
+                    if (type === 'radio') {
+                        // Remove selection from other radio buttons with same name
+                        document.querySelectorAll(`[data-name="${name}"]`).forEach(el => {
+                            el.classList.remove('selected');
+                            el.querySelector('input').checked = false;
+                        });
+                        // Select this one
+                        this.classList.add('selected');
+                        input.checked = true;
+                        
+                    } else if (type === 'checkbox') {
+                        // Toggle selection for checkboxes
+                        this.classList.toggle('selected');
+                        input.checked = !input.checked;
+                    }
+                });
+            });
         });
-    });
-  </script>
+    </script>
 </body>
 {% endblock %}
