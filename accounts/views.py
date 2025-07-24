@@ -64,95 +64,69 @@ def signup(request):
 
     return render(request,"accounts/signup.html")
         
-def login_user(request):
-    if request.method=="POST":
-        email=request.POST.get("email")
-        password=request.POST.get("password")
-        context={}
-        try:
-            User.objects.get(username=email)
-        except User.DoesNotExist:
-            context["error_email"]="Email does not exist create one"
-            return render(request,"accounts/login.html",context)
-
-
-        user= authenticate(request, username=email, password=password)
-        if(user):
-            login(request,user)
-            return redirect("home")
-        else:
-            context["error_password"]="Invalid Password!"
-            return render(request,"accounts/login.html",context)
-
-    return render(request,"accounts/login.html")
 def logout_user(request):
     logout(request)
     return redirect("home")
 
-@csrf_protect
-def forgot_password(request):
-    if request.method == 'POST':
-        # full_name = request.POST.get('full_name')
-        email = request.POST.get('email')
-
-        # if not full_name or not email:
-        #     messages.error(request, "Please fill in all fields.")
-        #     return redirect('login')
+def login_user(request):
+    context={}
+    if request.GET.get("forgetpass"):
+        params={}
+        params["showModal"]=True
+        return render(request,"accounts/login.html",params)
+    
+    if request.method=="POST":
+        verifyUser=request.POST.get("verify_user")
+        if verifyUser:
+            email=request.POST.get("email")
+            print(email)
+            try:
+                user=User.objects.get(username=email)
+                if user:
+                    context["showReset"]=True                    
+                    context["email"]=email                    
+            except User.DoesNotExist:
+                context["error_email"]="Incorrect email,Email does not exist"
+                context["showModal"]=True
+            return render(request,"accounts/login.html",context)
         
-        if  not email:
-            messages.error(request, "Please fill in all fields.")
-            return redirect('login')
+        elif request.POST.get("reset_password"):
+            email=request.POST.get("email")
+            new_password=request.POST.get("new_password")
+            cfpassword=request.POST.get("confirm_newpassword")
+            print(new_password+" "+cfpassword)
+            if new_password != cfpassword:
+                context["error_password"]="Passwords do not match"
+                context["showReset"]=True
+                context["email"]=email
+                return render(request,"accounts/login.html",context)
+            try:
+                user = User.objects.get(username=email)
+                user.set_password(new_password)
+                user.save()
+                context["success"] = "Password updated successfully!"
+            except User.DoesNotExist:
+                context["error_email"] = "User not found"
+            return render(request, "accounts/login.html", context)
 
-        # try:
-        #     first_name, last_name = full_name.strip().split(' ', 1)
-        # except ValueError:
-        #     messages.error(request, "Please enter both first and last name.")
-        #     return redirect('login')
 
-        user = User.objects.filter( email=email).first()
-
-        if user:
-            # Store temporary user info in session
-            request.session['reset_user_id'] = user.id
-            return redirect('reset_password')  # Next page for password reset
         else:
-            messages.error(request, "No user found with the given details.")
-            return redirect('login')
-        
-@csrf_protect
-def reset_password(request):
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        new_password = request.POST.get('new_password')
-        confirm_password = request.POST.get('confirm_password')
+            email=request.POST.get("email")
+            password=request.POST.get("password")
+            context={}
+            try:
+                User.objects.get(username=email)
+            except User.DoesNotExist:
+                context["error_email"]="Email does not exist create one"
+                return render(request,"accounts/login.html",context)
 
-        if not (email and new_password and confirm_password):
-            return JsonResponse({'status': 'error', 'message': 'All fields are required.'})
 
-        if new_password != confirm_password:
-            return JsonResponse({'status': 'error', 'message': 'Passwords do not match.'})
+            user= authenticate(request, username=email, password=password)
+            if(user):
+                login(request,user)
+                return redirect("home")
+            else:
+                context["error_password"]="Invalid Password!"
+                return render(request,"accounts/login.html",context)
 
-        user = User.objects.filter(email=email).first()
-
-        if not user:
-            return JsonResponse({'status': 'error', 'message': 'User not found.'})
-
-        user.password = make_password(new_password)
-        user.save()
-
-        return JsonResponse({'status': 'success', 'message': 'Password reset successful.'})
-
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
-
-@csrf_exempt
-def verify_user(request):
-    if request.method == "POST":
-        # full_name = request.POST.get("full_name")
-        email = request.POST.get("email")
-
-        try:
-            # user = User.objects.get(email=email, first_name=full_name)
-            user = User.objects.get(email=email)
-            return JsonResponse({'status': 'success', 'email': email})
-        except User.DoesNotExist:
-            return JsonResponse({'status': 'fail', 'message': 'User not found'})
+    return render(request,"accounts/login.html")
