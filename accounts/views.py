@@ -10,8 +10,6 @@ from django.contrib.auth.hashers import make_password
 # Create your views here.
 
 from django.shortcuts import render
-from django.http import JsonResponse
-import json
 
 def create_story(request):
     age_ranges = ["5-7", "8-10", "11-13"]
