@@ -1,16 +1,97 @@
 
-{% extends "base.html" %}
-    
-{% block content %}
-<body class="bg-story-dark text-white min-h-screen">
-    <!-- Main Dashboard Content -->
-    <main class="relative z-10 max-w-7xl mx-auto px-6 py-12">
-        <!-- Welcome Section -->
-        <div class="mb-12">
-            <h2 class="text-4xl font-playful font-bold mb-4">
-                Welcome back, <span class="gradient-text">Jane</span>! 
-            </h2>
-            <p class="text-xl text-gray-300 font-playful">Ready to create some magical stories today?</p>
+     <div class="absolute inset-0 pointer-events-none">
+         <!-- Cassette tape elements -->
+         <div class="floating-element absolute top-32 right-24 w-16 h-10 cassette-bg rounded-lg transform -rotate-12"></div>
+         <div class="floating-element absolute bottom-16 right-16 w-18 h-11 cassette-bg rounded-lg transform -rotate-25"></div>
+         
+         <!-- Headphones -->
+         <div class="absolute top-20 right-40 w-12 h-12 bg-story-orange rounded-full">
+             <div class="absolute top-1 left-1 w-10 h-10 bg-story-teal rounded-full"></div>
+             <div class="absolute top-2 left-2 w-8 h-8 bg-story-dark rounded-full"></div>
+         </div>
+         
+         <!-- Triangular shapes -->
+         <div class="triangle triangle-white top-24 left-60"></div>
+         <div class="triangle triangle-orange top-40 right-60"></div>
+         <div class="triangle triangle-teal bottom-60 left-80"></div>
+         <div class="triangle triangle-white bottom-24 right-80"></div>
+         <div class="triangle triangle-orange top-60 left-40"></div>
+         <div class="triangle triangle-teal top-80 right-32"></div>
+     </div>
+ 
+     <!-- Header -->
+     <header class="relative z-10 border-b border-gray-700">
+         <div class="max-w-7xl mx-auto px-6 py-4">
+             <div class="flex items-center justify-between">
+                 <!-- Logo -->
+                 <div class="flex items-center">
+                     <div class="w-10 h-10 bg-gradient-to-br from-story-orange to-story-pink rounded-lg flex items-center justify-center mr-3">
+                         <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                             <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/>
+                         </svg>
+                     </div>
+                     <a href="{% url 'home' %}">
+                        <h1 class="text-xl font-playful text-story-orange font-bold">StorySpark</h1>
+                     </a>
+                     
+                 </div>
+ 
+                 <!-- Navigation -->
+                 <nav class="flex items-center space-x-8">
+                   <a href="{% url 'home' %}" class="text-white hover:text-story-orange transition-colors font-playful">Home</a>
+                   <a href="#" class="text-gray-300 hover:text-story-orange transition-colors font-playful">Story Selection</a>
+                   <a href="{% url 'create_story' %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">Story Creation</a>
+                   {% if user.is_authenticated  %}
+                   
+                   <!-- Profile Dropdown -->
+                   <div class="relative group">
+                       <!-- Profile Icon -->
+                       <div class="w-10 h-10 bg-gradient-to-br from-story-orange to-story-pink rounded-full flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200">
+                           <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                               <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                           </svg>
+                       </div>
+                       
+                       <!-- Dropdown Menu -->
+                       <div class="absolute top-full right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+                           <div class="py-2">
+                               <a href="#" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-story-orange transition-colors font-playful">
+                                   <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                                       <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                                   </svg>
+                                   Dashboard
+                               </a>
+                               <a href="{% url 'logout' %}" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-red-400 transition-colors font-playful">
+                                   <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                                       <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                                   </svg>
+                                   Logout
+                               </a>
+                           </div>
+                       </div>
+                   </div>
+                   
+                   {% else %}
+                   <a href="{% url 'signup' %}" class="bg-gradient-to-r from-story-orange to-story-pink px-4 py-2 rounded-full text-white font-bold font-playful shadow hover:scale-105 transition-all duration-200">Sign Up</a>
+                   <a href="{% url 'login' %}" class="bg-story-dark border border-story-orange px-4 py-2 rounded-full text-story-orange font-bold font-playful shadow hover:bg-story-orange hover:text-white transition-all duration-200">Login</a>
+                   {% endif %}
+                 </nav>
+             </div>
+         </div>
+     </header>
+     {% elif '/signup/' in request.path %}
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <!-- Cassette tape elements -->
+        <div class="floating-element absolute top-16 left-20 w-20 h-12 cassette-bg rounded-lg transform rotate-12"></div>
+        <div class="floating-element absolute top-32 right-24 w-16 h-10 cassette-bg rounded-lg transform -rotate-12"></div>
+        <div class="floating-element absolute bottom-32 left-32 w-24 h-14 cassette-bg rounded-lg transform rotate-45"></div>
+        <div class="floating-element absolute bottom-16 right-16 w-18 h-11 cassette-bg rounded-lg transform -rotate-25"></div>
+        
+        <!-- Story books -->
+        <div class="floating-element absolute top-20 right-40 w-12 h-16 bg-story-teal rounded-lg transform rotate-12">
+            <div class="absolute top-1 left-1 w-10 h-2 bg-story-orange rounded"></div>
+            <div class="absolute top-4 left-1 w-8 h-1 bg-story-pink rounded"></div>
+            <div class="absolute top-6 left-1 w-6 h-1 bg-story-purple rounded"></div>
         </div>
 
         <!-- Quick Actions -->
@@ -29,11 +110,93 @@
                 </div>
             </button>
 
+<<<<<<< HEAD
             <button class="story-card p-8 rounded-2xl text-left group hover:scale-105 transition-all duration-300">
                 <div class="flex items-center mb-4">
                     <div class="w-12 h-12 bg-gradient-to-r from-story-teal to-story-purple rounded-full flex items-center justify-center mr-4">
                         <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+=======
+                <!-- Back to Home -->
+                <nav class="flex items-center space-x-8">
+                    <a href="{% url 'home' %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">← Back to Home</a>
+                    <a href="{% url 'login' %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">Already have an account? Sign In</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    {% elif '/login/' in request.path %}
+            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <!-- Floating story books -->
+        <div class="floating-element absolute top-16 left-20 w-16 h-20 bg-story-teal rounded-lg transform rotate-12">
+            <div class="absolute top-2 left-2 w-12 h-3 bg-story-orange rounded"></div>
+            <div class="absolute top-6 left-2 w-10 h-2 bg-story-pink rounded"></div>
+            <div class="absolute top-9 left-2 w-8 h-1 bg-story-purple rounded"></div>
+            <div class="absolute top-11 left-2 w-6 h-1 bg-story-yellow rounded"></div>
+        </div>
+        
+        <div class="floating-element absolute top-32 right-24 w-12 h-16 bg-story-purple rounded-lg transform -rotate-12">
+            <div class="absolute top-2 left-1 w-10 h-2 bg-story-teal rounded"></div>
+            <div class="absolute top-5 left-1 w-8 h-1 bg-story-orange rounded"></div>
+        </div>
+        
+        <!-- Magical elements -->
+        <div class="floating-element absolute bottom-32 left-32 w-6 h-24 bg-story-orange rounded-full transform rotate-45">
+            <div class="absolute -top-3 -left-2 w-6 h-6 bg-story-yellow rounded-full"></div>
+            <div class="absolute -top-1 -left-3 w-4 h-4 bg-story-pink rounded-full"></div>
+            <div class="absolute -top-2 left-2 w-3 h-3 bg-story-teal rounded-full"></div>
+        </div>
+        
+        <!-- Fairy tale castle -->
+        <div class="floating-element absolute bottom-16 right-16 w-20 h-24 bg-story-purple rounded-t-full transform -rotate-12">
+            <div class="absolute bottom-0 left-2 w-4 h-12 bg-story-pink rounded-t-lg"></div>
+            <div class="absolute bottom-0 right-2 w-4 h-12 bg-story-pink rounded-t-lg"></div>
+            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-16 bg-story-orange rounded-t-lg"></div>
+            <div class="absolute top-2 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-story-yellow rounded-full"></div>
+        </div>
+        
+        <!-- Magic wand -->
+        <div class="floating-element absolute top-20 right-40 w-2 h-20 bg-story-orange rounded-full transform rotate-25">
+            <div class="absolute -top-3 -left-2 w-6 h-6 bg-story-yellow rounded-full"></div>
+            <div class="absolute -top-1 -left-3 w-4 h-4 bg-story-pink rounded-full"></div>
+            <div class="absolute -top-2 left-1 w-3 h-3 bg-story-teal rounded-full"></div>
+        </div>
+        
+        <!-- Quill pen -->
+        <div class="floating-element absolute bottom-40 left-16 w-3 h-24 bg-story-teal rounded-full transform rotate-25">
+            <div class="absolute -top-4 -left-2 w-8 h-8 bg-story-orange rounded-full transform rotate-45"></div>
+            <div class="absolute -bottom-2 left-0 w-3 h-4 bg-story-dark rounded-b-full"></div>
+        </div>
+        
+        <!-- Triangular shapes -->
+        <div class="triangle triangle-white top-24 left-60 pulse-slow"></div>
+        <div class="triangle triangle-orange top-40 right-60 pulse-slow"></div>
+        <div class="triangle triangle-teal bottom-60 left-80 pulse-slow"></div>
+        <div class="triangle triangle-white bottom-24 right-80 pulse-slow"></div>
+        
+        <!-- Scattered stars -->
+        <div class="absolute top-1/4 right-1/4 text-story-yellow text-3xl pulse-slow">★</div>
+        <div class="absolute top-3/4 left-1/4 text-story-pink text-2xl pulse-slow">★</div>
+        <div class="absolute top-1/3 right-1/3 text-story-teal text-xl pulse-slow">★</div>
+        <div class="absolute bottom-1/4 right-1/5 text-story-orange text-2xl pulse-slow">★</div>
+        <div class="absolute top-1/5 left-1/3 text-story-purple text-xl pulse-slow">★</div>
+        
+        <!-- Floating hearts -->
+        <div class="absolute top-2/3 right-1/4 text-story-pink text-xl pulse-slow">♥</div>
+        <div class="absolute top-1/6 left-1/2 text-story-orange text-lg pulse-slow">♥</div>
+    </div>
+
+    <!-- Header -->
+    <header class="relative z-10 border-b border-gray-700">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-gradient-to-br from-story-orange to-story-pink rounded-lg flex items-center justify-center mr-3">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/>
+>>>>>>> fcdbbc40e8e2be54e1e6a22f0fa21a73e3b4126b
                         </svg>
                     </div>
                     <div>
@@ -43,6 +206,7 @@
                 </div>
             </button>
 
+<<<<<<< HEAD
             <button class="story-card p-8 rounded-2xl text-left group hover:scale-105 transition-all duration-300">
                 <div class="flex items-center mb-4">
                     <div class="w-12 h-12 bg-gradient-to-r from-story-pink to-story-yellow rounded-full flex items-center justify-center mr-4">
@@ -102,6 +266,13 @@
                 </div>
                 <p class="text-3xl font-bold text-white">8</p>
                 <p class="text-sm text-gray-400">3 new!</p>
+=======
+                <!-- Navigation -->
+                <nav class="flex items-center space-x-8">
+                    <a href="{% url 'home' %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">← Back to Home</a>
+                    <a href="{% url 'signup' %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">Don't have an account? Sign Up</a>
+                </nav>
+>>>>>>> fcdbbc40e8e2be54e1e6a22f0fa21a73e3b4126b
             </div>
         </div>
 

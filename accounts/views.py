@@ -180,7 +180,7 @@ def login_user(request):
         verifyUser=request.POST.get("verify_user")
         if verifyUser:
             email=request.POST.get("email")
-            print(email)
+            # print(email)
             try:
                 user=User.objects.get(username=email)
                 if user:
@@ -195,7 +195,7 @@ def login_user(request):
             email=request.POST.get("email")
             new_password=request.POST.get("new_password")
             cfpassword=request.POST.get("confirm_newpassword")
-            print(new_password+" "+cfpassword)
+            # print(new_password+" "+cfpassword)
             if new_password != cfpassword:
                 context["error_password"]="Passwords do not match"
                 context["showReset"]=True
