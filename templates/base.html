@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StorySpark - AI Story Generator for Kids</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -66,7 +65,6 @@
                             </svg>
                         </div>
                         <h1 class="text-xl font-playful text-story-orange font-bold">StorySpark</h1>
-<<<<<<< HEAD
                     </div>
 
                     <!-- Navigation -->
@@ -105,21 +103,6 @@
                          </div>
                          {% else %}
                             <a href="{% url 'signup' %}" class="bg-gradient-to-r from-story-orange to-story-pink px-4 py-2 rounded-full text-white font-bold font-playful shadow hover:scale-105 transition-all duration-200">Sign Up</a>
-=======
-                     </a>
-                     
-                 </div>
- 
-                 <!-- Navigation -->
-                 <nav class="flex items-center space-x-8">
-                   <a href="{% url 'home' %}" class="text-white hover:text-story-orange transition-colors font-playful">Home</a>
-                   <a href="#" class="text-gray-300 hover:text-story-orange transition-colors font-playful">Story Selection</a>
-                   <a href="{% url 'create_story' %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">Story Creation</a>
-                   {% if user.is_authenticated  %}
-                   <a href="{% url 'logout' %}" class="bg-story-dark border border-story-orange px-4 py-2 rounded-full text-story-orange font-bold font-playful shadow hover:bg-story-orange hover:text-white transition-all duration-200">Logout</a>
-                   {% else %}
-                   <a href="{% url 'signup' %}" class="bg-gradient-to-r from-story-orange to-story-pink px-4 py-2 rounded-full text-white font-bold font-playful shadow hover:scale-105 transition-all duration-200">Sign Up</a>
->>>>>>> 6704c5194a7861cbe427046e289633922bbd8eda
                    <a href="{% url 'login' %}" class="bg-story-dark border border-story-orange px-4 py-2 rounded-full text-story-orange font-bold font-playful shadow hover:bg-story-orange hover:text-white transition-all duration-200">Login</a>
 
                          {% endif %}
