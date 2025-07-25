@@ -17,7 +17,7 @@
         <!-- Hero Header -->
         <header class="text-center py-12 px-4">
             <div class="float-animation">
-                <h1 class="text-4xl md:text-6xl font-black mb-4 bg-gradient-to-r from-white via-orange-400 to-teal-400 bg-clip-text text-transparent">
+                <h1 class="text-3xl md:text-5xl font-black mb-4 bg-gradient-to-r from-white via-orange-400 to-teal-400 bg-clip-text text-transparent">
                     AI Story Creator
                 </h1>
             </div>
@@ -28,9 +28,10 @@
 
         <!-- Main Container -->
         <div class="max-w-7xl mx-auto px-4 pb-12">
+            <!-- Always use 2-column grid layout -->
             <div class="grid lg:grid-cols-2 gap-8">
                 
-                <!-- Story Creator Form -->
+                <!-- Story Creator Form - Always visible -->
                 <div class="space-y-6">
                     <div class="glass-card rounded-2xl p-6 shadow-2xl">
                         <div class="flex items-center gap-3 mb-6">
@@ -42,7 +43,8 @@
                             </h2>
                         </div>
 
-                        <form id="storyForm" method="POST" class="space-y-6">
+                        <form id="storyForm" method="POST" class="space-y-6" action="{% url "create_story" %}">
+                            {% csrf_token %}
                             <!-- Character & Basic Info -->
                             <div class="grid md:grid-cols-2 gap-4">
                                 <div>
@@ -54,6 +56,7 @@
                                         name="characterName"
                                         placeholder="Enter name..."
                                         class="modern-input w-full px-4 py-3 rounded-xl text-white placeholder-gray-400"
+                                        value="{% if request.POST.characterName %}{{ request.POST.characterName }}{% endif %}"
                                     />
                                 </div>
                                 
@@ -62,18 +65,18 @@
                                         🎂 Age Group
                                     </label>
                                     <div class="grid grid-cols-3 gap-2">
-                                        <div class="option-card glass-card rounded-lg p-3 text-center" data-type="radio" data-name="age" data-value="5-7">
-                                            <input type="radio" name="age" value="5-7" class="sr-only" />
+                                        <div class="option-card glass-card rounded-lg p-3 text-center {% if request.POST.age == '5-7' %}selected{% endif %}" data-type="radio" data-name="age" data-value="5-7">
+                                            <input type="radio" name="age" value="5-7" class="sr-only" {% if request.POST.age == '5-7' %}checked{% endif %} />
                                             <div class="text-lg">🧸</div>
                                             <div class="text-xs font-semibold mt-1">5-7</div>
                                         </div>
-                                        <div class="option-card glass-card rounded-lg p-3 text-center" data-type="radio" data-name="age" data-value="8-10">
-                                            <input type="radio" name="age" value="8-10" class="sr-only" />
+                                        <div class="option-card glass-card rounded-lg p-3 text-center {% if request.POST.age == '8-10' %}selected{% endif %}" data-type="radio" data-name="age" data-value="8-10">
+                                            <input type="radio" name="age" value="8-10" class="sr-only" {% if request.POST.age == '8-10' %}checked{% endif %} />
                                             <div class="text-lg">🌟</div>
                                             <div class="text-xs font-semibold mt-1">8-10</div>
                                         </div>
-                                        <div class="option-card glass-card rounded-lg p-3 text-center" data-type="radio" data-name="age" data-value="11-13">
-                                            <input type="radio" name="age" value="11-13" class="sr-only" />
+                                        <div class="option-card glass-card rounded-lg p-3 text-center {% if request.POST.age == '11-13' %}selected{% endif %}" data-type="radio" data-name="age" data-value="11-13">
+                                            <input type="radio" name="age" value="11-13" class="sr-only" {% if request.POST.age == '11-13' %}checked{% endif %} />
                                             <div class="text-lg">🚀</div>
                                             <div class="text-xs font-semibold mt-1">11-13</div>
                                         </div>
@@ -237,7 +240,7 @@
                                     rows="3"
                                     placeholder="Any special requests or creative ideas..."
                                     class="modern-input w-full px-4 py-3 rounded-xl text-white placeholder-gray-400 resize-none"
-                                ></textarea>
+                                >{% if request.POST.additionalNotes %}{{ request.POST.additionalNotes }}{% endif %}</textarea>
                             </div>
 
                             <!-- Generate Button -->
@@ -247,7 +250,7 @@
                             >
                                 <span class="flex items-center justify-center gap-3">
                                     <span>✨</span>
-                                    Create My Story
+                                    {% if story %}Create Another Story{% else %}Create My Story{% endif %}
                                     <span>🚀</span>
                                 </span>
                             </button>
@@ -255,42 +258,239 @@
                     </div>
                 </div>
 
-                <!-- Story Display Panel -->
+                <!-- Story Display Panel - Always in right column -->
                 <div class="lg:sticky lg:top-8">
-                    <div class="glass-card rounded-2xl shadow-2xl overflow-hidden h-fit">
+                    <div class="glass-card rounded-2xl shadow-2xl overflow-hidden h-fit" id="storyDisplayPanel">
+                        <!-- Story Header with Title -->
                         <div class="bg-gradient-to-r from-orange-500/20 via-pink-500/20 to-teal-500/20 p-6 border-b border-white/10">
-                            <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-teal-500 rounded-xl flex items-center justify-center glow-animation">
-                                    <span class="text-xl">📚</span>
+                            <div class="flex items-center justify-between mb-4">
+                                <!-- Story Title Display -->
+                                {% if title %}
+                                <div class="rounded-lg p-4">
+                                    <h4 class="text-4xl font-bold bg-gradient-to-r from-white via-orange-300 to-teal-300 bg-clip-text text-transparent">
+                                        {{ title }}
+                                    </h4>
                                 </div>
-                                <h3 class="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                                    Your Magical Story
-                                </h3>
+                                {% else %}
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-teal-500 rounded-xl flex items-center justify-center glow-animation">
+                                        <span class="text-xl">📚</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                                        Your Magical Story
+                                    </h3>
+                                </div>
+                                
+                                {% endif %}
+                                <!-- Fullscreen Toggle Button - Only show when story exists -->
+                                <button 
+                                    id="fullscreenToggle"
+                                    class="p-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 rounded-lg border border-white/10 transition-all duration-300 group"
+                                    title="Toggle Fullscreen"
+                                >
+                                    <svg class="w-5 h-5 text-white group-hover:text-purple-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                                    </svg>
+                                </button>
                             </div>
+                            
+                            
                         </div>
 
-                        <div class="p-6 min-h-[500px] max-h-[70vh] overflow-y-auto custom-scrollbar">
-                            <!-- Empty State -->
-                            <div class="text-center py-16">
-                                <div class="text-6xl mb-6 float-animation">📖</div>
-                                <h4 class="text-xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-                                    Ready to Create Magic?
-                                </h4>
-                                <p class="text-gray-400 leading-relaxed max-w-sm mx-auto mb-6">
-                                    Fill out the form and let AI weave your perfect adventure tale
-                                </p>
-                                <div class="flex justify-center gap-2">
-                                    <div class="w-3 h-3 bg-orange-500 rounded-full animate-bounce"></div>
-                                    <div class="w-3 h-3 bg-pink-500 rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
-                                    <div class="w-3 h-3 bg-teal-500 rounded-full animate-bounce" style="animation-delay: 0.4s;"></div>
+                        <div class="p-6 min-h-[500px] max-h-[70vh] overflow-y-auto custom-scrollbar" id="storyContent">
+                            {% if story %}
+                                <!-- Story Content -->
+                                <div class="prose prose-invert max-w-none">
+                                    <div class="text-white leading-relaxed space-y-6">
+                                        {{ story|linebreaks }}
+                                    </div>
                                 </div>
-                            </div>
+                                
+                                <!-- Story Moral Section -->
+                                {% if moral %}
+                                <div class="mt-8 p-6 bg-gradient-to-r from-teal-500/10 via-purple-500/10 to-orange-500/10 rounded-xl border border-white/10">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-10 h-10 bg-gradient-to-r from-teal-500 to-purple-500 rounded-lg flex items-center justify-center">
+                                            <span class="text-lg">💡</span>
+                                        </div>
+                                        <h5 class="text-lg font-bold bg-gradient-to-r from-teal-400 to-purple-400 bg-clip-text text-transparent">
+                                            Story Moral
+                                        </h5>
+                                    </div>
+                                    <div class="text-gray-200 leading-relaxed bg-white/5 rounded-lg p-4 border-l-4 border-teal-500">
+                                        {{ moral|linebreaks }}
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% else %}
+                                <!-- Empty State -->
+                                <div class="text-center py-16">
+                                    <div class="text-6xl mb-6 float-animation">📖</div>
+                                    <h4 class="text-xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                                        Ready to Create Magic?
+                                    </h4>
+                                    <p class="text-gray-400 leading-relaxed max-w-sm mx-auto mb-6">
+                                        Fill out the form and let AI weave your perfect adventure tale with a meaningful lesson
+                                    </p>
+                                    <div class="flex justify-center gap-2">
+                                        <div class="w-3 h-3 bg-orange-500 rounded-full animate-bounce"></div>
+                                        <div class="w-3 h-3 bg-pink-500 rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
+                                        <div class="w-3 h-3 bg-teal-500 rounded-full animate-bounce" style="animation-delay: 0.4s;"></div>
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Fullscreen Overlay -->
+    <div id="fullscreenOverlay" class="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 hidden">
+        <div class="h-full flex flex-col">
+            <!-- Fullscreen Header -->
+            <div class="flex items-center justify-between p-6 border-b border-white/10 bg-gradient-to-r from-orange-500/10 via-pink-500/10 to-teal-500/10">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-orange-500 to-teal-500 rounded-lg flex items-center justify-center">
+                        <span class="text-lg">📚</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                            Story Reading Mode
+                        </h3>
+                        {% if title %}
+                        <p class="text-sm text-gray-400">{{ title }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <button 
+                    id="exitFullscreen"
+                    class="p-3 bg-red-500/20 hover:bg-red-500/30 rounded-lg border border-red-500/30 transition-all duration-300 group"
+                    title="Exit Fullscreen"
+                >
+                    <svg class="w-5 h-5 text-white group-hover:text-red-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Fullscreen Content -->
+            <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+                <div class="max-w-4xl mx-auto">
+                    <div id="fullscreenStoryContent" class="prose prose-invert max-w-none">
+                        <!-- Content will be copied here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Custom scrollbar for better reading experience */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Fullscreen animations */
+        #fullscreenOverlay.show {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        #fullscreenOverlay.hide {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Enhanced text styling for fullscreen */
+        #fullscreenStoryContent .text-lg {
+            font-size: 1.25rem;
+            line-height: 1.8;
+        }
+
+        #fullscreenStoryContent .space-y-6 > * + * {
+            margin-top: 2rem;
+        }
+
+        /* Option card selected state styling */
+        .option-card.selected {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(249, 115, 22, 0.5);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(to right, #f97316, #ec4899);
+            color: white;
+            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4);
+        }
+
+        /* Float animation for hero elements */
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Glow animation for special elements */
+        .glow-animation {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px rgba(249, 115, 22, 0.3); }
+            to { box-shadow: 0 0 20px rgba(249, 115, 22, 0.6); }
+        }
+
+        /* Glass card effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Modern input styling */
+        .modern-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .modern-input:focus {
+            outline: none;
+            border-color: rgba(249, 115, 22, 0.5);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
+        }
+    </style>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -335,6 +535,73 @@
                         input.checked = !input.checked;
                     }
                 });
+            });
+
+            // Restore form selections on page load (for when story is generated)
+            document.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked').forEach(input => {
+                const card = input.closest('.option-card');
+                if (card) {
+                    card.classList.add('selected');
+                }
+            });
+
+            // Fullscreen functionality
+            const fullscreenToggle = document.getElementById('fullscreenToggle');
+            const fullscreenOverlay = document.getElementById('fullscreenOverlay');
+            const exitFullscreen = document.getElementById('exitFullscreen');
+            const fullscreenStoryContent = document.getElementById('fullscreenStoryContent');
+            const storyContent = document.getElementById('storyContent');
+
+            if (fullscreenToggle) {
+                fullscreenToggle.addEventListener('click', function() {
+                    // Copy story content to fullscreen overlay
+                    fullscreenStoryContent.innerHTML = storyContent.innerHTML;
+                    
+                    // Show fullscreen overlay
+                    fullscreenOverlay.classList.remove('hidden');
+                    fullscreenOverlay.classList.add('show');
+                    fullscreenOverlay.classList.remove('hide');
+                    
+                    // Prevent body scrolling
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Focus on fullscreen content for better accessibility
+                    fullscreenOverlay.focus();
+                });
+            }
+
+            // Exit fullscreen function
+            function exitFullscreenMode() {
+                fullscreenOverlay.classList.add('hide');
+                fullscreenOverlay.classList.remove('show');
+                
+                // Re-enable body scrolling
+                document.body.style.overflow = '';
+                
+                // Hide overlay after animation
+                setTimeout(() => {
+                    fullscreenOverlay.classList.add('hidden');
+                    fullscreenOverlay.classList.remove('hide');
+                }, 300);
+            }
+
+            // Exit fullscreen button click
+            if (exitFullscreen) {
+                exitFullscreen.addEventListener('click', exitFullscreenMode);
+            }
+
+            // Exit fullscreen on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !fullscreenOverlay.classList.contains('hidden')) {
+                    exitFullscreenMode();
+                }
+            });
+
+            // Exit fullscreen on overlay background click
+            fullscreenOverlay.addEventListener('click', function(e) {
+                if (e.target === fullscreenOverlay) {
+                    exitFullscreenMode();
+                }
             });
         });
     </script>
