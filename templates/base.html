@@ -31,7 +31,7 @@
 </head>
 <body class="bg-story-dark text-white">
     {% comment %} Check for specific named URLs to apply background elements {% endcomment %}
-    {% if request.resolver_match.url_name == "home" or request.resolver_match.url_name == "create_story" or request.resolver_match.url_name == "dashboard" %}
+    {% if request.resolver_match.url_name == "home" or request.resolver_match.url_name == "create_story" or request.resolver_match.url_name == "dashboard" or request.resolver_match.url_name == "about" %}
         <div class="absolute inset-0 pointer-events-none">
             <div class="floating-element absolute top-32 right-24 w-16 h-10 cassette-bg rounded-lg transform -rotate-12"></div>
             <div class="floating-element absolute bottom-16 right-16 w-18 h-11 cassette-bg rounded-lg transform -rotate-25"></div>
