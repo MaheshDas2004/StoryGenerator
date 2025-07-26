@@ -1,168 +1,186 @@
 {% extends "base.html" %}
 {% load static %}
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/create.css' %}">
+<link rel="stylesheet" href="{% static "css/create.css" %}">
+<!-- Add jsPDF library for PDF generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 {% endblock %}
 
 {% block content %}
-<body class=" relative bg-black text-white min-h-screen font-inter w-full">
-    <!-- Animated Background -->
+<body class="relative text-white min-h-screen font-inter w-full">
+    <!-- Animated Background - Matching Homepage -->
     <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute -top-10 -right-10 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div class="absolute top-1/3 -left-20 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
-        <div class="absolute bottom-0 right-1/3 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+        <!-- Solid Colored Orbs - Better colors -->
+        <div class="absolute top-20 left-10 w-32 h-32 bg-red-500/15 rounded-full blur-xl animate-pulse"></div>
+        <div class="absolute top-40 right-20 w-24 h-24 bg-indigo-500/20 rounded-full blur-lg animate-bounce"></div>
+        <div class="absolute bottom-32 left-1/4 w-40 h-40 bg-violet-500/12 rounded-full blur-2xl animate-ping"></div>
+        <div class="absolute bottom-20 right-1/3 w-28 h-28 bg-cyan-500/15 rounded-full blur-xl animate-pulse"></div>
+        
+        <!-- Subtle Grid Pattern -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="w-full h-full" style="background-image: radial-gradient(circle, #ffffff 1px, transparent 1px); background-size: 50px 50px;"></div>
+        </div>
     </div>
 
     <div class="relative z-10">
-        <!-- Hero Header -->
-        <header class="text-center py-12 px-4">
-            <div class="float-animation">
-                <h1 class="text-3xl md:text-5xl font-black mb-4 bg-gradient-to-r from-white via-orange-400 to-teal-400 bg-clip-text text-transparent">
-                    AI Story Creator
-                </h1>
+        <!-- Hero Header - Homepage Style -->
+        <header class="text-center py-8 px-4">
+            <div class="inline-flex items-center px-6 py-3 rounded-full bg-blue-500/10 border border-blue-500/20 mb-6">
+                <span class="text-blue-400 text-sm font-bold tracking-widest">✨ STORY CREATION</span>
             </div>
-            <p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-                Transform your wildest ideas into captivating stories ✨
+            
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black mb-4 leading-none tracking-tighter">
+                <span class="text-story-teal">Create</span>
+                <span class="text-white">story</span>
+                <span class="text-gradient">Magic</span>
+                <span class="">Story</span>
+            </h1>
+            
+            <p class="text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto font-light">
+                Transform your child's imagination into <span class="text-blue-400 font-semibold">personalized bedtime adventures</span> with AI storytelling
             </p>
         </header>
 
         <!-- Main Container -->
         <div class="max-w-7xl mx-auto px-4 pb-12">
-            <!-- Always use 2-column grid layout -->
-            <div class="grid lg:grid-cols-2 gap-8">
+            <div class="grid lg:grid-cols-2 gap-6 items-start">
                 
-                <!-- Story Creator Form - Always visible -->
+                <!-- Story Creator Form -->
                 <div class="space-y-6">
-                    <div class="glass-card rounded-2xl p-6 shadow-2xl">
-                        <div class="flex items-center gap-3 mb-6">
-                            <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-teal-500 rounded-xl flex items-center justify-center glow-animation">
+                    <div class="bg-gray-800/30 rounded-3xl p-6 border border-gray-700 backdrop-filter backdrop-blur-xl h-fit">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center shadow-2xl">
                                 <span class="text-xl">🎨</span>
                             </div>
-                            <h2 class="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                                Story Creator
-                            </h2>
+                            <div>
+                                <h2 class="text-xl sm:text-2xl font-black text-white">
+                                    Story Creator
+                                </h2>
+                                <p class="text-gray-400 text-sm">Personalize every detail</p>
+                            </div>
                         </div>
 
                         <form id="storyForm" method="POST" class="space-y-6" action="{% url "create_story" %}">
                             {% csrf_token %}
+                            
                             <!-- Character & Basic Info -->
                             <div class="grid md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-orange-400 font-semibold mb-2 text-sm">
-                                        👤 Character Name
+                                    <label class="block text-blue-400 font-bold mb-2 text-sm tracking-wider">
+                                        👤 CHARACTER NAME
                                     </label>
                                     <input
                                         type="text"
                                         name="characterName"
-                                        placeholder="Enter name..."
-                                        class="modern-input w-full px-4 py-3 rounded-xl text-white placeholder-gray-400"
+                                        placeholder="Enter your child's name..."
+                                        class="w-full px-4 py-3 rounded-xl bg-gray-900/50 border border-gray-600 text-white placeholder-gray-400 focus:border-blue-500/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
                                         value="{% if request.POST.characterName %}{{ request.POST.characterName }}{% endif %}"
                                     />
                                 </div>
                                 
                                 <div>
-                                    <label class="block text-teal-400 font-semibold mb-2 text-sm">
-                                        🎂 Age Group
+                                    <label class="block text-indigo-400 font-bold mb-2 text-sm tracking-wider">
+                                        🎂 AGE GROUP
                                     </label>
                                     <div class="grid grid-cols-3 gap-2">
-                                        <div class="option-card glass-card rounded-lg p-3 text-center {% if request.POST.age == '5-7' %}selected{% endif %}" data-type="radio" data-name="age" data-value="5-7">
-                                            <input type="radio" name="age" value="5-7" class="sr-only" {% if request.POST.age == '5-7' %}checked{% endif %} />
-                                            <div class="text-lg">🧸</div>
-                                            <div class="text-xs font-semibold mt-1">5-7</div>
+                                        <div class="age-option bg-gray-900/50 border border-gray-600 rounded-xl p-3 text-center cursor-pointer hover:border-indigo-500/50 transition-all duration-300" data-type="radio" data-name="age" data-value="5-7">
+                                            <input type="radio" name="age" value="5-7" class="sr-only" />
+                                            <div class="text-lg mb-1">🧸</div>
+                                            <div class="text-xs font-bold text-white">5-7</div>
                                         </div>
-                                        <div class="option-card glass-card rounded-lg p-3 text-center {% if request.POST.age == '8-10' %}selected{% endif %}" data-type="radio" data-name="age" data-value="8-10">
-                                            <input type="radio" name="age" value="8-10" class="sr-only" {% if request.POST.age == '8-10' %}checked{% endif %} />
-                                            <div class="text-lg">🌟</div>
-                                            <div class="text-xs font-semibold mt-1">8-10</div>
+                                        <div class="age-option bg-gray-900/50 border border-gray-600 rounded-xl p-3 text-center cursor-pointer hover:border-indigo-500/50 transition-all duration-300 " data-type="radio" data-name="age" data-value="8-10">
+                                            <input type="radio" name="age" value="8-10" class="sr-only" />
+                                            <div class="text-lg mb-1">🌟</div>
+                                            <div class="text-xs font-bold text-white">8-10</div>
                                         </div>
-                                        <div class="option-card glass-card rounded-lg p-3 text-center {% if request.POST.age == '11-13' %}selected{% endif %}" data-type="radio" data-name="age" data-value="11-13">
-                                            <input type="radio" name="age" value="11-13" class="sr-only" {% if request.POST.age == '11-13' %}checked{% endif %} />
-                                            <div class="text-lg">🚀</div>
-                                            <div class="text-xs font-semibold mt-1">11-13</div>
+                                        <div class="age-option bg-gray-900/50 border border-gray-600 rounded-xl p-3 text-center cursor-pointer hover:border-indigo-500/50 transition-all duration-300" data-type="radio" data-name="age" data-value="11-13">
+                                            <input type="radio" name="age" value="11-13" class="sr-only"/>
+                                            <div class="text-lg mb-1">🚀</div>
+                                            <div class="text-xs font-bold text-white">11-13</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Tabs for Categories -->
-                            <div class="glass-card rounded-xl p-4">
+                            <!-- Categories Section -->
+                            <div class="bg-gray-900/30 rounded-xl p-4 border border-gray-600">
                                 <!-- Tab Navigation -->
                                 <div class="flex space-x-1 mb-4">
-                                    <button type="button" class="tab-button active flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-all" data-tab="genres">
+                                    <button type="button" class="tab-button active flex-1 py-2 px-3 rounded-lg text-sm font-bold transition-all duration-300" data-tab="genres">
                                         🎭 Genres
                                     </button>
-                                    <button type="button" class="tab-button flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-all bg-white/5" data-tab="setting">
+                                    <button type="button" class="tab-button flex-1 py-2 px-3 rounded-lg text-sm font-bold transition-all duration-300 bg-gray-700/50" data-tab="setting">
                                         🌍 Setting
                                     </button>
-                                    <button type="button" class="tab-button flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-all bg-white/5" data-tab="extras">
+                                    <button type="button" class="tab-button flex-1 py-2 px-3 rounded-lg text-sm font-bold transition-all duration-300 bg-gray-700/50" data-tab="extras">
                                         ✨ Extras
                                     </button>
                                 </div>
 
                                 <!-- Tab Contents -->
                                 <div class="tab-content active" id="genres">
-                                    <p class="text-xs text-gray-400 mb-3">Select multiple genres:</p>
+                                    <p class="text-sm text-gray-400 mb-3 font-medium">Select story genres (multiple allowed):</p>
                                     <div class="grid grid-cols-2 gap-3">
-                                        <div class="option-card glass-card border border-white/10 rounded-lg p-3" data-type="checkbox" data-name="genre" data-value="fantasy">
+                                        <div class="option-card bg-gray-800/50 border border-gray-600 rounded-xl p-3 cursor-pointer hover:border-violet-500/50 transition-all duration-300" data-type="checkbox" data-name="genre" data-value="fantasy">
                                             <input type="checkbox" name="genre" value="fantasy" class="sr-only" />
                                             <div class="flex items-center gap-2">
                                                 <span class="text-lg">🧚</span>
-                                                <span class="font-semibold">Fantasy</span>
+                                                <span class="font-bold text-white text-sm">Fantasy</span>
                                             </div>
                                         </div>
-                                        <div class="option-card glass-card border border-white/10 rounded-lg p-3" data-type="checkbox" data-name="genre" data-value="adventure">
+                                        <div class="option-card bg-gray-800/50 border border-gray-600 rounded-xl p-3 cursor-pointer hover:border-violet-500/50 transition-all duration-300" data-type="checkbox" data-name="genre" data-value="adventure">
                                             <input type="checkbox" name="genre" value="adventure" class="sr-only" />
                                             <div class="flex items-center gap-2">
                                                 <span class="text-lg">🏔️</span>
-                                                <span class="font-semibold">Adventure</span>
+                                                <span class="font-bold text-white text-sm">Adventure</span>
                                             </div>
                                         </div>
-                                        <div class="option-card glass-card border border-white/10 rounded-lg p-3" data-type="checkbox" data-name="genre" data-value="sci-fi">
+                                        <div class="option-card bg-gray-800/50 border border-gray-600 rounded-xl p-3 cursor-pointer hover:border-violet-500/50 transition-all duration-300" data-type="checkbox" data-name="genre" data-value="sci-fi">
                                             <input type="checkbox" name="genre" value="sci-fi" class="sr-only" />
                                             <div class="flex items-center gap-2">
                                                 <span class="text-lg">🛸</span>
-                                                <span class="font-semibold">Sci-Fi</span>
+                                                <span class="font-bold text-white text-sm">Sci-Fi</span>
                                             </div>
                                         </div>
-                                        <div class="option-card glass-card border border-white/10 rounded-lg p-3" data-type="checkbox" data-name="genre" data-value="mystery">
+                                        <div class="option-card bg-gray-800/50 border border-gray-600 rounded-xl p-3 cursor-pointer hover:border-violet-500/50 transition-all duration-300" data-type="checkbox" data-name="genre" data-value="mystery">
                                             <input type="checkbox" name="genre" value="mystery" class="sr-only" />
                                             <div class="flex items-center gap-2">
                                                 <span class="text-lg">🔍</span>
-                                                <span class="font-semibold">Mystery</span>
+                                                <span class="font-bold text-white text-sm">Mystery</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="tab-content" id="setting">
-                                    <p class="text-xs text-gray-400 mb-3">Choose your story setting:</p>
+                                    <p class="text-sm text-gray-400 mb-3 font-medium">Choose your story setting:</p>
                                     <div class="space-y-2">
-                                        <div class="option-card glass-card border border-white/10 rounded-lg p-3" data-type="radio" data-name="setting" data-value="magical-forest">
+                                        <div class="option-card bg-gray-800/50 border border-gray-600 rounded-xl p-3 cursor-pointer hover:border-blue-500/50 transition-all duration-300" data-type="radio" data-name="setting" data-value="magical-forest">
                                             <input type="radio" name="setting" value="magical-forest" class="sr-only" />
                                             <div class="flex items-center gap-3">
-                                                <span class="text-xl">🌲</span>
+                                                <span class="text-2xl">🌲</span>
                                                 <div>
-                                                    <div class="font-semibold">Magical Forest</div>
+                                                    <div class="font-bold text-white">Magical Forest</div>
                                                     <div class="text-xs text-gray-400">Enchanted woodland adventure</div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="option-card glass-card border border-white/10 rounded-lg p-3" data-type="radio" data-name="setting" data-value="enchanted-castle">
+                                        <div class="option-card bg-gray-800/50 border border-gray-600 rounded-xl p-3 cursor-pointer hover:border-blue-500/50 transition-all duration-300" data-type="radio" data-name="setting" data-value="enchanted-castle">
                                             <input type="radio" name="setting" value="enchanted-castle" class="sr-only" />
                                             <div class="flex items-center gap-3">
-                                                <span class="text-xl">🏰</span>
+                                                <span class="text-2xl">🏰</span>
                                                 <div>
-                                                    <div class="font-semibold">Enchanted Castle</div>
+                                                    <div class="font-bold text-white">Enchanted Castle</div>
                                                     <div class="text-xs text-gray-400">Royal fortress mysteries</div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="option-card glass-card border border-white/10 rounded-lg p-3" data-type="radio" data-name="setting" data-value="space-station">
+                                        <div class="option-card bg-gray-800/50 border border-gray-600 rounded-xl p-3 cursor-pointer hover:border-blue-500/50 transition-all duration-300" data-type="radio" data-name="setting" data-value="space-station">
                                             <input type="radio" name="setting" value="space-station" class="sr-only" />
                                             <div class="flex items-center gap-3">
-                                                <span class="text-xl">🛸</span>
+                                                <span class="text-2xl">🛸</span>
                                                 <div>
-                                                    <div class="font-semibold">Space Station</div>
+                                                    <div class="font-bold text-white">Space Station</div>
                                                     <div class="text-xs text-gray-400">Cosmic adventures await</div>
                                                 </div>
                                             </div>
@@ -173,55 +191,55 @@
                                 <div class="tab-content" id="extras">
                                     <div class="space-y-4">
                                         <div>
-                                            <p class="text-xs text-gray-400 mb-3">Story length:</p>
+                                            <p class="text-sm text-gray-400 mb-3 font-medium">Story length:</p>
                                             <div class="grid grid-cols-3 gap-2">
-                                                <div class="option-card glass-card border border-white/10 rounded-lg p-3 text-center" data-type="radio" data-name="length" data-value="short">
+                                                <div class="option-card bg-gray-800/50 border border-gray-600 rounded-xl p-3 text-center cursor-pointer hover:border-cyan-500/50 transition-all duration-300" data-type="radio" data-name="length" data-value="short">
                                                     <input type="radio" name="length" value="short" class="sr-only" />
-                                                    <div class="text-lg">⚡</div>
-                                                    <div class="text-xs font-semibold mt-1">Short</div>
+                                                    <div class="text-lg mb-1">⚡</div>
+                                                    <div class="text-xs font-bold text-white">Short</div>
                                                 </div>
-                                                <div class="option-card glass-card border border-white/10 rounded-lg p-3 text-center" data-type="radio" data-name="length" data-value="medium">
+                                                <div class="option-card bg-gray-800/50 border border-gray-600 rounded-xl p-3 text-center cursor-pointer hover:border-cyan-500/50 transition-all duration-300" data-type="radio" data-name="length" data-value="medium">
                                                     <input type="radio" name="length" value="medium" class="sr-only" />
-                                                    <div class="text-lg">📖</div>
-                                                    <div class="text-xs font-semibold mt-1">Medium</div>
+                                                    <div class="text-lg mb-1">📖</div>
+                                                    <div class="text-xs font-bold text-white">Medium</div>
                                                 </div>
-                                                <div class="option-card glass-card border border-white/10 rounded-lg p-3 text-center" data-type="radio" data-name="length" data-value="long">
+                                                <div class="option-card bg-gray-800/50 border border-gray-600 rounded-xl p-3 text-center cursor-pointer hover:border-cyan-500/50 transition-all duration-300" data-type="radio" data-name="length" data-value="long">
                                                     <input type="radio" name="length" value="long" class="sr-only" />
-                                                    <div class="text-lg">📚</div>
-                                                    <div class="text-xs font-semibold mt-1">Long</div>
+                                                    <div class="text-lg mb-1">📚</div>
+                                                    <div class="text-xs font-bold text-white">Long</div>
                                                 </div>
                                             </div>
                                         </div>
                                         
                                         <div>
-                                            <p class="text-xs text-gray-400 mb-3">Special elements:</p>
+                                            <p class="text-sm text-gray-400 mb-3 font-medium">Special elements:</p>
                                             <div class="grid grid-cols-2 gap-2">
-                                                <div class="option-card glass-card border border-white/10 rounded-lg p-2" data-type="checkbox" data-name="elements" data-value="talking-animals">
+                                                <div class="option-card bg-gray-800/50 border border-gray-600 rounded-lg p-2 cursor-pointer hover:border-indigo-500/50 transition-all duration-300" data-type="checkbox" data-name="elements" data-value="talking-animals">
                                                     <input type="checkbox" name="elements" value="talking-animals" class="sr-only" />
                                                     <div class="flex items-center gap-2">
-                                                        <span>🦊</span>
-                                                        <span class="text-sm font-semibold">Animals</span>
+                                                        <span class="text-sm">🦊</span>
+                                                        <span class="text-xs font-bold text-white">Animals</span>
                                                     </div>
                                                 </div>
-                                                <div class="option-card glass-card border border-white/10 rounded-lg p-2" data-type="checkbox" data-name="elements" data-value="magic-powers">
+                                                <div class="option-card bg-gray-800/50 border border-gray-600 rounded-lg p-2 cursor-pointer hover:border-indigo-500/50 transition-all duration-300" data-type="checkbox" data-name="elements" data-value="magic-powers">
                                                     <input type="checkbox" name="elements" value="magic-powers" class="sr-only" />
                                                     <div class="flex items-center gap-2">
-                                                        <span>⚡</span>
-                                                        <span class="text-sm font-semibold">Magic</span>
+                                                        <span class="text-sm">⚡</span>
+                                                        <span class="text-xs font-bold text-white">Magic</span>
                                                     </div>
                                                 </div>
-                                                <div class="option-card glass-card border border-white/10 rounded-lg p-2" data-type="checkbox" data-name="elements" data-value="treasure-hunt">
+                                                <div class="option-card bg-gray-800/50 border border-gray-600 rounded-lg p-2 cursor-pointer hover:border-indigo-500/50 transition-all duration-300" data-type="checkbox" data-name="elements" data-value="treasure-hunt">
                                                     <input type="checkbox" name="elements" value="treasure-hunt" class="sr-only" />
                                                     <div class="flex items-center gap-2">
-                                                        <span>💎</span>
-                                                        <span class="text-sm font-semibold">Treasure</span>
+                                                        <span class="text-sm">💎</span>
+                                                        <span class="text-xs font-bold text-white">Treasure</span>
                                                     </div>
                                                 </div>
-                                                <div class="option-card glass-card border border-white/10 rounded-lg p-2" data-type="checkbox" data-name="elements" data-value="dragons">
+                                                <div class="option-card bg-gray-800/50 border border-gray-600 rounded-lg p-2 cursor-pointer hover:border-indigo-500/50 transition-all duration-300" data-type="checkbox" data-name="elements" data-value="dragons">
                                                     <input type="checkbox" name="elements" value="dragons" class="sr-only" />
                                                     <div class="flex items-center gap-2">
-                                                        <span>🐉</span>
-                                                        <span class="text-sm font-semibold">Dragons</span>
+                                                        <span class="text-sm">🐉</span>
+                                                        <span class="text-xs font-bold text-white">Dragons</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -232,25 +250,25 @@
 
                             <!-- Additional Notes -->
                             <div>
-                                <label class="block text-indigo-400 font-semibold mb-2 text-sm">
-                                    💭 Additional Ideas
+                                <label class="block text-violet-400 font-bold mb-2 text-sm tracking-wider">
+                                    💭 ADDITIONAL IDEAS
                                 </label>
                                 <textarea
                                     name="additionalNotes"
                                     rows="3"
-                                    placeholder="Any special requests or creative ideas..."
-                                    class="modern-input w-full px-4 py-3 rounded-xl text-white placeholder-gray-400 resize-none"
+                                    placeholder="Any special requests or creative ideas for your story..."
+                                    class="w-full px-4 py-3 rounded-xl bg-gray-900/50 border border-gray-600 text-white placeholder-gray-400 focus:border-violet-500/50 focus:outline-none focus:ring-2 focus:ring-violet-500/20 transition-all duration-300 resize-none"
                                 >{% if request.POST.additionalNotes %}{{ request.POST.additionalNotes }}{% endif %}</textarea>
                             </div>
 
                             <!-- Generate Button -->
                             <button
                                 type="submit"
-                                class="w-full py-4 px-6 bg-gradient-to-r from-orange-500 via-pink-500 to-teal-500 hover:from-orange-600 hover:via-pink-600 hover:to-teal-600 rounded-xl font-bold text-lg shadow-2xl hover:shadow-orange-500/25 transition-all duration-300 glow-animation"
+                                class="w-full py-4 px-6 bg-button hover:from-blue-600 hover:via-indigo-600 hover:to-violet-600 rounded-xl font-black text-lg shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-[1.02]"
                             >
                                 <span class="flex items-center justify-center gap-3">
                                     <span>✨</span>
-                                    {% if story %}Create Another Story{% else %}Create My Story{% endif %}
+                                    {% if story %}CREATE ANOTHER STORY{% else %}CREATE MY STORY{% endif %}
                                     <span>🚀</span>
                                 </span>
                             </button>
@@ -258,89 +276,152 @@
                     </div>
                 </div>
 
-                <!-- Story Display Panel - Always in right column -->
+                <!-- Story Display Panel -->
                 <div class="lg:sticky lg:top-8">
-                    <div class="glass-card rounded-2xl shadow-2xl overflow-hidden h-fit" id="storyDisplayPanel">
-                        <!-- Story Header with Title -->
-                        <div class="bg-gradient-to-r from-orange-500/20 via-pink-500/20 to-teal-500/20 p-6 border-b border-white/10">
-                            <div class="flex items-center justify-between mb-4">
-                                <!-- Story Title Display -->
+                    <div class="bg-gray-800/30 rounded-3xl border border-gray-700 backdrop-filter backdrop-blur-xl overflow-hidden h-fit" id="storyDisplayPanel">
+                        <!-- Story Header -->
+                        <div class="bg-gradient-to-r from-blue-500/15 via-indigo-500/15 to-violet-500/15 p-6 border-b border-gray-600">
+                            <div class="flex items-center justify-between">
                                 {% if title %}
-                                <div class="rounded-lg p-4">
-                                    <h4 class="text-4xl font-bold bg-gradient-to-r from-white via-orange-300 to-teal-300 bg-clip-text text-transparent">
+                                <div>
+                                    <h3 class="text-2xl sm:text-3xl font-black text-white mb-2">
                                         {{ title }}
-                                    </h4>
+                                    </h3>
+                                    <p class="text-blue-400 text-sm font-semibold tracking-wider">YOUR PERSONALIZED STORY</p>
                                 </div>
                                 {% else %}
-                                <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-teal-500 rounded-xl flex items-center justify-center glow-animation">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center shadow-2xl">
                                         <span class="text-xl">📚</span>
                                     </div>
-                                    <h3 class="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                                        Your Magical Story
-                                    </h3>
+                                    <div>
+                                        <h3 class="text-xl sm:text-2xl font-black text-white">
+                                            Your Magic Story
+                                        </h3>
+                                        <p class="text-gray-400 text-sm">Waiting to be created</p>
+                                    </div>
                                 </div>
-                                
                                 {% endif %}
-                                <!-- Fullscreen Toggle Button - Only show when story exists -->
-                                <button 
-                                    id="fullscreenToggle"
-                                    class="p-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 rounded-lg border border-white/10 transition-all duration-300 group"
-                                    title="Toggle Fullscreen"
-                                >
-                                    <svg class="w-5 h-5 text-white group-hover:text-purple-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
-                                    </svg>
-                                </button>
+                                
+                                <!-- Top Action Buttons - Only Download and Fullscreen -->
+                                <div class="flex gap-2">
+                                    {% if story %}
+                                    <button 
+                                        id="downloadPDF"
+                                        class="p-3 bg-blue-500/20 hover:bg-blue-500/30 rounded-xl border border-blue-500/30 hover:border-blue-500/50 transition-all duration-300 group"
+                                        title="Download PDF"
+                                    >
+                                        <svg class="w-5 h-5 text-blue-400 group-hover:text-blue-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                    </button>
+                                    {% endif %}
+                                    <button 
+                                        id="fullscreenToggle"
+                                        class="p-3 bg-gray-700/50 hover:bg-gray-600/50 rounded-xl border border-gray-600 hover:border-violet-500/50 transition-all duration-300 group"
+                                        title="Read in Fullscreen"
+                                    >
+                                        <svg class="w-5 h-5 text-white group-hover:text-violet-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
-                            
-                            
                         </div>
 
-                        <div class="p-6 min-h-[500px] max-h-[70vh] overflow-y-auto custom-scrollbar" id="storyContent">
+                        <div class="p-6 min-h-[400px] max-h-[60vh] lg:max-h-[70vh] overflow-y-auto custom-scrollbar" id="storyContent">
                             {% if story %}
                                 <!-- Story Content -->
                                 <div class="prose prose-invert max-w-none">
-                                    <div class="text-white leading-relaxed space-y-6">
+                                    <div class="text-gray-200 leading-relaxed space-y-4 text-base">
                                         {{ story|linebreaks }}
                                     </div>
                                 </div>
                                 
-                                <!-- Story Moral Section -->
+                                <!-- Story Moral Section - Moved up for less scrolling -->
                                 {% if moral %}
-                                <div class="mt-8 p-6 bg-gradient-to-r from-teal-500/10 via-purple-500/10 to-orange-500/10 rounded-xl border border-white/10">
-                                    <div class="flex items-center gap-3 mb-4">
-                                        <div class="w-10 h-10 bg-gradient-to-r from-teal-500 to-purple-500 rounded-lg flex items-center justify-center">
-                                            <span class="text-lg">💡</span>
+                                <div class="mt-6 p-4 bg-gradient-to-r from-indigo-500/10 via-violet-500/10 to-blue-500/10 rounded-xl border border-indigo-500/30">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-lg flex items-center justify-center shadow-xl">
+                                            <span class="text-sm">💡</span>
                                         </div>
-                                        <h5 class="text-lg font-bold bg-gradient-to-r from-teal-400 to-purple-400 bg-clip-text text-transparent">
+                                        <h5 class="text-base font-black text-white">
                                             Story Moral
                                         </h5>
                                     </div>
-                                    <div class="text-gray-200 leading-relaxed bg-white/5 rounded-lg p-4 border-l-4 border-teal-500">
+                                    <div class="text-gray-200 leading-relaxed bg-gray-900/30 rounded-lg p-3 border-l-4 border-indigo-500 text-sm">
                                         {{ moral|linebreaks }}
                                     </div>
                                 </div>
                                 {% endif %}
                             {% else %}
                                 <!-- Empty State -->
-                                <div class="text-center py-16">
-                                    <div class="text-6xl mb-6 float-animation">📖</div>
-                                    <h4 class="text-xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                                <div class="text-center py-16" id="emptyState">
+                                    <div class="text-5xl mb-6">📖</div>
+                                    <h4 class="text-xl sm:text-2xl font-black mb-4 text-white">
                                         Ready to Create Magic?
                                     </h4>
-                                    <p class="text-gray-400 leading-relaxed max-w-sm mx-auto mb-6">
-                                        Fill out the form and let AI weave your perfect adventure tale with a meaningful lesson
+                                    <p class="text-gray-400 leading-relaxed max-w-md mx-auto mb-6 text-base">
+                                        Fill out the form and let our AI weave a perfect bedtime adventure with a meaningful lesson
                                     </p>
                                     <div class="flex justify-center gap-2">
-                                        <div class="w-3 h-3 bg-orange-500 rounded-full animate-bounce"></div>
-                                        <div class="w-3 h-3 bg-pink-500 rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
-                                        <div class="w-3 h-3 bg-teal-500 rounded-full animate-bounce" style="animation-delay: 0.4s;"></div>
+                                        <div class="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                                        <div class="w-3 h-3 bg-indigo-500 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+                                        <div class="w-3 h-3 bg-violet-500 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Loading State (Hidden by default) -->
+                                <div class="text-center py-16 hidden" id="loadingState">
+                                    <div class="relative inline-block mb-6">
+                                        <div class="w-16 h-16 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></div>
+                                        <div class="absolute inset-0 flex items-center justify-center">
+                                            <span class="text-2xl animate-pulse">✨</span>
+                                        </div>
+                                    </div>
+                                    <h4 class="text-xl sm:text-2xl font-black mb-4 text-white">
+                                        Creating Your Magic Story...
+                                    </h4>
+                                    <p class="text-gray-400 leading-relaxed max-w-md mx-auto mb-6 text-base">
+                                        Our AI is weaving together your perfect bedtime adventure. This may take a moment!
+                                    </p>
+                                    <div class="flex justify-center gap-2">
+                                        <div class="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                                        <div class="w-3 h-3 bg-indigo-500 rounded-full animate-pulse" style="animation-delay: 0.3s;"></div>
+                                        <div class="w-3 h-3 bg-violet-500 rounded-full animate-pulse" style="animation-delay: 0.6s;"></div>
+                                        <div class="w-3 h-3 bg-cyan-500 rounded-full animate-pulse" style="animation-delay: 0.9s;"></div>
                                     </div>
                                 </div>
                             {% endif %}
                         </div>
                     </div>
+
+                    <!-- External Action Buttons - Always Visible -->
+                    {% if story %}
+                    <div class="mt-6 flex flex-col sm:flex-row justify-center gap-4">
+                        <button 
+                            id="audioToggle"
+                            class="flex items-center justify-center gap-3 px-6 py-4 bg-pink-500/20 hover:bg-pink-500/30 rounded-xl border border-pink-500/30 hover:border-pink-500/50 transition-all duration-300 group shadow-lg hover:shadow-pink-500/25"
+                            title="Listen to Story"
+                        >
+                            <svg class="w-6 h-6 text-pink-400 group-hover:text-pink-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path>
+                            </svg>
+                            <span class="text-white font-bold">Listen Story</span>
+                        </button>
+                        
+                        <a href="?saveStory=true"
+                            id="saveStory"
+                            class="flex items-center justify-center gap-3 px-6 py-4 bg-emerald-500/20 hover:bg-emerald-500/30 rounded-xl border border-emerald-500/30 hover:border-emerald-500/50 transition-all duration-300 group shadow-lg hover:shadow-emerald-500/25"
+                            title="Save to Database"
+                        >
+                            <svg class="w-6 h-6 text-emerald-400 group-hover:text-emerald-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                            <span class="text-white font-bold">Save Story</span>
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -350,14 +431,14 @@
     <div id="fullscreenOverlay" class="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 hidden">
         <div class="h-full flex flex-col">
             <!-- Fullscreen Header -->
-            <div class="flex items-center justify-between p-6 border-b border-white/10 bg-gradient-to-r from-orange-500/10 via-pink-500/10 to-teal-500/10">
+            <div class="flex items-center justify-between p-6 border-b border-gray-600 bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-violet-500/10">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-to-r from-orange-500 to-teal-500 rounded-lg flex items-center justify-center">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center shadow-xl">
                         <span class="text-lg">📚</span>
                     </div>
                     <div>
-                        <h3 class="text-lg font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                            Story Reading Mode
+                        <h3 class="text-lg font-black text-white">
+                            Reading Mode
                         </h3>
                         {% if title %}
                         <p class="text-sm text-gray-400">{{ title }}</p>
@@ -365,21 +446,34 @@
                     </div>
                 </div>
                 
-                <button 
-                    id="exitFullscreen"
-                    class="p-3 bg-red-500/20 hover:bg-red-500/30 rounded-lg border border-red-500/30 transition-all duration-300 group"
-                    title="Exit Fullscreen"
-                >
-                    <svg class="w-5 h-5 text-white group-hover:text-red-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+                <div class="flex gap-2">
+                    {% if story %}
+                    <button 
+                        id="fullscreenAudioToggle"
+                        class="p-3 bg-pink-500/20 hover:bg-pink-500/30 rounded-lg border border-pink-500/30 transition-all duration-300 group"
+                        title="Listen to Story"
+                    >
+                        <svg class="w-5 h-5 text-pink-400 group-hover:text-pink-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path>
+                        </svg>
+                    </button>
+                    {% endif %}
+                    <button 
+                        id="exitFullscreen"
+                        class="p-3 bg-red-500/20 hover:bg-red-500/30 rounded-lg border border-red-500/30 transition-all duration-300 group"
+                        title="Exit Reading Mode"
+                    >
+                        <svg class="w-5 h-5 text-white group-hover:text-red-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
             
             <!-- Fullscreen Content -->
             <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
                 <div class="max-w-4xl mx-auto">
-                    <div id="fullscreenStoryContent" class="prose prose-invert max-w-none">
+                    <div id="fullscreenStoryContent" class="prose prose-invert max-w-none text-lg leading-relaxed">
                         <!-- Content will be copied here -->
                     </div>
                 </div>
@@ -388,19 +482,28 @@
     </div>
 
     <style>
-        /* Custom scrollbar for better reading experience */
+        .bg-button{
+            background: linear-gradient(135deg, #FF6B35 0%, #EC4899 50%, #8B5CF6 100%);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #FF6B35 0%, #EC4899 50%, #8B5CF6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+    }
+        /* Custom scrollbar */
         .custom-scrollbar::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         
         .custom-scrollbar::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+            border-radius: 3px;
         }
         
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
+            border-radius: 3px;
             transition: background 0.3s ease;
         }
         
@@ -427,73 +530,140 @@
             to { opacity: 0; }
         }
 
-        /* Enhanced text styling for fullscreen */
-        #fullscreenStoryContent .text-lg {
-            font-size: 1.25rem;
-            line-height: 1.8;
-        }
-
-        #fullscreenStoryContent .space-y-6 > * + * {
-            margin-top: 2rem;
-        }
-
-        /* Option card selected state styling */
+        /* Selected option cards */
         .option-card.selected {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(249, 115, 22, 0.5);
-            box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(99, 102, 241, 0.8) !important;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.3) !important;
+            transform: scale(1.02);
         }
 
+        .age-option.selected {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(99, 102, 241, 0.8) !important;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.3) !important;
+            transform: scale(1.02);
+        }
+        
+        /* Tab button styling */
         .tab-button.active {
-            background: linear-gradient(to right, #f97316, #ec4899);
-            color: white;
-            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4);
+            background: linear-gradient(135deg, #FF6B35 0%, #EC4899 50%, #8B5CF6 100%);
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transform: translateY(-1px);
         }
 
-        /* Float animation for hero elements */
-        .float-animation {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Glow animation for special elements */
-        .glow-animation {
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { box-shadow: 0 0 10px rgba(249, 115, 22, 0.3); }
-            to { box-shadow: 0 0 20px rgba(249, 115, 22, 0.6); }
-        }
-
-        /* Glass card effect */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Modern input styling */
-        .modern-input {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+        .tab-button {
+            color: #9ca3af;
             transition: all 0.3s ease;
         }
 
-        .modern-input:focus {
-            outline: none;
-            border-color: rgba(249, 115, 22, 0.5);
-            box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
+        .tab-button:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.05) !important;
+            color: white;
+        }
+
+        /* Tab content transitions */
+        .tab-content {
+            display: none;
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced hover effects */
+        .option-card:hover,
+        .age-option:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Enhanced button animations */
+        button[type="submit"]:hover {
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Audio controls styling */
+        .audio-playing {
+            background: rgba(236, 72, 153, 0.3) !important;
+            border-color: rgba(236, 72, 153, 0.5) !important;
+        }
+
+        /* External buttons styling */
+        .external-button {
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .external-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .grid.lg\\:grid-cols-2 {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .lg\\:sticky {
+                position: relative;
+            }
+
+            .lg\\:max-h-\\[70vh\\] {
+                max-height: 50vh;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .text-3xl.sm\\:text-5xl.lg\\:text-6xl {
+                font-size: 2rem;
+                line-height: 2.25rem;
+            }
+
+            .p-6 {
+                padding: 1rem;
+            }
+
+            .px-4 {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .py-8 {
+                padding-top: 1.5rem;
+                padding-bottom: 1.5rem;
+            }
+
+            .min-h-\\[400px\\] {
+                min-height: 300px;
+            }
+
+            .max-h-\\[60vh\\] {
+                max-height: 40vh;
+            }
         }
     </style>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            let speechSynthesis = window.speechSynthesis;
+            let currentUtterance = null;
+            let isPlaying = false;
+
             // Tab functionality
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
@@ -513,7 +683,7 @@
             });
 
             // Option card interactions
-            document.querySelectorAll('.option-card').forEach(card => {
+            document.querySelectorAll('.option-card, .age-option').forEach(card => {
                 card.addEventListener('click', function() {
                     const type = this.dataset.type;
                     const name = this.dataset.name;
@@ -523,27 +693,245 @@
                         // Remove selection from other radio buttons with same name
                         document.querySelectorAll(`[data-name="${name}"]`).forEach(el => {
                             el.classList.remove('selected');
-                            el.querySelector('input').checked = false;
+                            const radioInput = el.querySelector('input');
+                            if (radioInput) radioInput.checked = false;
                         });
                         // Select this one
                         this.classList.add('selected');
-                        input.checked = true;
+                        if (input) input.checked = true;
                         
                     } else if (type === 'checkbox') {
                         // Toggle selection for checkboxes
                         this.classList.toggle('selected');
-                        input.checked = !input.checked;
+                        if (input) input.checked = !input.checked;
                     }
                 });
             });
 
-            // Restore form selections on page load (for when story is generated)
+            // Restore form selections on page load
             document.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked').forEach(input => {
-                const card = input.closest('.option-card');
+                const card = input.closest('.option-card, .age-option');
                 if (card) {
                     card.classList.add('selected');
                 }
             });
+
+            // Form submission with loading state
+            const storyForm = document.getElementById('storyForm');
+            const emptyState = document.getElementById('emptyState');
+            const loadingState = document.getElementById('loadingState');
+
+            if (storyForm && emptyState && loadingState) {
+                storyForm.addEventListener('submit', function() {
+                    emptyState.style.display = 'none';
+                    loadingState.classList.remove('hidden');
+                });
+            }
+
+            // Get female voice for children's stories
+            function getFemaleVoice() {
+                const voices = speechSynthesis.getVoices();
+                // Try to find a female voice (names often contain "Female", "Woman", or specific female names)
+                const femaleVoice = voices.find(voice => 
+                    voice.name.toLowerCase().includes('female') ||
+                    voice.name.toLowerCase().includes('woman') ||
+                    voice.name.toLowerCase().includes('samantha') ||
+                    voice.name.toLowerCase().includes('zira') ||
+                    voice.name.toLowerCase().includes('susan') ||
+                    voice.name.toLowerCase().includes('karen') ||
+                    voice.name.toLowerCase().includes('veena') ||
+                    voice.name.toLowerCase().includes('isha') ||
+                    (voice.name.toLowerCase().includes('en') && voice.gender && voice.gender === 'female')
+                );
+                return femaleVoice || voices[0]; // Fallback to first available voice
+            }
+
+            // Audio functionality with female voice
+            function toggleAudio(button) {
+                if (isPlaying) {
+                    speechSynthesis.cancel();
+                    isPlaying = false;
+                    button.classList.remove('audio-playing');
+                    updateAudioButtons('play');
+                } else {
+                    const storyText = document.querySelector('#storyContent .prose')?.textContent;
+                    if (storyText) {
+                        currentUtterance = new SpeechSynthesisUtterance(storyText);
+                        
+                        // Wait for voices to load and set female voice
+                        if (speechSynthesis.getVoices().length === 0) {
+                            speechSynthesis.addEventListener('voiceschanged', function() {
+                                currentUtterance.voice = getFemaleVoice();
+                            });
+                        } else {
+                            currentUtterance.voice = getFemaleVoice();
+                        }
+                        
+                        currentUtterance.rate = 0.7; // Slower for children
+                        currentUtterance.pitch = 1.2; // Higher pitch for gentle female voice
+                        currentUtterance.volume = 0.9;
+                        
+                        currentUtterance.onend = function() {
+                            isPlaying = false;
+                            updateAudioButtons('play');
+                        };
+                        
+                        speechSynthesis.speak(currentUtterance);
+                        isPlaying = true;
+                        button.classList.add('audio-playing');
+                        updateAudioButtons('pause');
+                    }
+                }
+            }
+
+            function updateAudioButtons(state) {
+                const audioButtons = document.querySelectorAll('#audioToggle, #fullscreenAudioToggle');
+                audioButtons.forEach(btn => {
+                    if (state === 'play') {
+                        btn.classList.remove('audio-playing');
+                        const icon = btn.querySelector('svg');
+                        if (icon) {
+                            icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path>`;
+                        }
+                        const text = btn.querySelector('span');
+                        if (text) text.textContent = 'Listen Story';
+                    } else {
+                        btn.classList.add('audio-playing');
+                        const icon = btn.querySelector('svg');
+                        if (icon) {
+                            icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>`;
+                        }
+                        const text = btn.querySelector('span');
+                        if (text) text.textContent = 'Pause Story';
+                    }
+                });
+            }
+
+            // Audio button event listeners
+            const audioToggle = document.getElementById('audioToggle');
+            const fullscreenAudioToggle = document.getElementById('fullscreenAudioToggle');
+            
+            if (audioToggle) {
+                audioToggle.addEventListener('click', () => toggleAudio(audioToggle));
+            }
+            
+            if (fullscreenAudioToggle) {
+                fullscreenAudioToggle.addEventListener('click', () => toggleAudio(fullscreenAudioToggle));
+            }
+
+            // PDF Download functionality
+            const downloadPDF = document.getElementById('downloadPDF');
+            if (downloadPDF) {
+                downloadPDF.addEventListener('click', function() {
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF();
+                    
+                    // Get story content
+                    const storyTitle = document.querySelector('h3')?.textContent || 'Magic Story';
+                    const storyContent = document.querySelector('#storyContent .prose')?.textContent || '';
+                    const moral = document.querySelector('.text-gray-200.leading-relaxed.bg-gray-900\\/30')?.textContent || '';
+                    
+                    // Set up PDF styling
+                    pdf.setFontSize(18);
+                    pdf.setFont(undefined, 'bold');
+                    
+                    // Add title
+                    const titleLines = pdf.splitTextToSize(storyTitle, 180);
+                    let yPosition = 20;
+                    
+                    titleLines.forEach(line => {
+                        pdf.text(line, 15, yPosition);
+                        yPosition += 10;
+                    });
+                    
+                    yPosition += 10;
+                    
+                    // Add story content
+                    pdf.setFontSize(12);
+                    pdf.setFont(undefined, 'normal');
+                    
+                    const contentLines = pdf.splitTextToSize(storyContent, 180);
+                    
+                    contentLines.forEach(line => {
+                        if (yPosition > 270) {
+                            pdf.addPage();
+                            yPosition = 20;
+                        }
+                        pdf.text(line, 15, yPosition);
+                        yPosition += 7;
+                    });
+                    
+                    // Add moral if exists
+                    if (moral) {
+                        yPosition += 10;
+                        if (yPosition > 250) {
+                            pdf.addPage();
+                            yPosition = 20;
+                        }
+                        
+                        pdf.setFontSize(14);
+                        pdf.setFont(undefined, 'bold');
+                        pdf.text('Story Moral:', 15, yPosition);
+                        yPosition += 10;
+                        
+                        pdf.setFontSize(12);
+                        pdf.setFont(undefined, 'normal');
+                        const moralLines = pdf.splitTextToSize(moral, 180);
+                        
+                        moralLines.forEach(line => {
+                            if (yPosition > 270) {
+                                pdf.addPage();
+                                yPosition = 20;
+                            }
+                            pdf.text(line, 15, yPosition);
+                            yPosition += 7;
+                        });
+                    }
+                    
+                    // Save the PDF
+                    const fileName = `${storyTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
+                    pdf.save(fileName);
+                    
+                    // Visual feedback
+                    this.classList.add('bg-green-500/30', 'border-green-500/50');
+                    this.innerHTML = `<svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>`;
+                    
+                    setTimeout(() => {
+                        this.classList.remove('bg-green-500/30', 'border-green-500/50');
+                        this.innerHTML = `<svg class="w-5 h-5 text-blue-400 group-hover:text-blue-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>`;
+                    }, 2000);
+                });
+            }
+
+            // Save story functionality (Database save - static for now)
+            const saveStory = document.getElementById('saveStory');
+            if (saveStory) {
+                saveStory.addEventListener('click', function() {
+                    // TODO: Implement database save functionality
+                    console.log('Story will be saved to database');
+                    
+                    // Visual feedback
+                    this.classList.add('bg-green-500/30', 'border-green-500/50');
+                    const icon = this.querySelector('svg');
+                    const text = this.querySelector('span');
+                    if (icon) {
+                        icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>`;
+                    }
+                    if (text) text.textContent = 'Saved!';
+                    
+                    setTimeout(() => {
+                        this.classList.remove('bg-green-500/30', 'border-green-500/50');
+                        if (icon) {
+                            icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>`;
+                        }
+                        if (text) text.textContent = 'Save Story';
+                    }, 2000);
+                });
+            }
 
             // Fullscreen functionality
             const fullscreenToggle = document.getElementById('fullscreenToggle');
@@ -552,7 +940,7 @@
             const fullscreenStoryContent = document.getElementById('fullscreenStoryContent');
             const storyContent = document.getElementById('storyContent');
 
-            if (fullscreenToggle) {
+            if (fullscreenToggle && fullscreenOverlay) {
                 fullscreenToggle.addEventListener('click', function() {
                     // Copy story content to fullscreen overlay
                     fullscreenStoryContent.innerHTML = storyContent.innerHTML;
@@ -564,25 +952,24 @@
                     
                     // Prevent body scrolling
                     document.body.style.overflow = 'hidden';
-                    
-                    // Focus on fullscreen content for better accessibility
-                    fullscreenOverlay.focus();
                 });
             }
 
             // Exit fullscreen function
             function exitFullscreenMode() {
-                fullscreenOverlay.classList.add('hide');
-                fullscreenOverlay.classList.remove('show');
-                
-                // Re-enable body scrolling
-                document.body.style.overflow = '';
-                
-                // Hide overlay after animation
-                setTimeout(() => {
-                    fullscreenOverlay.classList.add('hidden');
-                    fullscreenOverlay.classList.remove('hide');
-                }, 300);
+                if (fullscreenOverlay) {
+                    fullscreenOverlay.classList.add('hide');
+                    fullscreenOverlay.classList.remove('show');
+                    
+                    // Re-enable body scrolling
+                    document.body.style.overflow = '';
+                    
+                    // Hide overlay after animation
+                    setTimeout(() => {
+                        fullscreenOverlay.classList.add('hidden');
+                        fullscreenOverlay.classList.remove('hide');
+                    }, 300);
+                }
             }
 
             // Exit fullscreen button click
@@ -592,17 +979,32 @@
 
             // Exit fullscreen on Escape key
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && !fullscreenOverlay.classList.contains('hidden')) {
+                if (e.key === 'Escape' && fullscreenOverlay && !fullscreenOverlay.classList.contains('hidden')) {
                     exitFullscreenMode();
                 }
             });
 
             // Exit fullscreen on overlay background click
-            fullscreenOverlay.addEventListener('click', function(e) {
-                if (e.target === fullscreenOverlay) {
-                    exitFullscreenMode();
+            if (fullscreenOverlay) {
+                fullscreenOverlay.addEventListener('click', function(e) {
+                    if (e.target === fullscreenOverlay) {
+                        exitFullscreenMode();
+                    }
+                });
+            }
+
+            // Smooth scroll to story when generated
+            {% if story %}
+            setTimeout(() => {
+                const storyPanel = document.getElementById('storyDisplayPanel');
+                if (storyPanel && window.innerWidth >= 1024) {
+                    storyPanel.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
                 }
-            });
+            }, 500);
+            {% endif %}
         });
     </script>
 </body>
