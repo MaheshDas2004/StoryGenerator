@@ -1,0 +1,480 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<style>
+    /* About Page Specific Styles */
+    .about-gradient {
+        background: linear-gradient(135deg, #0a0e15 0%, #1a1f2e 50%, #0a0e15 100%);
+    }
+
+    .feature-card-hover {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .feature-card-hover:hover {
+        transform: translateY(-8px) scale(1.02);
+    }
+
+    .pulse-glow {
+        animation: pulseGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+        0% {
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        100% {
+            box-shadow: 0 0 40px rgba(255, 107, 53, 0.6);
+        }
+    }
+
+    .floating-slow {
+        animation: floatingSlow 6s ease-in-out infinite;
+    }
+
+    @keyframes floatingSlow {
+
+        0%,
+        100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+
+        50% {
+            transform: translateY(-20px) rotate(5deg);
+        }
+    }
+
+    .text-gradient {
+        background: linear-gradient(135deg, #FF6B35 0%, #EC4899 50%, #8B5CF6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .story-shimmer {
+        background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 107, 53, 0.4) 50%,
+                transparent 100%);
+        background-size: 200% 100%;
+        animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: -200% 0;
+        }
+
+        100% {
+            background-position: 200% 0;
+        }
+    }
+
+    .team-card {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .team-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.6s;
+    }
+
+    .team-card:hover::before {
+        left: 100%;
+    }
+
+    .stat-counter {
+        font-variant-numeric: tabular-nums;
+    }
+
+    .technology-orbit {
+        animation: orbit 20s linear infinite;
+    }
+
+    @keyframes orbit {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .values-card {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .testimonial-card {
+        background: linear-gradient(135deg, rgba(16, 20, 30, 0.8) 0%, rgba(32, 40, 60, 0.6) 100%);
+        backdrop-filter: blur(20px);
+    }
+
+    .cta-glow {
+        box-shadow: 0 0 50px rgba(255, 107, 53, 0.3);
+        animation: ctaPulse 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes ctaPulse {
+        0% {
+            box-shadow: 0 0 50px rgba(255, 107, 53, 0.3), 0 0 100px rgba(255, 107, 53, 0.1);
+        }
+
+        100% {
+            box-shadow: 0 0 80px rgba(255, 107, 53, 0.5), 0 0 120px rgba(255, 107, 53, 0.2);
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<div class="relative w-full min-h-screen about-gradient overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute top-32 left-16 w-40 h-40 bg-story-orange/10 rounded-full blur-3xl floating-slow"></div>
+        <div class="absolute top-20 right-24 w-32 h-32 bg-story-teal/15 rounded-full blur-2xl"></div>
+        <div class="absolute bottom-40 left-1/3 w-48 h-48 bg-story-purple/8 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 right-20 w-36 h-36 bg-story-pink/12 rounded-full blur-2xl"></div>
+
+        <!-- Floating Story Elements -->
+        
+
+        <!-- Stars -->
+        <div class="absolute top-1/4 right-1/4 text-story-yellow text-2xl animate-pulse">★</div>
+        <div class="absolute top-2/3 left-1/5 text-story-pink text-xl animate-pulse" style="animation-delay: -1s;">★
+        </div>
+        <div class="absolute top-1/3 left-2/3 text-story-teal text-lg animate-pulse" style="animation-delay: -2s;">★
+        </div>
+    </div>
+
+    <div class="relative z-10 container mx-auto px-6 py-20">
+        <div class="max-w-6xl mx-auto text-center">
+
+            <!-- Badge -->
+            <div
+                class="inline-flex items-center px-8 py-4 rounded-full bg-story-orange/10 border border-story-orange/20 mb-8">
+                <span class="text-story-orange text-sm font-bold tracking-widest font-playful">✨ ABOUT STORYSPARK</span>
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-black mb-8 leading-none tracking-tighter">
+                <span class="text-white">Where</span><br>
+                <span class="text-gradient">AI Magic</span><br>
+                <span class="text-white">Meets</span>
+                <span class="text-story-teal">Storytelling</span>
+            </h1>
+
+            <!-- Description -->
+            <p class="text-xl lg:text-2xl text-gray-300 mb-12 leading-relaxed max-w-4xl mx-auto font-light">
+                StorySpark transforms bedtime into an enchanting journey of learning and imagination.
+                Our AI creates personalized stories that teach valuable life lessons while sparking creativity in young
+                minds.
+            </p>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div class="text-center">
+                    <div class="text-4xl lg:text-5xl font-black text-story-orange mb-2 stat-counter">10K+</div>
+                    <div class="text-gray-400 font-playful">Stories Created</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl lg:text-5xl font-black text-story-teal mb-2 stat-counter">5K+</div>
+                    <div class="text-gray-400 font-playful">Happy Families</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl lg:text-5xl font-black text-story-purple mb-2 stat-counter">25+</div>
+                    <div class="text-gray-400 font-playful">Story Themes</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl lg:text-5xl font-black text-story-pink mb-2 stat-counter">99%</div>
+                    <div class="text-gray-400 font-playful">Parent Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mission Section -->
+<div class="relative py-24 px-4 bg-black overflow-hidden">
+    <div class="absolute inset-0">
+        <div class="absolute top-32 right-32 w-72 h-72 bg-story-orange/8 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-40 left-40 w-96 h-96 bg-story-teal/6 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+            <!-- Text Content -->
+            <div>
+                <div
+                    class="inline-flex items-center px-6 py-3 rounded-full bg-story-teal/10 border border-story-teal/20 mb-8">
+                    <span class="text-story-teal text-sm font-bold tracking-widest font-playful">🎯 OUR MISSION</span>
+                </div>
+
+                <h2 class="text-5xl lg:text-7xl font-black mb-8 leading-tight">
+                    <span class="text-white">Empowering</span><br>
+                    <span class="text-story-orange">Young Minds</span>
+                </h2>
+
+                <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+                    We believe every child deserves stories that reflect their world and teach them valuable lessons.
+                    Our AI technology creates personalized narratives that not only entertain but also instill
+                    important values like kindness, courage, and empathy.
+                </p>
+
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-6 h-6 bg-story-orange rounded-full flex items-center justify-center">
+                            <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <span class="text-gray-300 font-playful">Personalized learning through storytelling</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-6 h-6 bg-story-teal rounded-full flex items-center justify-center">
+                            <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <span class="text-gray-300 font-playful">Moral-based content for character development</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-6 h-6 bg-story-purple rounded-full flex items-center justify-center">
+                            <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <span class="text-gray-300 font-playful">Safe, age-appropriate AI technology</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Element -->
+            <div class="relative">
+                <div
+                    class="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl p-8 border border-gray-700">
+                    <div class="aspect-square rounded-2xl overflow-hidden relative">
+                        <img src="" alt="Child reading story"
+                            class="w-full h-full object-cover" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+
+                        <!-- Floating UI Elements -->
+                       
+                    </div>
+                </div>
+                <div
+                    class="absolute -inset-4 bg-gradient-to-r from-story-teal/20 to-story-purple/20 rounded-3xl blur-xl opacity-60 pulse-glow">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works Section -->
+<div class="relative py-24 px-4 bg-black overflow-hidden">
+    <div class="relative z-10 max-w-7xl mx-auto">
+
+        <!-- Section Header -->
+        <div class="text-center mb-20">
+            <div
+                class="inline-flex items-center px-6 py-3 rounded-full bg-story-purple/10 border border-story-purple/20 mb-8">
+                <span class="text-story-purple text-sm font-bold tracking-widest font-playful">⚡ HOW IT WORKS</span>
+            </div>
+            <h2 class="text-5xl lg:text-7xl font-black mb-6 leading-tight">
+                <span class="text-white">Simple as</span>
+                <span class="text-story-pink">1-2-3</span>
+            </h2>
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                Creating magical stories for your child has never been easier
+            </p>
+        </div>
+
+        <!-- Process Steps -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+
+            <!-- Step 1 -->
+            <div class="relative text-center feature-card-hover">
+                <div
+                    class="bg-gray-800/50 rounded-3xl p-8 border border-gray-700 hover:border-story-orange/30 transition-all duration-300">
+                    <!-- Step Number -->
+                    <div
+                        class="w-16 h-16 bg-story-orange rounded-full flex items-center justify-center text-2xl font-black text-white mb-6 mx-auto">
+                        1
+                    </div>
+
+                    <!-- Icon -->
+                    <div class="w-20 h-20 bg-story-orange/20 rounded-2xl flex items-center justify-center mb-6 mx-auto">
+                        <svg class="w-10 h-10 text-story-orange" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                        </svg>
+                    </div>
+
+                    <h3 class="text-2xl font-black text-white mb-4 font-playful">Tell Us About Your Child</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Share your child's name, age, favorite characters, and interests to personalize their story
+                        experience
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="relative text-center feature-card-hover">
+                <div
+                    class="bg-gray-800/50 rounded-3xl p-8 border border-gray-700 hover:border-story-teal/30 transition-all duration-300">
+                    <!-- Step Number -->
+                    <div
+                        class="w-16 h-16 bg-story-teal rounded-full flex items-center justify-center text-2xl font-black text-white mb-6 mx-auto">
+                        2
+                    </div>
+
+                    <!-- Icon -->
+                    <div class="w-20 h-20 bg-story-teal/20 rounded-2xl flex items-center justify-center mb-6 mx-auto">
+                        <svg class="w-10 h-10 text-story-teal" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
+                        </svg>
+                    </div>
+
+                    <h3 class="text-2xl font-black text-white mb-4 font-playful">AI Creates Magic</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Our advanced Gemini AI generates a unique, age-appropriate story with moral lessons tailored
+                        just for them
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="relative text-center feature-card-hover">
+                <div
+                    class="bg-gray-800/50 rounded-3xl p-8 border border-gray-700 hover:border-story-purple/30 transition-all duration-300">
+                    <!-- Step Number -->
+                    <div
+                        class="w-16 h-16 bg-story-purple rounded-full flex items-center justify-center text-2xl font-black text-white mb-6 mx-auto">
+                        3
+                    </div>
+
+                    <!-- Icon -->
+                    <div class="w-20 h-20 bg-story-purple/20 rounded-2xl flex items-center justify-center mb-6 mx-auto">
+                        <svg class="w-10 h-10 text-story-purple" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z" />
+                        </svg>
+                    </div>
+
+                    <h3 class="text-2xl font-black text-white mb-4 font-playful">Read, Listen & Save</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Enjoy the story with voice narration, save favorites, and build a personal library of magical
+                        tales
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Technology Section -->
+<div class="relative py-24 px-4 bg-black overflow-hidden">
+    <div class="absolute inset-0">
+        <div class="absolute top-20 left-20 w-64 h-64 bg-story-pink/8 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-32 right-32 w-80 h-80 bg-story-yellow/6 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto">
+        <div class="text-center mb-20">
+            <div
+                class="inline-flex items-center px-6 py-3 rounded-full bg-story-pink/10 border border-story-pink/20 mb-8">
+                <span class="text-story-pink text-sm font-bold tracking-widest font-playful">🤖 AI TECHNOLOGY</span>
+            </div>
+            <h2 class="text-5xl lg:text-7xl font-black mb-6 leading-tight">
+                <span class="text-white">Powered by</span><br>
+                <span class="text-story-pink">Advanced AI</span>
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+            <!-- Technology Visual -->
+            <div class="relative">
+                <div class="relative w-80 h-80 mx-auto">
+                    <!-- Central AI Core -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-story-pink to-story-purple rounded-full flex items-center justify-center">
+                        <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center">
+                            <svg class="w-16 h-16 text-story-pink" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12,2A2,2 0 0,1 14,4C14,4.74 13.6,5.39 13,5.73V7H14A7,7 0 0,1 21,14H22A1,1 0 0,1 23,15V18A1,1 0 0,1 22,19H21V20A2,2 0 0,1 19,22H5A2,2 0 0,1 3,20V19H2A1,1 0 0,1 1,18V15A1,1 0 0,1 2,14H3A7,7 0 0,1 10,7H11V5.73C10.4,5.39 10,4.74 10,4A2,2 0 0,1 12,2M7.5,13A2.5,2.5 0 0,0 5,15.5A2.5,2.5 0 0,0 7.5,18A2.5,2.5 0 0,0 10,15.5A2.5,2.5 0 0,0 7.5,13M16.5,13A2.5,2.5 0 0,0 14,15.5A2.5,2.5 0 0,0 16.5,18A2.5,2.5 0 0,0 19,15.5A2.5,2.5 0 0,0 16.5,13Z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Orbiting Elements -->
+                    <div class="absolute inset-0 technology-orbit">
+                        <div
+                            class="absolute -top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-story-orange rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">📚</span>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 technology-orbit"
+                        style="animation-direction: reverse; animation-duration: 15s;">
+                        <div
+                            class="absolute top-1/2 -right-4 transform -translate-y-1/2 w-8 h-8 bg-story-teal rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">🎨</span>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 technology-orbit" style="animation-duration: 25s;">
+                        <div
+                            class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-story-yellow rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">🎭</span>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 technology-orbit"
+                        style="animation-direction: reverse; animation-duration: 18s;">
+                        <div
+                            class="absolute top-1/2 -left-4 transform -translate-y-1/2 w-8 h-8 bg-story-purple rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">✨</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology Features -->
+            <div class="space-y-8">
+                <div class="flex items-start gap-6">
+                    <div class="w-12 h-12 bg-story-pink/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg class="w-6 h-6 text-story-pink" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12,2A2,2 0 0,1 14,4C14,4.74 13.6,5.39 13,5.73V7H14A7,7 0 0,1 21,14H22A1,1 0 0,1 23,15V18A1,1 0 0,1 22,19H21V20A2,2 0 0,1 19,22H5A2,2 0 0,1 3,20V19H2A1,1 0 0,1 1,18V15A1,1 0 0,1 2,14H3A7,7 0 0,1 10,7H11V5.73C10.4,5.39 10,4.74 10,4A2,2 0 0,1 12,2Z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-black text-story-pink mb-2 font-playful">Google Gemini AI</h3>
+                        <p class="text-gray-300">Advanced language model that understands context, emotions, and
+                            age-appropriate content creation</p>
+                    </div>
+                </div>
+
+                
+
+
+
+{% endblock %}

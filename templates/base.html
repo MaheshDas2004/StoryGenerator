@@ -62,9 +62,9 @@
                     </div>
 
                     <nav class="flex items-center space-x-8">
-                        <a href="{% url "home" %}" class="text-white hover:text-story-orange transition-colors font-playful">Home</a>
-                        <a href="#" class="text-gray-300 hover:text-story-orange transition-colors font-playful">Story Selection</a>
-                        <a href="{% url "create_story" %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">Story Creation</a>
+                        <a href="{% url 'home' %}" class="text-white hover:text-story-orange transition-colors font-playful">Home</a>
+                        <a href="{% url 'about' %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">About</a>
+                        <a href="{% url 'create_story' %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">Story Creation</a>
                         
                         {% if user.is_authenticated %}
                             <div class="relative group">
@@ -76,13 +76,13 @@
                                 
                                 <div class="absolute top-full right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50">
                                     <div class="py-2">
-                                        <a href="{% url "dashboard" %}" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-story-orange transition-colors font-playful">
+                                        <a href="{% url 'dashboard' %}" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-story-orange transition-colors font-playful">
                                             <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
                                             </svg>
                                             Dashboard
                                         </a>
-                                        <a href="{% url "logout" %}" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-red-400 transition-colors font-playful">
+                                        <a href="{% url 'logout' %}" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-red-400 transition-colors font-playful">
                                             <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
                                             </svg>
@@ -148,8 +148,8 @@
                     </div>
 
                     <nav class="flex items-center space-x-8">
-                        <a href="{% url "home" %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">← Back to Home</a>
-                        <a href="{% url "login" %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">Already have an account? Sign In</a>
+                        <a href="{% url 'home' %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">← Back to Home</a>
+                        <a href="{% url 'login' %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">Already have an account? Sign In</a>
                     </nav>
                 </div>
             </div>
@@ -221,8 +221,8 @@
                     </div>
 
                     <nav class="flex items-center space-x-8">
-                        <a href="{% url "home" %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">← Back to Home</a>
-                        <a href="{% url "signup" %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">Don't have an account? Sign Up</a>
+                        <a href="{% url 'home' %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">← Back to Home</a>
+                        <a href="{% url 'signup' %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">Don't have an account? Sign Up</a>
                     </nav>
                 </div>
             </div>
