@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User 
 from django.contrib.auth import login,logout,authenticate
-from django.contrib import messages
-from django.contrib.auth.hashers import make_password
+# from django.contrib import messages
+# from django.contrib.auth.hashers import make_password
 
 # "error_email": "Email already exists",
 #             "error_password": "Passwords do not match",
@@ -35,7 +35,7 @@ def signup(request):
 
         user=User.objects.create_user(username=username, email=email,password=password,first_name=firstname,last_name=lastname)
         login(request,user)
-        return redirect("home")           
+        return redirect("dashboard")           
 
 
 
@@ -101,7 +101,7 @@ def login_user(request):
             user= authenticate(request, username=email, password=password)
             if(user):
                 login(request,user)
-                return redirect("home")
+                return redirect("dashboard")
             else:
                 context["error_password"]="Invalid Password!"
                 return render(request,"accounts/login.html",context)
