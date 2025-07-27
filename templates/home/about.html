@@ -165,7 +165,7 @@
             </div>
 
             <!-- Main Heading -->
-            <h1 class="text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-black mb-8 leading-none tracking-tighter">
+            <h1 class="text-5xl sm:text-5xl lg:text-7xl xl:text-8xl font-black mb-8 leading-none tracking-tighter">
                 <span class="text-white">Where</span><br>
                 <span class="text-gradient">AI Magic</span><br>
                 <span class="text-white">Meets</span>
@@ -267,14 +267,15 @@
             <!-- Visual Element -->
             <div class="relative">
                 <div
-                    class="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl p-8 border border-gray-700">
+                    class="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border p-1 border-gray-700">
                     <div class="aspect-square rounded-2xl overflow-hidden relative">
-                        <img src="" alt="Child reading story"
-                            class="w-full h-full object-cover" />
+                            <video preload="auto" autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover" poster="{% static 'images/image10.png' %}">
+                            <source src="{% static 'images/video5.mp4' %}" type="video/mp4" />
+                            </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 
                         <!-- Floating UI Elements -->
-                       
+                    
                     </div>
                 </div>
                 <div
