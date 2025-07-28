@@ -48,10 +48,6 @@
                             <span class="text-white/70 text-sm ml-4">Listen to your story</span>
                         </div>
                     </div>
-
-                    <button id="speedBtn" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-white font-medium transition-all duration-300 border border-white/20">
-                        1x
-                    </button>
                 </div>
 
                 <!-- Progress Bar -->
@@ -150,104 +146,183 @@
 // Text-to-Speech and Audio Controls
 let isPlaying = false;
 let currentUtterance = null;
-let currentSpeed = 1;
 let storyText = '';
+let storyWords = [];
+let currentWordIndex = 0;
 let totalDuration = 0;
 let startTime = 0;
+let pausedTime = 0;
+let progressInterval = null;
+let voicesLoaded = false;
+let isPaused = false;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
-    loadVoices();
     storyText = document.getElementById('storyText').innerText;
+    storyWords = storyText.split(/\s+/).filter(word => word.length > 0);
     totalDuration = estimateDuration(storyText);
     
     if (!('speechSynthesis' in window)) {
         alert('Text-to-speech is not supported in your browser.');
         document.getElementById('playPauseBtn').disabled = true;
+        return;
+    }
+
+    // Load voices immediately
+    loadVoices();
+    
+    // Also listen for voices changed event (some browsers need this)
+    speechSynthesis.addEventListener('voiceschanged', loadVoices);
+});
+
+// Stop speech when page is unloaded or user navigates away
+window.addEventListener('beforeunload', function() {
+    stopStory();
+});
+
+window.addEventListener('pagehide', function() {
+    stopStory();
+});
+
+// Also stop when visibility changes (tab switching)
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden && isPlaying) {
+        pauseStory();
     }
 });
 
 function loadVoices() {
-    if (speechSynthesis.getVoices().length === 0) {
-        speechSynthesis.addEventListener('voiceschanged', loadVoices);
-        return;
+    const voices = speechSynthesis.getVoices();
+    if (voices.length > 0) {
+        voicesLoaded = true;
     }
 }
 
 // Play/Pause functionality
 document.getElementById('playPauseBtn').addEventListener('click', function() {
     if (!isPlaying) {
-        playStory();
+        if (isPaused) {
+            resumeStory();
+        } else {
+            playStory();
+        }
     } else {
         pauseStory();
     }
 });
 
-// Speed control
-document.getElementById('speedBtn').addEventListener('click', function() {
-    const speeds = [1, 1.25, 1.5, 0.75];
-    const currentIndex = speeds.indexOf(currentSpeed);
-    currentSpeed = speeds[(currentIndex + 1) % speeds.length];
-    this.textContent = currentSpeed + 'x';
-    
-    if (isPlaying) {
-        pauseStory();
-        setTimeout(() => playStory(), 100);
-    }
-});
-
 function playStory() {
-    if (currentUtterance) {
-        speechSynthesis.cancel();
+    currentWordIndex = 0;
+    pausedTime = 0;
+    isPaused = false;
+    speakFromCurrentPosition();
+}
+
+function resumeStory() {
+    isPaused = false;
+    speakFromCurrentPosition();
+}
+
+function speakFromCurrentPosition() {
+    // Stop any existing speech
+    speechSynthesis.cancel();
+
+    // Get remaining text from current position
+    const remainingWords = storyWords.slice(currentWordIndex);
+    const remainingText = remainingWords.join(' ');
+
+    if (remainingText.trim().length === 0) {
+        // Story is finished
+        resetStory();
+        return;
     }
 
-    currentUtterance = new SpeechSynthesisUtterance(storyText);
-    currentUtterance.rate = currentSpeed;
-    currentUtterance.pitch = 1;
-    currentUtterance.volume = 1;
-
-    const voices = speechSynthesis.getVoices();
-    const preferredVoice = voices.find(voice => 
-        voice.name.toLowerCase().includes('female') || 
-        voice.name.toLowerCase().includes('woman') ||
-        voice.name.toLowerCase().includes('girl') ||
-        voice.gender === 'female'
-    ) || voices.find(voice => voice.lang.startsWith('en')) || voices[0];
-    
-    if (preferredVoice) {
-        currentUtterance.voice = preferredVoice;
-    }
-
-    currentUtterance.onstart = function() {
-        isPlaying = true;
-        startTime = Date.now();
-        updatePlayButton(true);
-        startProgressUpdate();
-    };
-
-    currentUtterance.onend = function() {
-        isPlaying = false;
-        updatePlayButton(false);
-        resetProgress();
-    };
-
-    currentUtterance.onerror = function(event) {
-        console.error('Speech synthesis error:', event);
-        isPlaying = false;
-        updatePlayButton(false);
-    };
-
+    // Wait a moment for the cancel to take effect, then start new speech
     setTimeout(() => {
+        currentUtterance = new SpeechSynthesisUtterance(remainingText);
+        currentUtterance.rate = 0.75; // Fixed speed at 0.75x
+        currentUtterance.pitch = 1;
+        currentUtterance.volume = 1;
+
+        // Get and set voice
+        const voices = speechSynthesis.getVoices();
+        if (voices.length > 0) {
+            const preferredVoice = voices.find(voice => 
+                voice.name.toLowerCase().includes('female') || 
+                voice.name.toLowerCase().includes('woman') ||
+                voice.name.toLowerCase().includes('girl') ||
+                voice.gender === 'female'
+            ) || voices.find(voice => voice.lang.startsWith('en')) || voices[0];
+            
+            if (preferredVoice) {
+                currentUtterance.voice = preferredVoice;
+            }
+        }
+
+        currentUtterance.onstart = function() {
+            isPlaying = true;
+            if (!isPaused || pausedTime === 0) {
+                // Starting fresh
+                startTime = Date.now();
+            } else {
+                // Resuming - adjust start time to account for paused time
+                startTime = Date.now();
+            }
+            updatePlayButton(true);
+            startProgressUpdate();
+        };
+
+        currentUtterance.onend = function() {
+            if (!isPaused) {
+                // Story completed naturally
+                resetStory();
+            }
+        };
+
+        currentUtterance.onerror = function(event) {
+            console.error('Speech synthesis error:', event);
+            isPlaying = false;
+            updatePlayButton(false);
+            clearProgressInterval();
+        };
+
+        // Start speaking immediately
         speechSynthesis.speak(currentUtterance);
-    }, 150);
+    }, 100);
 }
 
 function pauseStory() {
-    if (currentUtterance) {
+    speechSynthesis.cancel();
+    isPlaying = false;
+    isPaused = true;
+    
+    // Calculate how much time has elapsed and store it
+    const elapsed = Date.now() - startTime;
+    pausedTime += elapsed;
+    
+    // Estimate current word position based on time
+    const progressRatio = Math.min(pausedTime / (totalDuration * 1000), 1);
+    currentWordIndex = Math.floor(progressRatio * storyWords.length);
+    
+    updatePlayButton(false);
+    clearProgressInterval();
+}
+
+function stopStory() {
+    if (speechSynthesis.speaking) {
         speechSynthesis.cancel();
-        isPlaying = false;
-        updatePlayButton(false);
     }
+    resetStory();
+}
+
+function resetStory() {
+    isPlaying = false;
+    isPaused = false;
+    currentWordIndex = 0;
+    pausedTime = 0;
+    updatePlayButton(false);
+    resetProgress();
+    clearProgressInterval();
 }
 
 function updatePlayButton(playing) {
@@ -264,21 +339,32 @@ function updatePlayButton(playing) {
 }
 
 function startProgressUpdate() {
-    const progressInterval = setInterval(() => {
+    clearProgressInterval(); // Clear any existing interval
+    
+    progressInterval = setInterval(() => {
         if (!isPlaying) {
-            clearInterval(progressInterval);
+            clearProgressInterval();
             return;
         }
 
-        const elapsed = (Date.now() - startTime) / 1000;
-        const progress = Math.min((elapsed / totalDuration) * 100, 100);
+        // Calculate total elapsed time
+        const currentSessionElapsed = Date.now() - startTime;
+        const totalElapsed = pausedTime + currentSessionElapsed;
+        const progress = Math.min((totalElapsed / (totalDuration * 1000)) * 100, 100);
         
         document.getElementById('progressBar').style.width = progress + '%';
 
         if (progress >= 100) {
-            clearInterval(progressInterval);
+            clearProgressInterval();
         }
     }, 300);
+}
+
+function clearProgressInterval() {
+    if (progressInterval) {
+        clearInterval(progressInterval);
+        progressInterval = null;
+    }
 }
 
 function resetProgress() {
@@ -287,7 +373,8 @@ function resetProgress() {
 
 function estimateDuration(text) {
     const wordCount = text.split(/\s+/).length;
-    return Math.ceil((wordCount / 180) * 60);
+    // Adjusted for 0.75x speed (slower speech = longer duration)
+    return Math.ceil((wordCount / 135) * 60); // 135 words per minute at 0.75x speed
 }
 </script>
 
