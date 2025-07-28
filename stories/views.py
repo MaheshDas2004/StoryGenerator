@@ -4,17 +4,19 @@ from django.contrib.auth.decorators import login_required
 import os
 from dotenv import load_dotenv
 from google import genai
-from google.genai import types
-import wave
+# from google.genai import types
+# import wave
 import re
 from stories.models import Story
 
 load_dotenv()
 api_key = os.getenv("GOOGLE_API_KEY")
+
+
 def sanitize_story_text(text):
     return re.sub(r'[^A-Za-z0-9 .,!?\'\n]+', '', text)
-@login_required
 
+@login_required
 def createstory(request):
     if request.method == "POST":
         message = request.POST.get("message")
