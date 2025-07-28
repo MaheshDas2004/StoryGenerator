@@ -1,0 +1,425 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static "css/storyview.css" %}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+
+<div class="min-h-screen">
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto px-6 py-12">
+        
+        <!-- Story Title -->
+        <div class="text-center mb-16">
+            <div class="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 mb-6">
+                <span class="text-purple-300 text-sm font-medium tracking-wide">Magic Story</span>
+            </div>
+            
+            <h1 id="storyTitle" class="text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-pink-200 mb-8 leading-tight tracking-tight">
+                {{title}}
+            </h1>
+        </div>
+
+        <!-- Audio Player -->
+        <div class="mb-16">
+            <div class="max-w-2xl mx-auto bg-white/5 backdrop-blur-2xl rounded-3xl p-8 border border-white/10">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-6">
+                        <button id="playPauseBtn" class="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 flex items-center justify-center transition-all duration-300 hover:scale-105 shadow-lg shadow-purple-500/25">
+                            <svg id="playIcon" class="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            <svg id="pauseIcon" class="w-7 h-7 text-white hidden" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                            </svg>
+                        </button>
+                        
+                        <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-1">
+                                <div class="w-1 h-8 bg-gradient-to-t from-purple-500 to-pink-500 rounded-full audio-wave" style="animation-delay: 0s;"></div>
+                                <div class="w-1 h-6 bg-gradient-to-t from-purple-400 to-pink-400 rounded-full audio-wave" style="animation-delay: 0.1s;"></div>
+                                <div class="w-1 h-10 bg-gradient-to-t from-purple-500 to-pink-500 rounded-full audio-wave" style="animation-delay: 0.2s;"></div>
+                                <div class="w-1 h-4 bg-gradient-to-t from-purple-400 to-pink-400 rounded-full audio-wave" style="animation-delay: 0.3s;"></div>
+                                <div class="w-1 h-7 bg-gradient-to-t from-purple-500 to-pink-500 rounded-full audio-wave" style="animation-delay: 0.4s;"></div>
+                            </div>
+                            <span class="text-white/70 text-sm ml-4">Listen to your story</span>
+                        </div>
+                    </div>
+
+                    <button id="speedBtn" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-white font-medium transition-all duration-300 border border-white/20">
+                        1x
+                    </button>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="relative">
+                    <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                        <div id="progressBar" class="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Story Content -->
+        <div class="mb-16">
+            <div class="bg-white/5 backdrop-blur-2xl rounded-3xl p-12 border border-white/10">
+                <div id="storyText" class="prose prose-lg prose-invert max-w-none">
+                    <div class="text-gray-100 text-xl leading-relaxed font-light space-y-6" style="font-family: 'Crimson Text', serif;">
+                        {{story|linebreaks}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Moral Section -->
+        <div class="text-center">
+            <div class="max-w-3xl mx-auto bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-purple-500/10 backdrop-blur-2xl rounded-3xl p-12 border border-purple-500/20">
+                <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-lg shadow-purple-500/25">
+                    <span class="text-3xl">🌟</span>
+                </div>
+                
+                <h3 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-200 to-pink-200 mb-8">
+                    Story's Wisdom
+                </h3>
+                
+                <div class="bg-white/5 rounded-2xl p-8 border border-white/10">
+                    <p id="moralText" class="text-white text-xl leading-relaxed font-light" style="font-family: 'Crimson Text', serif;">
+                        {{moral}}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Floating particles for ambiance -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-purple-400 rounded-full animate-pulse opacity-60"></div>
+        <div class="absolute top-3/4 right-1/4 w-1 h-1 bg-pink-400 rounded-full animate-pulse opacity-40" style="animation-delay: -1s;"></div>
+        <div class="absolute top-1/2 left-3/4 w-1.5 h-1.5 bg-purple-300 rounded-full animate-pulse opacity-50" style="animation-delay: -2s;"></div>
+        <div class="absolute bottom-1/4 left-1/2 w-1 h-1 bg-pink-300 rounded-full animate-pulse opacity-30" style="animation-delay: -1.5s;"></div>
+    </div>
+</div>
+
+<style>
+@keyframes wave {
+    0%, 100% { 
+        transform: scaleY(1);
+        opacity: 0.7;
+    }
+    50% { 
+        transform: scaleY(1.5);
+        opacity: 1;
+    }
+}
+
+.audio-wave {
+    animation: wave 1.5s ease-in-out infinite;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #8b5cf6, #ec4899);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #7c3aed, #db2777);
+}
+</style>
+
+<script>
+// Text-to-Speech and Audio Controls
+let isPlaying = false;
+let currentUtterance = null;
+let currentSpeed = 1;
+let storyText = '';
+let totalDuration = 0;
+let startTime = 0;
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    loadVoices();
+    storyText = document.getElementById('storyText').innerText;
+    totalDuration = estimateDuration(storyText);
+    
+    if (!('speechSynthesis' in window)) {
+        alert('Text-to-speech is not supported in your browser.');
+        document.getElementById('playPauseBtn').disabled = true;
+    }
+});
+
+function loadVoices() {
+    if (speechSynthesis.getVoices().length === 0) {
+        speechSynthesis.addEventListener('voiceschanged', loadVoices);
+        return;
+    }
+}
+
+// Play/Pause functionality
+document.getElementById('playPauseBtn').addEventListener('click', function() {
+    if (!isPlaying) {
+        playStory();
+    } else {
+        pauseStory();
+    }
+});
+
+// Speed control
+document.getElementById('speedBtn').addEventListener('click', function() {
+    const speeds = [1, 1.25, 1.5, 0.75];
+    const currentIndex = speeds.indexOf(currentSpeed);
+    currentSpeed = speeds[(currentIndex + 1) % speeds.length];
+    this.textContent = currentSpeed + 'x';
+    
+    if (isPlaying) {
+        pauseStory();
+        setTimeout(() => playStory(), 100);
+    }
+});
+
+function playStory() {
+    if (currentUtterance) {
+        speechSynthesis.cancel();
+    }
+
+    currentUtterance = new SpeechSynthesisUtterance(storyText);
+    currentUtterance.rate = currentSpeed;
+    currentUtterance.pitch = 1;
+    currentUtterance.volume = 1;
+
+    const voices = speechSynthesis.getVoices();
+    const preferredVoice = voices.find(voice => 
+        voice.name.toLowerCase().includes('female') || 
+        voice.name.toLowerCase().includes('woman') ||
+        voice.name.toLowerCase().includes('girl') ||
+        voice.gender === 'female'
+    ) || voices.find(voice => voice.lang.startsWith('en')) || voices[0];
+    
+    if (preferredVoice) {
+        currentUtterance.voice = preferredVoice;
+    }
+
+    currentUtterance.onstart = function() {
+        isPlaying = true;
+        startTime = Date.now();
+        updatePlayButton(true);
+        startProgressUpdate();
+    };
+
+    currentUtterance.onend = function() {
+        isPlaying = false;
+        updatePlayButton(false);
+        resetProgress();
+    };
+
+    currentUtterance.onerror = function(event) {
+        console.error('Speech synthesis error:', event);
+        isPlaying = false;
+        updatePlayButton(false);
+    };
+
+    setTimeout(() => {
+        speechSynthesis.speak(currentUtterance);
+    }, 150);
+}
+
+function pauseStory() {
+    if (currentUtterance) {
+        speechSynthesis.cancel();
+        isPlaying = false;
+        updatePlayButton(false);
+    }
+}
+
+function updatePlayButton(playing) {
+    const playIcon = document.getElementById('playIcon');
+    const pauseIcon = document.getElementById('pauseIcon');
+    
+    if (playing) {
+        playIcon.classList.add('hidden');
+        pauseIcon.classList.remove('hidden');
+    } else {
+        playIcon.classList.remove('hidden');
+        pauseIcon.classList.add('hidden');
+    }
+}
+
+function startProgressUpdate() {
+    const progressInterval = setInterval(() => {
+        if (!isPlaying) {
+            clearInterval(progressInterval);
+            return;
+        }
+
+        const elapsed = (Date.now() - startTime) / 1000;
+        const progress = Math.min((elapsed / totalDuration) * 100, 100);
+        
+        document.getElementById('progressBar').style.width = progress + '%';
+
+        if (progress >= 100) {
+            clearInterval(progressInterval);
+        }
+    }, 300);
+}
+
+function resetProgress() {
+    document.getElementById('progressBar').style.width = '0%';
+}
+
+function estimateDuration(text) {
+    const wordCount = text.split(/\s+/).length;
+    return Math.ceil((wordCount / 180) * 60);
+}
+
+// Save functionality (empty for Django implementation)
+document.getElementById('saveBtn').addEventListener('click', function() {
+    // Visual feedback
+    const originalContent = this.innerHTML;
+    this.innerHTML = `
+        <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-white animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938z"></path>
+            </svg>
+            <span class="text-white text-sm font-medium">Saving...</span>
+        </div>
+    `;
+    
+    // TODO: Implement Django save logic
+    console.log('Save button clicked - implement Django logic');
+    
+    setTimeout(() => {
+        this.innerHTML = `
+            <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class="text-white text-sm font-medium">Saved</span>
+            </div>
+        `;
+        
+        setTimeout(() => {
+            this.innerHTML = originalContent;
+        }, 1500);
+    }, 1500);
+});
+
+// PDF Download functionality
+document.getElementById('downloadPdfBtn').addEventListener('click', function() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    const storyTitle = document.getElementById('storyTitle').innerText;
+    const storyContent = document.getElementById('storyText').innerText;
+    const moral = document.getElementById('moralText').innerText;
+    
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 20;
+    const maxWidth = pageWidth - (margin * 2);
+    
+    let currentY = margin + 20;
+    
+    // Title
+    doc.setFontSize(24);
+    doc.setFont('helvetica', 'bold');
+    const titleLines = doc.splitTextToSize(storyTitle, maxWidth);
+    titleLines.forEach(line => {
+        const titleWidth = doc.getTextWidth(line);
+        const titleX = (pageWidth - titleWidth) / 2;
+        doc.text(line, titleX, currentY);
+        currentY += 15;
+    });
+    
+    currentY += 20;
+    
+    // Story content
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    const contentLines = doc.splitTextToSize(storyContent, maxWidth);
+    
+    contentLines.forEach(line => {
+        if (currentY > pageHeight - 40) {
+            doc.addPage();
+            currentY = margin + 20;
+        }
+        doc.text(line, margin, currentY);
+        currentY += 8;
+    });
+    
+    currentY += 20;
+    
+    // Moral section
+    if (currentY > pageHeight - 60) {
+        doc.addPage();
+        currentY = margin + 20;
+    }
+    
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Story\'s Wisdom', margin, currentY);
+    currentY += 15;
+    
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    const moralLines = doc.splitTextToSize(moral, maxWidth);
+    moralLines.forEach(line => {
+        doc.text(line, margin, currentY);
+        currentY += 8;
+    });
+    
+    // Footer
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'italic');
+    doc.text('Generated by StorySpark', margin, pageHeight - 15);
+    
+    // Visual feedback
+    const originalContent = this.innerHTML;
+    this.innerHTML = `
+        <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-white animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3"/>
+            </svg>
+            <span class="text-white text-sm font-medium">Downloading...</span>
+        </div>
+    `;
+    
+    setTimeout(() => {
+        doc.save(`${storyTitle.replace(/\s+/g, '_')}.pdf`);
+        
+        this.innerHTML = `
+            <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class="text-white text-sm font-medium">Downloaded</span>
+            </div>
+        `;
+        
+        setTimeout(() => {
+            this.innerHTML = originalContent;
+        }, 2000);
+    }, 1000);
+});
+</script>
+
+{% endblock %}

@@ -27,7 +27,7 @@
         }
     </script>
     <link rel="stylesheet" href="{% static 'css/signup.css' %}">
-    {% block head %}{% endblock head %}
+    {% block head %}{% endblock %}
 </head>
 <body class="bg-story-dark text-white">
     {% comment %} Check for specific named URLs to apply background elements {% endcomment %}
@@ -227,6 +227,98 @@
                 </div>
             </div>
         </header>
+    {% elif request.resolver_match.url_name == "view_story" or request.resolver_match.url_name == "view_saved_story" %}
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="floating-element absolute top-16 left-20 w-16 h-20 bg-story-teal rounded-lg transform rotate-12">
+                <div class="absolute top-2 left-2 w-12 h-3 bg-story-orange rounded"></div>
+                <div class="absolute top-6 left-2 w-10 h-2 bg-story-pink rounded"></div>
+                <div class="absolute top-9 left-2 w-8 h-1 bg-story-purple rounded"></div>
+                <div class="absolute top-11 left-2 w-6 h-1 bg-story-yellow rounded"></div>
+            </div>
+            
+            <div class="floating-element absolute top-32 right-24 w-12 h-16 bg-story-purple rounded-lg transform -rotate-12">
+                <div class="absolute top-2 left-1 w-10 h-2 bg-story-teal rounded"></div>
+                <div class="absolute top-5 left-1 w-8 h-1 bg-story-orange rounded"></div>
+            </div>
+            
+            <div class="floating-element absolute bottom-32 left-32 w-6 h-24 bg-story-orange rounded-full transform rotate-45">
+                <div class="absolute -top-3 -left-2 w-6 h-6 bg-story-yellow rounded-full"></div>
+                <div class="absolute -top-1 -left-3 w-4 h-4 bg-story-pink rounded-full"></div>
+                <div class="absolute -top-2 left-2 w-3 h-3 bg-story-teal rounded-full"></div>
+            </div>
+            
+            <div class="floating-element absolute bottom-16 right-16 w-20 h-24 bg-story-purple rounded-t-full transform -rotate-12">
+                <div class="absolute bottom-0 left-2 w-4 h-12 bg-story-pink rounded-t-lg"></div>
+                <div class="absolute bottom-0 right-2 w-4 h-12 bg-story-pink rounded-t-lg"></div>
+                <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-16 bg-story-orange rounded-t-lg"></div>
+                <div class="absolute top-2 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-story-yellow rounded-full"></div>
+            </div>
+            
+            <div class="floating-element absolute top-20 right-40 w-2 h-20 bg-story-orange rounded-full transform rotate-25">
+                <div class="absolute -top-3 -left-2 w-6 h-6 bg-story-yellow rounded-full"></div>
+                <div class="absolute -top-1 -left-3 w-4 h-4 bg-story-pink rounded-full"></div>
+                <div class="absolute -top-2 left-1 w-3 h-3 bg-story-teal rounded-full"></div>
+            </div>
+            
+            <div class="floating-element absolute bottom-40 left-16 w-3 h-24 bg-story-teal rounded-full transform rotate-25">
+                <div class="absolute -top-4 -left-2 w-8 h-8 bg-story-orange rounded-full transform rotate-45"></div>
+                <div class="absolute -bottom-2 left-0 w-3 h-4 bg-story-dark rounded-b-full"></div>
+            </div>
+            
+            <div class="triangle triangle-white top-24 left-60 pulse-slow"></div>
+            <div class="triangle triangle-orange top-40 right-60 pulse-slow"></div>
+            <div class="triangle triangle-teal bottom-60 left-80 pulse-slow"></div>
+            <div class="triangle triangle-white bottom-24 right-80 pulse-slow"></div>
+            
+            <div class="absolute top-1/4 right-1/4 text-story-yellow text-3xl pulse-slow">★</div>
+            <div class="absolute top-3/4 left-1/4 text-story-pink text-2xl pulse-slow">★</div>
+            <div class="absolute top-1/3 right-1/3 text-story-teal text-xl pulse-slow">★</div>
+            <div class="absolute bottom-1/4 right-1/5 text-story-orange text-2xl pulse-slow">★</div>
+            <div class="absolute top-1/5 left-1/3 text-story-purple text-xl pulse-slow">★</div>
+            
+            <div class="absolute top-2/3 right-1/4 text-story-pink text-xl pulse-slow">♥</div>
+            <div class="absolute top-1/6 left-1/2 text-story-orange text-lg pulse-slow">♥</div>
+        </div>
+
+        <header class="relative z-10 border-b border-gray-700">
+            <div class="max-w-7xl mx-auto px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-gradient-to-br from-story-orange to-story-pink rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/>
+                            </svg>
+                        </div>
+                        <h1 class="text-xl font-playful text-story-orange font-bold">StorySpark</h1>
+                    </div>
+
+                    <nav class="flex items-center space-x-8">
+                        <a href="{% url 'home' %}" class="text-gray-300 hover:text-story-orange transition-colors font-playful">← Back to Home</a>
+                        {% if not saved %}
+                        <form action="{% url "save_story" %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" id="saveBtn" class="group relative px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl transition-all duration-300 backdrop-blur-sm">
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                    </svg>
+                                    <span class="text-white text-sm font-medium">Save</span>
+                                </div>
+                            </button>
+                        </form>
+                        {% endif %}
+                    <button id="downloadPdfBtn" class="group relative px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-xl transition-all duration-300">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            <span class="text-white text-sm font-medium">PDF</span>
+                        </div>
+                    </button>
+                    </nav>
+                </div>
+            </div>
+        </header>
     {% endif %}
 
     <main class="relative z-10 max-w-full mx-auto ">
@@ -312,5 +404,103 @@
         
         <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-story-orange via-story-pink to-story-teal"></div>
     </footer>
+    <script>
+        document.getElementById('downloadPdfBtn').addEventListener('click', function() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    const storyTitle = document.getElementById('storyTitle').innerText;
+    const storyContent = document.getElementById('storyText').innerText;
+    const moral = document.getElementById('moralText').innerText;
+    
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 20;
+    const maxWidth = pageWidth - (margin * 2);
+    
+    let currentY = margin + 20;
+    
+    // Title
+    doc.setFontSize(24);
+    doc.setFont('helvetica', 'bold');
+    const titleLines = doc.splitTextToSize(storyTitle, maxWidth);
+    titleLines.forEach(line => {
+        const titleWidth = doc.getTextWidth(line);
+        const titleX = (pageWidth - titleWidth) / 2;
+        doc.text(line, titleX, currentY);
+        currentY += 15;
+    });
+    
+    currentY += 20;
+    
+    // Story content
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    const contentLines = doc.splitTextToSize(storyContent, maxWidth);
+    
+    contentLines.forEach(line => {
+        if (currentY > pageHeight - 40) {
+            doc.addPage();
+            currentY = margin + 20;
+        }
+        doc.text(line, margin, currentY);
+        currentY += 8;
+    });
+    
+    currentY += 20;
+    
+    // Moral section
+    if (currentY > pageHeight - 60) {
+        doc.addPage();
+        currentY = margin + 20;
+    }
+    
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Story\'s Wisdom', margin, currentY);
+    currentY += 15;
+    
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    const moralLines = doc.splitTextToSize(moral, maxWidth);
+    moralLines.forEach(line => {
+        doc.text(line, margin, currentY);
+        currentY += 8;
+    });
+    
+    // Footer
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'italic');
+    doc.text('Generated by StorySpark', margin, pageHeight - 15);
+    
+    // Visual feedback
+    const originalContent = this.innerHTML;
+    this.innerHTML = `
+        <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-white animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3"/>
+            </svg>
+            <span class="text-white text-sm font-medium">Downloading...</span>
+        </div>
+    `;
+    
+    setTimeout(() => {
+        doc.save(`${storyTitle.replace(/\s+/g, '_')}.pdf`);
+        
+        this.innerHTML = `
+            <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class="text-white text-sm font-medium">Downloaded</span>
+            </div>
+        `;
+        
+        setTimeout(() => {
+            this.innerHTML = originalContent;
+        }, 2000);
+    }, 1000);
+});
+    </script>
 </body>
 </html>

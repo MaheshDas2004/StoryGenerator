@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-
+from stories.models import Story
 
 # Create your views here.
 def home(request):
@@ -9,6 +9,7 @@ def about(request):
     return render(request, "home/about.html")
 @login_required
 def dashboard(request):
-    return render(request,"home/dashboard.html")
+    story=Story.objects.filter(user=request.user)
+    return render(request,"home/dashboard.html",{"user_stories":story})
 
     

@@ -1,149 +1,533 @@
 {% extends "base.html" %}
 {% load static %}
-{% block head %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-{% endblock %}
 
 {% block content %}
 
-<body>
-    <div class="bg-shapes">
-        <div class="triangle triangle1"></div>
-        <div class="triangle triangle2"></div>
-        <div class="triangle triangle3"></div>
-        <div class="triangle triangle4"></div>
-        <div class="circle circle1"></div>
-        <div class="circle circle2"></div>
-        <div class="rectangle rectangle1"></div>
+<style>
+    /* Dashboard with Your Theme Colors */
+    .dashboard-card {
+        background: rgba(17, 24, 39, 0.95);
+        border: 1px solid rgba(75, 85, 99, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255, 107, 53, 0.4);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .stat-card {
+        background: rgba(31, 41, 55, 0.8);
+        border: 1px solid rgba(75, 85, 99, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        background: rgba(31, 41, 55, 0.95);
+        transform: translateY(-1px);
+    }
+
+    .story-card {
+        background: rgba(31, 41, 55, 0.9);
+        border: 1px solid rgba(75, 85, 99, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .story-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255, 107, 53, 0.4);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-card {
+        background: rgba(17, 24, 39, 0.9);
+        border: 1px solid rgba(75, 85, 99, 0.3);
+    }
+
+    /* Your Theme Colors */
+    .text-story-orange { color: #FF6B35; }
+    .text-story-teal { color: #14B8A6; }
+    .text-story-purple { color: #8B5CF6; }
+    .text-story-pink { color: #EC4899; }
+    .text-story-yellow { color: #F59E0B; }
+
+    .bg-story-orange { background-color: #FF6B35; }
+    .bg-story-teal { background-color: #14B8A6; }
+    .bg-story-purple { background-color: #8B5CF6; }
+    .bg-story-pink { background-color: #EC4899; }
+    .bg-story-yellow { background-color: #F59E0B; }
+
+    /* Text Gradient Like Your Theme */
+    .text-gradient {
+        background: linear-gradient(135deg, #FF6B35 0%, #EC4899 50%, #8B5CF6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Badges */
+    .badge-orange {
+        background: rgba(255, 107, 53, 0.15);
+        border: 1px solid rgba(255, 107, 53, 0.3);
+        color: #FF6B35;
+    }
+
+    .badge-teal {
+        background: rgba(20, 184, 166, 0.15);
+        border: 1px solid rgba(20, 184, 166, 0.3);
+        color: #14B8A6;
+    }
+
+    .badge-purple {
+        background: rgba(139, 92, 246, 0.15);
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        color: #8B5CF6;
+    }
+
+    .badge-pink {
+        background: rgba(236, 72, 153, 0.15);
+        border: 1px solid rgba(236, 72, 153, 0.3);
+        color: #EC4899;
+    }
+
+    /* Action Buttons */
+    .action-btn {
+        transition: all 0.3s ease;
+        font-weight: 600;
+    }
+
+    .action-btn:hover {
+        transform: translateY(-1px);
+    }
+
+    .btn-story-orange {
+        background: #FF6B35;
+        color: white;
+    }
+
+    .btn-story-orange:hover {
+        background: #E55A2B;
+        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+    }
+
+    .btn-story-teal {
+        background: #14B8A6;
+        color: white;
+    }
+
+    .btn-story-teal:hover {
+        background: #0F9D8A;
+        box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
+    }
+
+    .btn-outline-orange {
+        background: transparent;
+        border: 2px solid #FF6B35;
+        color: #FF6B35;
+    }
+
+    .btn-outline-orange:hover {
+        background: #FF6B35;
+        color: white;
+    }
+
+    /* Beautiful Empty State */
+    .empty-state-magical {
+        background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, rgba(236, 72, 153, 0.06) 50%, rgba(139, 92, 246, 0.08) 100%);
+        border: 2px dashed rgba(255, 107, 53, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .empty-state-magical::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255, 107, 53, 0.05), transparent);
+        animation: shimmer 6s infinite;
+    }
+
+    @keyframes shimmer {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    .floating-elements {
+        animation: floatingSlow 6s ease-in-out infinite;
+    }
+
+    @keyframes floatingSlow {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-15px) rotate(5deg); }
+    }
+
+    .pulse-glow {
+        animation: pulseGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+        0% { box-shadow: 0 0 15px rgba(255, 107, 53, 0.3); }
+        100% { box-shadow: 0 0 25px rgba(255, 107, 53, 0.6); }
+    }
+
+    /* Modal */
+    .fullscreen-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 9999;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .fullscreen-modal.active {
+        display: flex;
+        opacity: 1;
+    }
+
+    .modal-content {
+        background: rgba(17, 24, 39, 0.98);
+        border: 1px solid rgba(75, 85, 99, 0.3);
+        max-width: 900px;
+        max-height: 90vh;
+        overflow-y: auto;
+        border-radius: 12px;
+    }
+
+    .story-content {
+        line-height: 1.7;
+        font-size: 1.05rem;
+    }
+
+    /* Floating background elements */
+    .floating-bg {
+        animation: floatingSlow 8s ease-in-out infinite;
+    }
+
+    .floating-bg:nth-child(2) { animation-delay: -2s; }
+    .floating-bg:nth-child(3) { animation-delay: -4s; }
+    .floating-bg:nth-child(4) { animation-delay: -6s; }
+</style>
+
+<!-- Enhanced Header Section -->
+<div class="relative w-full min-h-[25vh] overflow-hidden mb-8">
+    <!-- Subtle Background Elements with Your Colors -->
+    <div class="absolute inset-0">
+        <div class="absolute top-12 left-8 w-24 h-24 bg-story-orange/8 rounded-full blur-2xl floating-bg"></div>
+        <div class="absolute top-6 right-16 w-20 h-20 bg-story-teal/10 rounded-full blur-xl floating-bg"></div>
+        <div class="absolute bottom-8 left-1/3 w-28 h-28 bg-story-purple/6 rounded-full blur-2xl floating-bg"></div>
+        <div class="absolute bottom-4 right-8 w-16 h-16 bg-story-pink/8 rounded-full blur-xl floating-bg"></div>
+        
+        <!-- Magical Stars -->
+        <div class="absolute top-1/4 right-1/4 text-story-yellow text-xl animate-pulse">★</div>
+        <div class="absolute top-2/3 left-1/5 text-story-pink text-lg animate-pulse" style="animation-delay: -1s;">★</div>
+        <div class="absolute top-1/3 left-2/3 text-story-teal text-sm animate-pulse" style="animation-delay: -2s;">★</div>
     </div>
 
+    <div class="relative z-10 container mx-auto px-6 py-8">
 
-    <main class="main-content">
-        <div class="welcome-section">
-            <h1 class="username">Welcome!, {{ user.first_name }}</h1>
-            <p style="color: #94a3b8; font-size: 1.1rem;">Continue your storytelling journey</p>
+        <!-- Welcome Section -->
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center px-4 py-2 rounded-full bg-story-orange/10 border border-story-orange/20 mb-4">
+                <span class="text-story-orange text-xs font-bold tracking-wider">✨ DASHBOARD</span>
+            </div>
+
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black mb-3 text-white">
+                Welcome back, <span class="text-gradient">{{ user.first_name|default:"Storyteller" }}</span>
+            </h1>
+
+            <p class="text-gray-300 mb-4 max-w-2xl mx-auto">
+                Your creative story collection awaits. Create, view, and manage your magical tales.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container mx-auto px-6 pb-12">
+    
+    <!-- Stats Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <!-- Total Stories -->
+        <div class="stat-card rounded-lg p-4 hover:border-story-orange/30">
+            <div class="flex items-center justify-between mb-2">
+                <div class="w-8 h-8 bg-story-orange/20 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-story-orange" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/>
+                    </svg>
+                </div>
+                <span class="text-xl font-black text-story-orange">{{ user_stories.count|default:"0" }}</span>
+            </div>
+            <h3 class="text-white font-semibold text-sm mb-1">Total Stories</h3>
+            <p class="text-gray-400 text-xs">Created by you</p>
         </div>
 
-        <div class="stats">
-            <div class="stat-item">
-                <div class="stat-number">0</div>
-                <div class="stat-label">Stories Created</div>
+        <!-- Favorite Genre -->
+        <div class="stat-card rounded-lg p-4 hover:border-story-teal/30">
+            <div class="flex items-center justify-between mb-2">
+                <div class="w-8 h-8 bg-story-teal/20 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-story-teal" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <span class="text-lg font-black text-story-teal">{{ favorite_genre|default:"Adventure" }}</span>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">0</div>
-                <div class="stat-label">This Month</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">0</div>
-                <div class="stat-label">Avg Rating</div>
-            </div>
+            <h3 class="text-white font-semibold text-sm mb-1">Top Genre</h3>
+            <p class="text-gray-400 text-xs">Most created</p>
         </div>
 
-        <h1 class="section-title" >Your Stories</h1>
+        <!-- Member Since -->
+        <div class="stat-card rounded-lg p-4 hover:border-story-purple/30">
+            <div class="flex items-center justify-between mb-2">
+                <div class="w-8 h-8 bg-story-purple/20 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-story-purple" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <span class="text-lg font-black text-story-purple">{{ user.date_joined|date:"M Y" }}</span>
+            </div>
+            <h3 class="text-white font-semibold text-sm mb-1">Member Since</h3>
+            <p class="text-gray-400 text-xs">Joined platform</p>
+        </div>
+    </div>
 
-        <div class="stories-grid">
-            <div class="story-card">
-                <div class="story-genre">Fantasy</div>
-                <h3 class="story-title">The Enchanted Forest Adventure</h3>
-                <p class="story-excerpt">A young wizard discovers a hidden realm where magical creatures need help
-                    saving their home from an ancient curse...</p>
-                <div class="story-meta">
-
-                    <div class="story-actions">
-                        <button class="action-btn">
-                            <span class="icon">✏️</span>
-                            <span class="text">Edit</span>
-                        </button>
-                        <button class="action-btn">
-                            <span class="icon">👁️</span>
-                            <span class="text">View</span>
-                        </button>
-                        <button class="action-btn">
-                            <span class="icon">🗑️</span>
-                            <span class="text">Delete</span>
-                        </button>
+    <!-- Stories Section -->
+    <div class="dashboard-card rounded-xl p-6">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h2 class="text-xl font-black text-white mb-1">Your Story Collection</h2>
+                <p class="text-gray-400 text-sm">Manage and explore your created stories</p>
+            </div>
+            {% if user_stories %}
+            <div class="flex items-center space-x-2">
+                <span class="text-story-orange font-semibold text-sm">{{ user_stories.count }} Stories</span>
+                <div class="w-2 h-2 bg-story-teal rounded-full"></div>
+            </div>
+            {% endif %}
+        </div>
+        
+        {% if user_stories %}
+        <!-- Stories Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for story in user_stories %}
+            <div class="story-card rounded-lg p-4">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-white mb-2 line-clamp-2">{{ story.title }}</h3>
+                    
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="badge-orange text-xs px-2 py-1 rounded-full">{{ story.genre }}</span>
+                        <span class="badge-teal text-xs px-2 py-1 rounded-full">{{ story.setting }}</span>
                     </div>
+                    
+                    <p class="text-gray-400 text-xs mb-2">{{ story.created_at|timesince }} ago</p>
+                    <p class="text-gray-300 text-sm leading-relaxed line-clamp-3">{{ story.content|truncatewords:18 }}</p>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-2">
+                    <a href="{% url "view_saved_story" story.id %}" class="btn-story-orange action-btn text-white px-3 py-2 rounded-lg text-xs flex-1">
+                        <svg class="w-3 h-3 inline mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                        Read
+                    </a>
+                    
+                    <button onclick="downloadPDF('{{ story.id }}')" class="btn-story-teal action-btn text-white px-3 py-2 rounded-lg text-xs flex-1">
+                        <svg class="w-3 h-3 inline mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        PDF
+                    </button>
                 </div>
             </div>
-
-            <div class="story-card">
-                <div class="story-genre">Sci-Fi</div>
-                <h3 class="story-title">Mission to Mars</h3>
-                <p class="story-excerpt">Captain Luna leads her crew on humanity's first mission to establish a colony
-                    on Mars, but they encounter unexpected challenges...</p>
-                <div class="story-meta">
-
-                    <div class="story-actions">
-                        <button class="action-btn">
-                            <span class="icon">✏️</span>
-                            <span class="text">Edit</span>
-                        </button>
-                        <button class="action-btn">
-                            <span class="icon">👁️</span>
-                            <span class="text">View</span>
-                        </button>
-                        <button class="action-btn">
-                            <span class="icon">🗑️</span>
-                            <span class="text">Delete</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="story-card">
-                <div class="story-genre">Adventure</div>
-                <h3 class="story-title">The Lost Treasure Map</h3>
-                <p class="story-excerpt">Two siblings find an old map in their grandmother's attic that leads them on an
-                    incredible treasure hunting adventure...</p>
-                <div class="story-meta">
-
-                    <div class="story-actions">
-                        <button class="action-btn">
-                            <span class="icon">✏️</span>
-                            <span class="text">Edit</span>
-                        </button>
-                        <button class="action-btn">
-                            <span class="icon">👁️</span>
-                            <span class="text">View</span>
-                        </button>
-                        <button class="action-btn">
-                            <span class="icon">🗑️</span>
-                            <span class="text">Delete</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="story-card">
-                <div class="story-genre">Mystery</div>
-                <h3 class="story-title">The Case of the Missing Library Book</h3>
-                <p class="story-excerpt">Detective Emma must solve the mystery of the ancient book that disappeared from
-                    the school library overnight...</p>
-                <div class="story-meta">
-
-                    <div class="story-actions">
-                        <button class="action-btn">
-                            <span class="icon">✏️</span>
-                            <span class="text">Edit</span>
-                        </button>
-                        <button class="action-btn">
-                            <span class="icon">👁️</span>
-                            <span class="text">View</span>
-                        </button>
-                        <button class="action-btn">
-                            <span class="icon">🗑️</span>
-                            <span class="text">Delete</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-
-
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Beautiful Magical Empty State -->
+        <div class="empty-state-magical rounded-2xl p-16 text-center relative">
             
+            <!-- Floating Magical Elements -->
+            <div class="absolute top-8 left-12 text-story-yellow text-2xl floating-elements">📚</div>
+            <div class="absolute top-12 right-16 text-story-pink text-xl floating-elements" style="animation-delay: -1s;">✨</div>
+            <div class="absolute bottom-12 left-20 text-story-teal text-lg floating-elements" style="animation-delay: -2s;">🎭</div>
+            <div class="absolute bottom-8 right-12 text-story-purple text-2xl floating-elements" style="animation-delay: -3s;">🌟</div>
+            
+            <!-- Main Content -->
+            <div class="relative z-10">
+                <!-- Magical Icon -->
+                <div class="w-24 h-24 bg-gradient-to-br from-story-orange to-story-pink rounded-full flex items-center justify-center mx-auto mb-8 pulse-glow">
+                    <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
 
+                <!-- Heading -->
+                <h3 class="text-3xl font-black mb-4 leading-tight">
+                    <span class="text-white">Your Story Adventure</span><br>
+                    <span class="text-gradient">Starts Here!</span>
+                </h3>
 
-</body>
+                <!-- Description -->
+                <p class="text-gray-300 mb-8 leading-relaxed max-w-md mx-auto text-lg">
+                    Ready to create magical tales? Your personal story library is waiting to be filled with amazing adventures, valuable lessons, and unforgettable characters.
+                </p>
 
+                <!-- Fun Stats -->
+                <div class="grid grid-cols-3 gap-4 mb-10 max-w-sm mx-auto">
+                    <div class="text-center">
+                        <div class="text-2xl font-black text-story-orange mb-1">∞</div>
+                        <div class="text-xs text-gray-400">Possibilities</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-black text-story-teal mb-1">AI</div>
+                        <div class="text-xs text-gray-400">Powered</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-black text-story-purple mb-1">✨</div>
+                        <div class="text-xs text-gray-400">Magic</div>
+                    </div>
+                </div>
+
+                <!-- Call to Action -->
+                <a href="{% url 'create_story' %}" class="btn-story-orange inline-flex items-center px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all">
+                    <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    Create Your First Story
+                </a>
+
+                <!-- Sub text -->
+                <p class="text-story-orange/70 text-sm mt-4 font-medium">
+                    🎯 It takes less than 2 minutes to create a personalized story!
+                </p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<script>
+// Store story data
+const storyData = {
+    {% for story in user_stories %}
+    '{{ story.id }}': {
+        'title': `{{ story.title|escapejs }}`,
+        'content': `{{ story.content|escapejs }}`,
+        'moral': `{{ story.moral|escapejs }}`,
+        'genre': `{{ story.genre|escapejs }}`,
+        'setting': `{{ story.setting|escapejs }}`
+    },
+    {% endfor %}
+};
+
+function downloadPDF(storyId) {
+    const story = storyData[storyId];
+    if (!story) return;
+    
+    // Create PDF content with your theme colors
+    const content = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>${story.title}</title>
+            <style>
+                body {
+                    font-family: 'Georgia', serif;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    padding: 40px 20px;
+                    line-height: 1.8;
+                    color: #1f2937;
+                }
+                .header {
+                    text-align: center;
+                    margin-bottom: 40px;
+                    border-bottom: 3px solid #FF6B35;
+                    padding-bottom: 20px;
+                }
+                .title {
+                    font-size: 2.5em;
+                    font-weight: bold;
+                    color: #FF6B35;
+                    margin-bottom: 10px;
+                }
+                .meta {
+                    font-size: 1.1em;
+                    color: #6b7280;
+                    margin-bottom: 10px;
+                }
+                .story-content {
+                    font-size: 1.2em;
+                    margin-bottom: 30px;
+                    text-align: justify;
+                }
+                .moral {
+                    background: linear-gradient(135deg, #FF6B35, #EC4899);
+                    color: white;
+                    padding: 20px;
+                    border-radius: 8px;
+                    margin-top: 30px;
+                }
+                .moral h3 {
+                    margin-top: 0;
+                    font-size: 1.3em;
+                }
+                .footer {
+                    text-align: center;
+                    margin-top: 40px;
+                    padding-top: 20px;
+                    border-top: 1px solid #e5e7eb;
+                    color: #6b7280;
+                    font-style: italic;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="title">${story.title}</div>
+                <div class="meta">Genre: ${story.genre} | Setting: ${story.setting}</div>
+            </div>
+            
+            <div class="story-content">
+                ${story.content.replace(/\n/g, '</p><p>')}
+            </div>
+            
+            ${story.moral ? `
+            <div class="moral">
+                <h3>📚 Story Lesson</h3>
+                <p>${story.moral}</p>
+            </div>
+            ` : ''}
+            
+            <div class="footer">
+                Created with ✨ StorySpark AI<br>
+                Generated on ${new Date().toLocaleDateString()}
+            </div>
+        </body>
+        </html>
+    `;
+    
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(content);
+    printWindow.document.close();
+    
+    printWindow.onload = function() {
+        setTimeout(() => {
+            printWindow.print();
+            setTimeout(() => printWindow.close(), 1000);
+        }, 500);
+    };
+}
+
+</script>
 
 {% endblock %}

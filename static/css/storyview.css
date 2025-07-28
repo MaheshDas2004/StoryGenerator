@@ -1,0 +1,160 @@
+/* Story Page Specific Styles */
+    .feature-card-hover {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .feature-card-hover:hover {
+        transform: translateY(-8px) scale(1.02);
+    }
+
+    .pulse-glow {
+        animation: pulseGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+        0% {
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        100% {
+            box-shadow: 0 0 40px rgba(255, 107, 53, 0.6);
+        }
+    }
+
+    .floating-slow {
+        animation: floatingSlow 6s ease-in-out infinite;
+    }
+
+    @keyframes floatingSlow {
+        0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+            transform: translateY(-20px) rotate(5deg);
+        }
+    }
+
+    .text-gradient {
+        background: linear-gradient(135deg, #FF6B35 0%, #EC4899 50%, #8B5CF6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .story-shimmer {
+        background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 107, 53, 0.4) 50%,
+                transparent 100%);
+        background-size: 200% 100%;
+        animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: -200% 0;
+        }
+        100% {
+            background-position: 200% 0;
+        }
+    }
+
+    .audio-controls {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .story-content {
+        background: linear-gradient(135deg, rgba(16, 20, 30, 0.7) 0%, rgba(32, 40, 60, 0.5) 100%);
+        backdrop-filter: blur(30px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .moral-card {
+        background: linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 107, 53, 0.3);
+    }
+
+    .action-button {
+        background: linear-gradient(135deg, #FF6B35 0%, #EC4899 100%);
+        transition: all 0.3s ease;
+    }
+
+    .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 35px rgba(255, 107, 53, 0.5);
+    }
+
+    .audio-wave {
+        animation: audioWave 1.5s ease-in-out infinite;
+    }
+
+    @keyframes audioWave {
+        0%, 100% { height: 4px; }
+        50% { height: 20px; }
+    }
+
+    .progress-bar {
+        background: linear-gradient(90deg, #FF6B35 0%, #EC4899 100%);
+        transition: width 0.3s ease;
+    }
+
+    .reading-highlight {
+        background: linear-gradient(135deg, rgba(255, 107, 53, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
+        padding: 2px 4px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .cta-glow {
+        box-shadow: 0 0 50px rgba(255, 107, 53, 0.3);
+        animation: ctaPulse 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes ctaPulse {
+        0% {
+            box-shadow: 0 0 50px rgba(255, 107, 53, 0.3), 0 0 100px rgba(255, 107, 53, 0.1);
+        }
+        100% {
+            box-shadow: 0 0 80px rgba(255, 107, 53, 0.5), 0 0 120px rgba(255, 107, 53, 0.2);
+        }
+    }
+
+    .story-paragraph {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Stagger animation delays */
+    .story-paragraph:nth-child(1) { animation-delay: 0.2s; }
+    .story-paragraph:nth-child(2) { animation-delay: 0.4s; }
+    .story-paragraph:nth-child(3) { animation-delay: 0.6s; }
+    .story-paragraph:nth-child(4) { animation-delay: 0.8s; }
+    .story-paragraph:nth-child(5) { animation-delay: 1.0s; }
+    .story-paragraph:nth-child(6) { animation-delay: 1.2s; }
+
+    .floating-controls {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+    }
+
+    @media (max-width: 768px) {
+        .floating-controls {
+            position: relative;
+            bottom: auto;
+            right: auto;
+            margin-top: 2rem;
+        }
+    }
